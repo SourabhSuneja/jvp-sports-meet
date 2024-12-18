@@ -308,7 +308,7 @@
          
          // Iterate through each winner entry
          winners.forEach(entry => {
-         const category = entry.classcategory;
+         const category = processClassString(entry.classcategory);
          
          // Initialize the category in the scores object if not already present
          if (!scores[category]) {
