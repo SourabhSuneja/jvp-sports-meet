@@ -362,8 +362,29 @@
          
          return winnerCounts;
          }
-         
-         // function to update the dashboard (house winner counts)
+
+// function to animate to the new score while updating the dashboard 
+function updateScoreWithAnimation(element, newContent) {
+    // Parse the current score and new content as integers
+    let oldScore = parseInt(element.textContent, 10);
+    let newScore = parseInt(newContent, 10);
+
+    // Determine the direction of counting (up or down)
+    let step = oldScore < newScore ? 1 : -1;
+
+    // Create an interval to update the score step by step
+    let interval = setInterval(() => {
+        oldScore += step;
+        element.textContent = oldScore;
+
+        // Stop the interval once we reach the new score
+        if (oldScore === newScore) {
+            clearInterval(interval);
+        }
+    }, 100); // Delay of 100ms between each update for the animation effect
+}
+        
+         // function to update the dashboard 
          function updateDashboard(winnerCounts) {
          // Loop through each class category in the winnerCounts object
          for (const classcategory in winnerCounts) {
@@ -380,8 +401,7 @@
            const element = document.getElementById(id);
          
            // If the element exists, update its content
-           if (element) {
-             element.textContent = houseCounts[house];
+           if (element) {             updateScoreWithAnimation(element, houseCounts[house]);
            } else {
              console.warn(`Element with ID "${id}" not found.`);
            }
