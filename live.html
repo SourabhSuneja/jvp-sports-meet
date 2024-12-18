@@ -169,34 +169,34 @@
          <!-- House Tiles -->
          <h3>Across All Class Groups</h3>
          <div class="tiles">
-            <div class="tile ruby">Ruby:<br> <span id="ruby_total">0</span><br>Games won</div>
-            <div class="tile emerald">Emerald:<br> <span id="emerald_total">0</span><br>Games won</div>
-            <div class="tile sapphire">Sapphire:<br> <span id="sapphire_total">0</span><br>Games won</div>
-            <div class="tile topaz">Topaz:<br> <span id="topaz_total">0</span><br>Games won</div>
+            <div class="tile ruby">Ruby:<br> <span id="ruby_total">0</span><br>Points</div>
+            <div class="tile emerald">Emerald:<br> <span id="emerald_total">0</span><br>Points</div>
+            <div class="tile sapphire">Sapphire:<br> <span id="sapphire_total">0</span><br>Points</div>
+            <div class="tile topaz">Topaz:<br> <span id="topaz_total">0</span><br>Points</div>
          </div>
          <!-- House Tiles -->
          <h3>Nursery to Class 2</h3>
          <div class="tiles">
-            <div class="tile ruby">Ruby:<br> <span id="ruby_nursery_to_class_2">0</span><br>Games won</div>
-            <div class="tile emerald">Emerald:<br> <span id="emerald_nursery_to_class_2">0</span><br>Games won</div>
-            <div class="tile sapphire">Sapphire:<br> <span id="sapphire_nursery_to_class_2">0</span><br>Games won</div>
-            <div class="tile topaz">Topaz:<br> <span id="topaz_nursery_to_class_2">0</span><br>Games won</div>
+            <div class="tile ruby">Ruby:<br> <span id="ruby_nursery_to_class_2">0</span><br>Points</div>
+            <div class="tile emerald">Emerald:<br> <span id="emerald_nursery_to_class_2">0</span><br>Points</div>
+            <div class="tile sapphire">Sapphire:<br> <span id="sapphire_nursery_to_class_2">0</span><br>Points</div>
+            <div class="tile topaz">Topaz:<br> <span id="topaz_nursery_to_class_2">0</span><br>Points</div>
          </div>
          <!-- House Tiles -->
          <h3>Class 3 to 5</h3>
          <div class="tiles">
-            <div class="tile ruby">Ruby:<br> <span id="ruby_3_to_5">0</span><br>Games won</div>
-            <div class="tile emerald">Emerald:<br> <span id="emerald_3_to_5">0</span><br>Games won</div>
-            <div class="tile sapphire">Sapphire:<br> <span id="sapphire_3_to_5">0</span><br>Games won</div>
-            <div class="tile topaz">Topaz:<br> <span id="topaz_3_to_5">0</span><br>Games won</div>
+            <div class="tile ruby">Ruby:<br> <span id="ruby_3_to_5">0</span><br>Points</div>
+            <div class="tile emerald">Emerald:<br> <span id="emerald_3_to_5">0</span><br>Points</div>
+            <div class="tile sapphire">Sapphire:<br> <span id="sapphire_3_to_5">0</span><br>Points</div>
+            <div class="tile topaz">Topaz:<br> <span id="topaz_3_to_5">0</span><br>Points</div>
          </div>
          <!-- House Tiles -->
          <h3>Class 6 to 12</h3>
          <div class="tiles">
-            <div class="tile ruby">Ruby:<br> <span id="ruby_6_to_12">0</span><br>Games won</div>
-            <div class="tile emerald">Emerald:<br> <span id="emerald_6_to_12">0</span><br>Games won</div>
-            <div class="tile sapphire">Sapphire:<br> <span id="sapphire_6_to_12">0</span><br>Games won</div>
-            <div class="tile topaz">Topaz:<br> <span id="topaz_6_to_12">0</span><br>Games won</div>
+            <div class="tile ruby">Ruby:<br> <span id="ruby_6_to_12">0</span><br>Points</div>
+            <div class="tile emerald">Emerald:<br> <span id="emerald_6_to_12">0</span><br>Points</div>
+            <div class="tile sapphire">Sapphire:<br> <span id="sapphire_6_to_12">0</span><br>Points</div>
+            <div class="tile topaz">Topaz:<br> <span id="topaz_6_to_12">0</span><br>Points</div>
          </div>
          <h3>Winners Table</h3>
          <!-- Winners Table -->
@@ -243,7 +243,7 @@
            addNewRow(winner);
          });
          
-         const winnerCounts = countWinnerHouses(winners);
+         const winnerCounts = calculateScores(winners);
          updateDashboard(winnerCounts);
          
          
@@ -295,41 +295,41 @@
          }
          
          function calculateScores(winners) {
-    // Initialize the scores object
-    const scores = { Total: {} };
-
-    // Function to add points to a house
-    function addPoints(scoreObj, house, points) {
-        if (!scoreObj[house]) {
+         // Initialize the scores object
+         const scores = { Total: {} };
+         
+         // Function to add points to a house
+         function addPoints(scoreObj, house, points) {
+         if (!scoreObj[house]) {
             scoreObj[house] = 0;
-        }
-        scoreObj[house] += points;
-    }
-
-    // Iterate through each winner entry
-    winners.forEach(entry => {
-        const category = entry.classcategory;
-
-        // Initialize the category in the scores object if not already present
-        if (!scores[category]) {
+         }
+         scoreObj[house] += points;
+         }
+         
+         // Iterate through each winner entry
+         winners.forEach(entry => {
+         const category = entry.classcategory;
+         
+         // Initialize the category in the scores object if not already present
+         if (!scores[category]) {
             scores[category] = {};
-        }
-
-        // Add points for winner1, winner2, and winner3
-        addPoints(scores[category], entry.winnerhouse1, 10);
-        addPoints(scores[category], entry.winnerhouse2, 7);
-        addPoints(scores[category], entry.winnerhouse3, 5);
-
-        // Add points to the total as well
-        addPoints(scores.Total, entry.winnerhouse1, 10);
-        addPoints(scores.Total, entry.winnerhouse2, 7);
-        addPoints(scores.Total, entry.winnerhouse3, 5);
-    });
-
-    return scores;
-}
-
-
+         }
+         
+         // Add points for winner1, winner2, and winner3
+         addPoints(scores[category], entry.winnerhouse1, 10);
+         addPoints(scores[category], entry.winnerhouse2, 7);
+         addPoints(scores[category], entry.winnerhouse3, 5);
+         
+         // Add points to the total as well
+         addPoints(scores.Total, entry.winnerhouse1, 10);
+         addPoints(scores.Total, entry.winnerhouse2, 7);
+         addPoints(scores.Total, entry.winnerhouse3, 5);
+         });
+         
+         return scores;
+         }
+         
+         
          // function to count winner houses
          function countWinnerHouses(winners) {
          const winnerCounts = {};
@@ -450,7 +450,7 @@
          updateExistingRow(payload.new);
          }
          
-         const winnerCounts = countWinnerHouses(winners);
+         const winnerCounts = calculateScores(winners);
          updateDashboard(winnerCounts);
          
          }
