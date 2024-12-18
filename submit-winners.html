@@ -88,9 +88,9 @@
                </select>
             </div>
             <div class="form-group">
-               <label for="classGroup">Class Group:</label>
+               <label for="classGroup">Class or Class Group:</label>
                <select id="classGroup" name="classGroup" disabled>
-                  <option value="">Select a class group</option>
+                  <option value="">Select a class or class group</option>
                </select>
             </div>
             <div class="form-group">
@@ -127,7 +127,7 @@
       <script src="./js/main.js"></script>
       <script src="./js/dialog.js"></script>
       <script>
-         const csvUrl = 'https://sourabhsuneja.github.io/redirect/temp2.csv';
+         const csvUrl = 'data/participants.csv';
          let csvData = [];
          
          async function fetchCSVData() {
