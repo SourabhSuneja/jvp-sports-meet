@@ -1,0 +1,63 @@
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #000428, #004e92);
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+}
+
+select, input[type="checkbox"] {
+  margin: 10px 0;
+  padding: 5px;
+}
+
+.card {
+  background-color: #ffffff;
+  color: #000;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #004e92;
+  color: white;
+}
+
+button:hover {
+  background-color: #003366;
+}
+
+.hidden {
+  display: none;
+}
