@@ -48,6 +48,9 @@ function showStudent() {
 
   studentCard.classList.remove('hidden');
   submitBtn.classList.remove('hidden');
+
+  // scroll to the top
+  scrollToTop();
 }
 
 // Save selections
@@ -81,6 +84,13 @@ submitBtn.addEventListener('click', () => {
   saveSelection();
   handleSubmission(selection);
 });
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
 
 function handleSubmission(selection) {
   console.log('Submission:', selection);
