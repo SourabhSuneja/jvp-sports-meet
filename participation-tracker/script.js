@@ -1,8 +1,5 @@
-const studentNames = {
-  '6-A1': ['Aryan', 'Abhay', 'Sushila'],
-  '6-A2': ['Bhavna', 'Chhavi', 'Dikshant'],
-  '6-A3': ['Avani', 'Bhavesh', 'Piyush', 'Tarun', 'Utkarsh'],
-};
+const baseURL = "https://sourabhsuneja.github.io/quiz/";
+const studentNames = {};
 
 let selection = {};
 let currentClass = '';
@@ -27,13 +24,36 @@ checkboxes.forEach(checkbox => {
     });
 });
 
+async function fetchNamesForClassSection(classSection) {
+           try {
+             const response = await fetch(`${baseURL}${classSection}.txt`);
+             if (!response.ok) throw new Error(`Failed to fetch ${classSection}`);
+             const text = await response.text();
+             
+             // Process the text content, ignoring blank lines
+             studentNames[classSection] = text.split('\n')
+               .map(name => name.trim())
+               .filter(name => name); // Filter out any empty lines
+           } catch (error) {
+             console.error(error);
+           }
+         }
+         
+         async function fetchAllClasses() {
+           const classes = ['6A1', '6A2', '6A3', '6A4', '7A1', '7A2', '7A3', '8A1', '8A2', '8A3', '9A1', '9A2', '9A3', '10A1', '10A2', '11A3'];
+           await Promise.all(classes.map(fetchNamesForClassSection));
+           populateClassDropdown();
+         }
+
 // Populate class dropdown
+function populateClassDropdown() {
 Object.keys(studentNames).forEach(classKey => {
   const option = document.createElement('option');
   option.value = classKey;
   option.textContent = classKey;
   classSelect.appendChild(option);
 });
+}
 
 // Handle class selection
 classSelect.addEventListener('change', () => {
@@ -209,3 +229,6 @@ async function handleSubmission(selection) {
   }
   document.write(JSON.stringify(convertSelectionToArray(selection)));
 }
+
+
+fetchAllClasses();
