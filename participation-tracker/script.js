@@ -195,7 +195,6 @@ function convertSelectionToArray(selection) {
 
 
 async function handleSubmission(selection) {
-  saveSelection();
   if(!areAllHousesSpecified(selection)) {
     await showDialog({
             title: 'Error',
