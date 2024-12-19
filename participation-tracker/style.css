@@ -46,12 +46,13 @@ select, input[type="checkbox"] {
 }
 
 button {
-  padding: 10px 20px;
+  padding: 14px 28px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   background-color: #004e92;
   color: white;
+  margin-top: 18px;
 }
 
 button:hover {
