@@ -33,6 +33,7 @@ classSelect.addEventListener('change', () => {
   currentIndex = 0;
   if (!selection[currentClass]) selection[currentClass] = {};
   showStudent();
+  saveSelection();
 });
 
 // Show student card
