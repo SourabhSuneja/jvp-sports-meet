@@ -127,14 +127,49 @@ function areAllHousesSpecified(selection) {
     return true;
 }
 
-function handleSubmission(selection) {
+
+// helper function to determine the class category
+function getClassCategory(classsection, game) {
+    // Placeholder implementation (adjust as needed for real categorization logic)
+    return "6 to 12";
+}
+
+// Converts the selection object into an array of participation data.
+function convertSelectionToArray(selection) {
+    const outputArray = [];
+
+    for (const classsection in selection) {
+        const students = selection[classsection];
+
+        for (const participant in students) {
+            const { house, games } = students[participant];
+
+            if (games.length > 0) {
+                games.forEach(game => {
+                    outputArray.push({
+                        game,
+                        participant,
+                        classsection,
+                        classcategory: getClassCategory(classsection, game),
+                        house
+                    });
+                });
+            }
+        }
+    }
+
+    return outputArray;
+}
+
+
+async function handleSubmission(selection) {
   if(!areAllHousesSpecified(selection)) {
-    showDialog({
+    await showDialog({
             title: 'Error',
             message: "Please select houses for all participating students. You haven't specified the house for some students.",
             type: 'alert'
     });
     return;
   }
-  console.log('Submission:', selection);
+  console.log('Submission:', convertSelectionToArray(selection));
 }
