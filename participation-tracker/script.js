@@ -68,13 +68,13 @@ function saveSelection() {
   }
 }
 
-moveToNextStudent() {
+function moveToNextStudent() {
   saveSelection();
   currentIndex = (currentIndex + 1) % studentNames[currentClass].length;
   showStudent();
 }
 
-moveToPrevStudent() {
+function moveToPrevStudent() {
   saveSelection();
   currentIndex = (currentIndex - 1 + studentNames[currentClass].length) % studentNames[currentClass].length;
   showStudent();
