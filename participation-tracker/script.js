@@ -130,8 +130,25 @@ function areAllHousesSpecified(selection) {
 
 // helper function to determine the class category
 function getClassCategory(classsection, game) {
-    // Placeholder implementation (adjust as needed for real categorization logic)
-    return "6 to 12";
+    const classNumber = parseInt(classsection.split('-')[0], 10);
+
+    // Check if the game is individual based on keywords
+    const individualKeywords = ["race", "running", "jump", "karate"];
+    if (individualKeywords.some(keyword => game.toLowerCase().includes(keyword))) {
+        return classNumber.toString();
+    }
+
+    // Determine team game category based on class number
+    if (classNumber >= 1 && classNumber <= 2) {
+        return "1 to 2";
+    } else if (classNumber >= 3 && classNumber <= 5) {
+        return "3 to 5";
+    } else if (classNumber >= 6 && classNumber <= 12) {
+        return "6 to 12";
+    }
+
+    // Default category (if class number is out of bounds)
+    return "Unknown";
 }
 
 // Converts the selection object into an array of participation data.
