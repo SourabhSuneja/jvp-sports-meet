@@ -17,6 +17,10 @@ h1 {
 }
 
 label {
+  margin-top: 14px;
+}
+
+legend {
   font-weight: bold;
 }
 
