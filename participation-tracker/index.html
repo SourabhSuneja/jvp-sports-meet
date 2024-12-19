@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sports Participation Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Sports Participation Tracker</h1>
+    <label for="classSelect">Select Class:</label>
+    <select id="classSelect">
+      <option value="" disabled selected>Choose a class</option>
+    </select>
+
+    <div id="studentCard" class="card hidden">
+      <h2 id="studentName">Student Name</h2>
+      <label for="houseSelect">House:</label>
+      <select id="houseSelect">
+        <option value="" disabled selected>Select a house</option>
+        <option value="Ruby">Ruby</option>
+        <option value="Emerald">Emerald</option>
+        <option value="Sapphire">Sapphire</option>
+        <option value="Topaz">Topaz</option>
+      </select>
+
+      <fieldset>
+        <legend>Games:</legend>
+        <div>
+          <input type="checkbox" id="game1" value="100M Race">
+          <label for="game1">100M Race</label>
+        </div>
+        <div>
+          <input type="checkbox" id="game2" value="200M Race">
+          <label for="game2">200M Race</label>
+        </div>
+        <div>
+          <input type="checkbox" id="game3" value="Relay Race">
+          <label for="game3">Relay Race</label>
+        </div>
+        <div>
+          <input type="checkbox" id="game4" value="200M Back Running">
+          <label for="game4">200M Back Running</label>
+        </div>
+        <div>
+          <input type="checkbox" id="game5" value="Long Jump">
+          <label for="game5">Long Jump</label>
+        </div>
+        <div>
+          <input type="checkbox" id="game6" value="High Jump">
+          <label for="game6">High Jump</label>
+        </div>
+      </fieldset>
+
+      <div class="card-buttons">
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+      </div>
+    </div>
+
+    <button id="submitBtn" class="hidden">Submit</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
