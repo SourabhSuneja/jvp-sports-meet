@@ -132,13 +132,27 @@ function areAllHousesSpecified(selection) {
 function getClassCategory(classsection, game) {
     const classNumber = parseInt(classsection.split('-')[0], 10);
 
+    const gameName = game.toLowerCase();
+
     // Check if the game is individual based on keywords
     const individualKeywords = ["race", "running", "jump", "karate", "skating"];
-    if (individualKeywords.some(keyword => game.toLowerCase().includes(keyword))) {
+    if (individualKeywords.some(keyword => gameName.includes(keyword))) {
         return classNumber.toString();
     }
 
-    // Determine team game category based on class number
+    // If class category is already appearing in the game name, use that category
+    if (gameName.includes("1 to 2")) {
+        return "1 to 2"; 
+    } else if (gameName.includes("3 to 5")) {
+        return "3 to 5"; 
+    } else if (gameName.includes("6 to 8")) {
+        return "6 to 8";
+    }
+      else if (gameName.includes("9 to 12")) {
+        return "9 to 12";
+    }
+
+    // Determine team game category based on class number, if class category wasn't found in the game name
     if (classNumber >= 1 && classNumber <= 2) {
         return "1 to 2";
     } else if (classNumber >= 3 && classNumber <= 5) {
