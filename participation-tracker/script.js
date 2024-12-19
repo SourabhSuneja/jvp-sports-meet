@@ -18,6 +18,14 @@ const nextBtn = document.getElementById('nextBtn');
 const prevBtnTop = document.getElementById('prevBtnTop');
 const nextBtnTop = document.getElementById('nextBtnTop');
 const submitBtn = document.getElementById('submitBtn');
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+// Attach an event listener to each checkbox on the page
+checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', event => {
+        saveSelection();
+    });
+});
 
 // Populate class dropdown
 Object.keys(studentNames).forEach(classKey => {
