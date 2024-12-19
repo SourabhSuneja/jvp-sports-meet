@@ -171,5 +171,5 @@ async function handleSubmission(selection) {
     });
     return;
   }
-  console.log('Submission:', convertSelectionToArray(selection));
+  document.write(JSON.stringify(convertSelectionToArray(selection)));
 }
