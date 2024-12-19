@@ -240,7 +240,27 @@ async function handleSubmission(selection) {
       });
       return;
    }
-   document.write(JSON.stringify(convertSelectionToArray(selection)));
+   // send data to Supabase
+   sendToDatabase(selection);
+}
+
+async function sendToDatabase(data) {
+        showProcessingDialog();
+        const inserted = await insertData('participants', data);
+        hideProcessingDialog();
+        if (inserted) {
+         showDialog({
+            title: 'Success',
+            message: 'Participants updated successfully!',
+            type: 'alert'
+         });
+      } else {
+         showDialog({
+            title: 'Error',
+            message: 'Error inserting data!',
+            type: 'alert'
+         });
+      }
 }
 
 
