@@ -241,7 +241,7 @@ async function handleSubmission(selection) {
       return;
    }
    // send data to Supabase
-   sendToDatabase(selection);
+   sendToDatabase(convertSelectionToArray(selection));
 }
 
 async function sendToDatabase(data) {
