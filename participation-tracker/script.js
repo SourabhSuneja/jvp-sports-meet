@@ -133,7 +133,7 @@ function getClassCategory(classsection, game) {
     const classNumber = parseInt(classsection.split('-')[0], 10);
 
     // Check if the game is individual based on keywords
-    const individualKeywords = ["race", "running", "jump", "karate"];
+    const individualKeywords = ["race", "running", "jump", "karate", "skating"];
     if (individualKeywords.some(keyword => game.toLowerCase().includes(keyword))) {
         return classNumber.toString();
     }
