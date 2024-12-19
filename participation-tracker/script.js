@@ -40,8 +40,8 @@ classSelect.addEventListener('change', () => {
   currentClass = classSelect.value;
   currentIndex = 0;
   if (!selection[currentClass]) selection[currentClass] = {};
-  showStudent();
   saveSelection();
+  showStudent();
 });
 
 // Show student card
