@@ -16,6 +16,10 @@ h1 {
   margin-bottom: 20px;
 }
 
+fieldset {
+  margin-top: 21px;
+}
+
 label {
   margin-top: 14px;
 }
