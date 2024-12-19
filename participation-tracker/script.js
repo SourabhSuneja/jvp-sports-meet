@@ -110,6 +110,31 @@ function scrollToTop() {
     });
 }
 
+//Validates if all students participating in games have their houses specified.
+function areAllHousesSpecified(selection) {
+    for (const className in selection) {
+        const students = selection[className];
+
+        for (const studentName in students) {
+            const student = students[studentName];
+
+            // Check if the student is participating in games but has no house specified
+            if (student.games.length > 0 && student.house === "") {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 function handleSubmission(selection) {
+  if(!areAllHousesSpecified(selection)) {
+    showDialog({
+            title: 'Error',
+            message: "Please select houses for all participating students. You haven't specified the house for some students.",
+            type: 'alert'
+    });
+    return;
+  }
   console.log('Submission:', selection);
 }
