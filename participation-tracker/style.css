@@ -1,3 +1,7 @@
+* {
+  max-height: 9999999px;
+}
+
 body {
   font-family: Arial, sans-serif;
   background: linear-gradient(to right, #000428, #004e92);
@@ -26,6 +30,7 @@ label {
 
 legend {
   font-weight: bold;
+  font-size: 1.2rem;
 }
 
 select, input[type="checkbox"] {
