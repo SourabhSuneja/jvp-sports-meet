@@ -40,7 +40,6 @@ classSelect.addEventListener('change', () => {
   currentClass = classSelect.value;
   currentIndex = 0;
   if (!selection[currentClass]) selection[currentClass] = {};
-  saveSelection();
   showStudent();
 });
 
@@ -78,13 +77,11 @@ function saveSelection() {
 }
 
 function moveToNextStudent() {
-  saveSelection();
   currentIndex = (currentIndex + 1) % studentNames[currentClass].length;
   showStudent();
 }
 
 function moveToPrevStudent() {
-  saveSelection();
   currentIndex = (currentIndex - 1 + studentNames[currentClass].length) % studentNames[currentClass].length;
   showStudent();
 }
@@ -108,7 +105,6 @@ nextBtnTop.addEventListener('click', () => {
 
 // Submit selections
 submitBtn.addEventListener('click', () => {
-  saveSelection();
   handleSubmission(selection);
 });
 
