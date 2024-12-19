@@ -15,6 +15,8 @@ const houseSelect = document.getElementById('houseSelect');
 const gamesCheckboxes = Array.from(document.querySelectorAll('input[type="checkbox"]'));
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
+const prevBtnTop = document.getElementById('prevBtnTop');
+const nextBtnTop = document.getElementById('nextBtnTop');
 const submitBtn = document.getElementById('submitBtn');
 
 // Populate class dropdown
@@ -66,17 +68,33 @@ function saveSelection() {
   }
 }
 
-// Navigate students
-prevBtn.addEventListener('click', () => {
-  saveSelection();
-  currentIndex = (currentIndex - 1 + studentNames[currentClass].length) % studentNames[currentClass].length;
-  showStudent();
-});
-
-nextBtn.addEventListener('click', () => {
+moveToNextStudent() {
   saveSelection();
   currentIndex = (currentIndex + 1) % studentNames[currentClass].length;
   showStudent();
+}
+
+moveToPrevStudent() {
+  saveSelection();
+  currentIndex = (currentIndex - 1 + studentNames[currentClass].length) % studentNames[currentClass].length;
+  showStudent();
+}
+
+// Navigate students
+prevBtn.addEventListener('click', () => {
+  moveToPrevStudent();
+});
+
+nextBtn.addEventListener('click', () => {
+  moveToNextStudent();
+});
+
+prevBtnTop.addEventListener('click', () => {
+  moveToPrevStudent();
+});
+
+nextBtnTop.addEventListener('click', () => {
+  moveToNextStudent();
 });
 
 // Submit selections
