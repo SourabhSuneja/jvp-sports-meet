@@ -252,6 +252,32 @@ function convertSelectionToArray(selection) {
    return outputArray;
 }
 
+function convertArrayToSelection(participationArray) {
+   const selection = {};
+
+   participationArray.forEach(entry => {
+      const { game, participant, classsection, house } = entry;
+
+      // Initialize the class section if it doesn't exist
+      if (!selection[classsection]) {
+         selection[classsection] = {};
+      }
+
+      // Initialize the participant if they don't exist
+      if (!selection[classsection][participant]) {
+         selection[classsection][participant] = {
+            house: house || "", // Default to empty string if house is not provided
+            games: []
+         };
+      }
+
+      // Add the game to the participant's games array
+      selection[classsection][participant].games.push(game);
+   });
+
+   return selection;
+}
+
 
 async function handleSubmission(selection) {
    if (!areAllHousesSpecified(selection)) {
