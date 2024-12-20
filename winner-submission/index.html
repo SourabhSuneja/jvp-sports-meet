@@ -1,1 +1,303 @@
- 
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>JVP Annual Sports Meet Winner Submission</title>
+      <link rel="stylesheet" href="https://sourabhsuneja.github.io/jvp-sports-meet/css/dialog.css">
+      <style>
+         * {
+         max-height: 9999999px;
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+         }
+         body {
+         font-family: Arial, sans-serif;
+         background: #000428;
+         color: white;
+         margin: 0;
+         padding: 20px;
+         }
+         .form-container {
+         max-width: 600px;
+         margin: 0 auto;
+         margin-top: 70px;
+         background: #ffffff;
+         padding: 20px;
+         padding-top: 30px;
+         border-radius: 10px;
+         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+         color: #333;
+         }
+         .form-container h1 {
+         text-align: center;
+         margin-bottom: 20px;
+         color: #004e92;
+         }
+         .form-group {
+         margin-bottom: 15px;
+         }
+         .form-group label {
+         display: block;
+         font-weight: bold;
+         margin-bottom: 5px;
+         }
+         .form-group select {
+         width: 100%;
+         padding: 10px;
+         border: 1px solid #ddd;
+         border-radius: 5px;
+         }
+         .info {
+         font-size: 14px;
+         margin-top: 5px;
+         color: #004e92;
+         }
+         .btn-submit {
+         display: block;
+         width: 100%;
+         padding: 12px;
+         background: #004e92;
+         color: white;
+         font-size: 16px;
+         border: none;
+         border-radius: 5px;
+         cursor: pointer;
+         transition: background 0.3s;
+         }
+         .btn-submit:hover {
+         background: #003570;
+         }
+         #credit {
+         text-align: center;
+         color: rgb(70,70,70);
+         font-size: 1rem;
+         margin-top: 24px;
+         }
+      </style>
+   </head>
+   <body>
+      <div class="form-container">
+         <h1>Submit Winners</h1>
+         <form id="winnersForm">
+            <div class="form-group">
+               <label for="game">Game:</label>
+               <select id="game" name="game">
+                  <option value="">Select a game</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label for="classGroup">Class Group:</label>
+               <select id="classGroup" name="classGroup" disabled>
+                  <option value="">Select a class group</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label for="winner1">Winner 1:</label>
+               <select id="winner1" name="winner1"></select>
+               <div class="info" id="info1"></div>
+            </div>
+            <div class="form-group">
+               <label for="winner2">Winner 2:</label>
+               <select id="winner2" name="winner2"></select>
+               <div class="info" id="info2"></div>
+            </div>
+            <div class="form-group">
+               <label for="winner3">Winner 3:</label>
+               <select id="winner3" name="winner3"></select>
+               <div class="info" id="info3"></div>
+            </div>
+            <button type="submit" class="btn-submit">Submit Winners</button>
+         </form>
+         <p id="credit">Crafted by Sourabh Sir</p>
+      </div>
+      <!-- Dialog Overlay -->
+      <div id="dialog-overlay" class="dialog-overlay">
+         <div class="dialog-box" id="dialog-box">
+            <div class="dialog-header" id="dialog-header">Title</div>
+            <div class="dialog-message" id="dialog-message">Message goes here</div>
+            <div class="dialog-buttons" id="dialog-buttons">
+               <!-- Buttons will be added dynamically -->
+            </div>
+         </div>
+      </div>
+      <!-- Dialog Overlay Ends -->
+      <script type="module" src="https://sourabhsuneja.github.io/jvp-sports-meet/js/supabase-crud.js"></script>
+      <script src="https://sourabhsuneja.github.io/jvp-sports-meet/js/dialog.js"></script>
+      <script>
+         let participantsData = [];
+         
+         async function submitWinners(game, classCategory, winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3) {
+         showProcessingDialog();
+         
+         const selected = await selectData(
+         'winners',
+         fetchSingle = true,
+         columns = "*",
+         matchColumns = ['game', 'classcategory'],
+         matchValues = [game, classCategory]
+         );
+         
+         if (selected) {
+         const updated = await updateRow(
+         'winners',
+         matchColumns = ['game', 'classcategory'],
+         matchValues = [game, classCategory],
+         updateColumns = ['winner1', 'winner2', 'winner3', 'winnerhouse1', 'winnerhouse2', 'winnerhouse3'],
+         updateValues = [winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3]
+         );
+         hideProcessingDialog();
+         if (updated) {
+         showDialog({
+            title: 'Success',
+            message: 'Winners updated successfully!',
+            type: 'alert'
+         });
+         } else {
+         showDialog({
+            title: 'Error',
+            message: 'Error updating data!',
+            type: 'alert'
+         });
+         }
+         
+         } else {
+         const data = {
+         game,
+         "classcategory": classCategory,
+         winner1,
+         winner2,
+         winner3,
+         "winnerhouse1": winnerHouse1,
+         "winnerhouse2": winnerHouse2,
+         "winnerhouse3": winnerHouse3
+         }
+         const inserted = await insertData('winners', data);
+         hideProcessingDialog();
+         if (inserted) {
+         showDialog({
+            title: 'Success',
+            message: 'Winners inserted successfully!',
+            type: 'alert'
+         });
+         } else {
+         showDialog({
+            title: 'Error',
+            message: 'Error inserting data!',
+            type: 'alert'
+         });
+         }
+         }
+         }
+         
+         async function fetchParticipantsData() {
+           const result = await selectData('participants');
+           participantsData = transformParticipationData(result);
+           populateGameOptions();
+         }
+         
+         function populateGameOptions() {
+           const games = [...new Set(participantsData.map(row => row.game))];
+           const gameSelect = document.getElementById('game');
+           games.forEach(game => {
+             const option = document.createElement('option');
+             option.value = game;
+             option.textContent = game;
+             gameSelect.appendChild(option);
+           });
+         }
+         
+         function populateClassGroups(game) {
+           const classGroups = [...new Set(participantsData.filter(row => row.game === game).map(row => row.classGroup))];
+           const classGroupSelect = document.getElementById('classGroup');
+           classGroupSelect.innerHTML = '<option value="">Select a class group</option>';
+           classGroups.forEach(group => {
+             const option = document.createElement('option');
+             option.value = group;
+             option.textContent = group;
+             classGroupSelect.appendChild(option);
+           });
+           classGroupSelect.disabled = false;
+         }
+         
+         function populateWinners(game, classGroup) {
+           const participants = participantsData.filter(row => row.game === game && row.classGroup === classGroup);
+           ['winner1', 'winner2', 'winner3'].forEach((id, index) => {
+             const select = document.getElementById(id);
+             select.innerHTML = '<option value="">Select a participant</option>';
+             participants.forEach(participant => {
+               const option = document.createElement('option');
+               option.value = participant.participant;
+               option.textContent = participant.participant;
+               select.appendChild(option);
+             });
+         
+             // Update class and house info on selection
+             select.addEventListener('change', () => {
+               const selected = participants.find(p => p.participant === select.value);
+               document.getElementById(`info${index + 1}`).textContent =
+                 selected ? `House: ${selected.house}, Class: ${selected.class}` : '';
+             });
+           });
+         }
+         
+         document.getElementById('game').addEventListener('change', function () {
+           const game = this.value;
+           populateClassGroups(game);
+         });
+         
+         document.getElementById('classGroup').addEventListener('change', function () {
+           const game = document.getElementById('game').value;
+           const classGroup = this.value;
+           populateWinners(game, classGroup);
+         });
+         
+         document.getElementById('winnersForm').addEventListener('submit', function (e) {
+           e.preventDefault();
+         
+           const game = document.getElementById('game').value;
+           const classGroup = document.getElementById('classGroup').value;
+           const winner1 = document.getElementById('winner1').value;
+           const winner2 = document.getElementById('winner2').value;
+           const winner3 = document.getElementById('winner3').value;
+         
+           const participants = participantsData.filter(row => row.game === game && row.classGroup === classGroup);
+         
+           const selected1 = participants.find(p => p.participant === winner1) || null;
+         
+           const selected2 = participants.find(p => p.participant === winner2) || null;
+         
+           const selected3 = participants.find(p => p.participant === winner3) || null;
+         
+           const winnerHouse1 = selected1 ? selected1.house : null;
+         
+           const winnerHouse2 = selected2 ? selected2.house : null;
+         
+           const winnerHouse3 = selected3 ? selected3.house : null;
+         
+           const winnerClass1 = selected1 ? selected1.class : null;
+         
+           const winnerClass2 = selected2 ? selected2.class : null;
+         
+           const winnerClass3 = selected3 ? selected3.class : null;
+         
+           submitWinners(game, classGroup, `${winner1} (${winnerClass1})`, `${winner2} (${winnerClass2})`, `${winner3} (${winnerClass3})`, winnerHouse1, winnerHouse2, winnerHouse3);
+         });
+         
+         function transformParticipationData(input) {
+         return input.map(entry => ({
+         game: entry.game.trim(), // Remove any spaces
+         classGroup: entry.classcategory.replace('classcategory', 'classGroup'), // Replace 'classcategory' with 'classGroup'
+         participant: entry.participant, // Retain same participant value
+         class: entry.classsection, // Use 'classsection' as 'class'
+         house: entry.house // Retain 'house' value
+         }));
+         }
+         
+         window.onload = function() {
+           fetchParticipantsData();
+         }
+      </script>
+   </body>
+</html>
