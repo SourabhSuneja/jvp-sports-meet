@@ -128,33 +128,16 @@
       <script src="./js/dialog.js"></script>
       <script>
          const csvUrl = 'data/participants.csv';
-         let csvData = [];
-         let newData = [];
+         let participantsData = [];
          
-         async function fetchCSVData() {
-           const response = await fetch(csvUrl);
-           const text = await response.text();
-           const rows = text.trim().split('\n').map(row => row.split(','));
-         console.log(rows);
-           csvData = rows.map(row => ({
-             game: row[0].trim().replace(/"/g, ''),
-             classGroup: row[1].trim().replace(/"/g, ''),
-             participant: row[2].trim().replace(/"/g, ''),
-             class: row[3].trim().replace(/"/g, ''),
-             house: row[4].trim().replace(/"/g, '')
-           }));
-         
-           populateGameOptions();
-         }
-
          async function fetchParticipantsData() {
            const result = await selectData('participants');
-           csvData = transformParticipationData(result);
+           participantsData = transformParticipationData(result);
            populateGameOptions();
          }
          
          function populateGameOptions() {
-           const games = [...new Set(csvData.map(row => row.game))];
+           const games = [...new Set(participantsData.map(row => row.game))];
            const gameSelect = document.getElementById('game');
            games.forEach(game => {
              const option = document.createElement('option');
@@ -165,7 +148,7 @@
          }
          
          function populateClassGroups(game) {
-           const classGroups = [...new Set(csvData.filter(row => row.game === game).map(row => row.classGroup))];
+           const classGroups = [...new Set(participantsData.filter(row => row.game === game).map(row => row.classGroup))];
            const classGroupSelect = document.getElementById('classGroup');
            classGroupSelect.innerHTML = '<option value="">Select a class or class group</option>';
            classGroups.forEach(group => {
@@ -178,7 +161,7 @@
          }
          
          function populateWinners(game, classGroup) {
-           const participants = csvData.filter(row => row.game === game && row.classGroup === classGroup);
+           const participants = participantsData.filter(row => row.game === game && row.classGroup === classGroup);
            ['winner1', 'winner2', 'winner3'].forEach((id, index) => {
              const select = document.getElementById(id);
              select.innerHTML = '<option value="">Select a participant</option>';
@@ -218,7 +201,7 @@
            const winner2 = document.getElementById('winner2').value;
            const winner3 = document.getElementById('winner3').value;
          
-           const participants = csvData.filter(row => row.game === game && row.classGroup === classGroup);
+           const participants = participantsData.filter(row => row.game === game && row.classGroup === classGroup);
          
            const selected1 = participants.find(p => p.participant === winner1) || null;
          
@@ -231,7 +214,7 @@
            const winnerHouse2 = selected2 ? selected2.house : null;
          
            const winnerHouse3 = selected3 ? selected3.house : null;
-
+         
            const winnerClass1 = selected1 ? selected1.class : null;
          
            const winnerClass2 = selected2 ? selected2.class : null;
@@ -240,20 +223,19 @@
          
            submitWinners(game, classGroup, `${winner1} (${winnerClass1})`, `${winner2} (${winnerClass2})`, `${winner3} (${winnerClass3})`, winnerHouse1, winnerHouse2, winnerHouse3);
          });
-
+         
          function transformParticipationData(input) {
-    return input.map(entry => ({
-        game: entry.game.trim(), // Remove any spaces
-        classGroup: entry.classcategory.replace('classcategory', 'classGroup'), // Replace 'classcategory' with 'classGroup'
-        participant: entry.participant, // Retain same participant value
-        class: entry.classsection, // Use 'classsection' as 'class'
-        house: entry.house // Retain 'house' value
-    }));
+         return input.map(entry => ({
+         game: entry.game.trim(), // Remove any spaces
+         classGroup: entry.classcategory.replace('classcategory', 'classGroup'), // Replace 'classcategory' with 'classGroup'
+         participant: entry.participant, // Retain same participant value
+         class: entry.classsection, // Use 'classsection' as 'class'
+         house: entry.house // Retain 'house' value
+         }));
          }
-
+         
          window.onload = function() {
            fetchParticipantsData();
-           //fetchCSVData();
          }
       </script>
    </body>
