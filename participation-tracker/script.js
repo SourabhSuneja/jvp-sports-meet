@@ -107,7 +107,7 @@ function showStudent() {
 
 // Save selections
 function saveSelection() {
-   const student = studentNames[currentClass][currentIndex];
+   const student = capitalizeFirstLetter(studentNames[currentClass][currentIndex]);
    const house = houseSelect.value;
    const games = gamesCheckboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
 
@@ -177,6 +177,14 @@ function areAllHousesSpecified(selection) {
    return true;
 }
 
+// function to capitalize first letter of each word
+function capitalizeFirstLetter(string) {
+   return string
+               .toLowerCase() // Convert the entire string to lowercase
+               .split(' ')    // Split the string into an array of words
+               .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
+               .join(' ');    // Join the array of words back into a single string
+}
 
 // helper function to determine the class category
 function getClassCategory(classsection, game) {
@@ -211,7 +219,7 @@ function getClassCategory(classsection, game) {
    }
 
    // Default category (if class number is out of bounds)
-   return "Unknown";
+   return "NA";
 }
 
 // Converts the selection object into an array of participation data.
