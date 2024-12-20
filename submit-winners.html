@@ -148,9 +148,9 @@
          }
 
          async function fetchParticipantsData() {
-           newData = await selectData('participants');
-           console.log(newData);
-
+           const result = await selectData('participants');
+           csvData = transformParticipationData(result);
+           populateGameOptions();
          }
          
          function populateGameOptions() {
@@ -241,9 +241,19 @@
            submitWinners(game, classGroup, `${winner1} (${winnerClass1})`, `${winner2} (${winnerClass2})`, `${winner3} (${winnerClass3})`, winnerHouse1, winnerHouse2, winnerHouse3);
          });
 
+         function transformParticipationData(input) {
+    return input.map(entry => ({
+        game: entry.game.trim(), // Remove any spaces
+        classGroup: entry.classcategory.replace('classcategory', 'classGroup'), // Replace 'classcategory' with 'classGroup'
+        participant: entry.participant, // Retain same participant value
+        class: entry.classsection, // Use 'classsection' as 'class'
+        house: entry.house // Retain 'house' value
+    }));
+         }
+
          window.onload = function() {
            fetchParticipantsData();
-           fetchCSVData();
+           //fetchCSVData();
          }
       </script>
    </body>
