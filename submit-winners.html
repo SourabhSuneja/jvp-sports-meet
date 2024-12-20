@@ -150,7 +150,7 @@
          function populateClassGroups(game) {
            const classGroups = [...new Set(participantsData.filter(row => row.game === game).map(row => row.classGroup))];
            const classGroupSelect = document.getElementById('classGroup');
-           classGroupSelect.innerHTML = '<option value="">Select a class or class group</option>';
+           classGroupSelect.innerHTML = '<option value="">Select a class group</option>';
            classGroups.forEach(group => {
              const option = document.createElement('option');
              option.value = group;
