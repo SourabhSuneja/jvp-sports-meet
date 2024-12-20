@@ -134,6 +134,7 @@
            const response = await fetch(csvUrl);
            const text = await response.text();
            const rows = text.trim().split('\n').map(row => row.split(','));
+         console.log(rows);
            csvData = rows.map(row => ({
              game: row[0].trim().replace(/"/g, ''),
              classGroup: row[1].trim().replace(/"/g, ''),
@@ -147,7 +148,7 @@
 
          async function fetchParticipantsData() {
            const response = await selectData('participants');
-           
+           console.log(response);
 
          }
          
@@ -239,7 +240,8 @@
            submitWinners(game, classGroup, `${winner1} (${winnerClass1})`, `${winner2} (${winnerClass2})`, `${winner3} (${winnerClass3})`, winnerHouse1, winnerHouse2, winnerHouse3);
          });
          
-         fetchParticipantsData();
+         //fetchParticipantsData();
+         fetchCSVData()
       </script>
    </body>
 </html>
