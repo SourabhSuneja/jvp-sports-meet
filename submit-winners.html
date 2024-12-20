@@ -239,9 +239,11 @@
          
            submitWinners(game, classGroup, `${winner1} (${winnerClass1})`, `${winner2} (${winnerClass2})`, `${winner3} (${winnerClass3})`, winnerHouse1, winnerHouse2, winnerHouse3);
          });
-         
-         fetchParticipantsData();
-         fetchCSVData()
+
+         window.onload = function() {
+           fetchParticipantsData();
+           fetchCSVData();
+         }
       </script>
    </body>
 </html>
