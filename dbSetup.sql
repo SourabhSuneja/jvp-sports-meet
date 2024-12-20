@@ -47,7 +47,7 @@ USING ( true );
 
 -- Create table "participants"
 CREATE TABLE participants (
-    participant_id SERIAL PRIMARY KEY,
+    participation_id SERIAL PRIMARY KEY,
     game VARCHAR(255) NOT NULL,
     classcategory VARCHAR(255) NOT NULL,
     participant VARCHAR(255) NOT NULL,
