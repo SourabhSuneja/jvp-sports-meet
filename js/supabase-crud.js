@@ -24,18 +24,18 @@ async function checkAuth() {
          window.userId = session.user.id;
 
          // Wait for fetchUserData to resolve or reject
-         window.userDetails = await fetchUserData(userId, 'students');
+         // window.userDetails = await fetchUserData(userId, 'students');
 
-         // Stay on page, authentication successful
-         // Do nothing
-
+         // authentication successful
+         return true;
+         
       } else {
-         // User is not signed in, redirect to page with sign in request
-         window.location.href = redirectURL;
+         // User is not signed in
+         return false;
       }
    } catch (error) {
       // User is registered but user details are missing
-      window.location.href = redirectURL;
+      return false;
    }
 }
 
