@@ -1,4 +1,4 @@
-const baseURL = "https://sourabhsuneja.github.io/quiz/";
+const baseURL = "https://sourabhsuneja.github.io/quiz/students/";
 const studentNames = {};
 
 let selection = {};
