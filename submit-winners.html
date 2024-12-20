@@ -129,6 +129,7 @@
       <script>
          const csvUrl = 'data/participants.csv';
          let csvData = [];
+         let newData = [];
          
          async function fetchCSVData() {
            const response = await fetch(csvUrl);
@@ -147,8 +148,8 @@
          }
 
          async function fetchParticipantsData() {
-           const response = await selectData('participants');
-           console.log(response);
+           newData = await selectData('participants');
+           console.log(newData);
 
          }
          
