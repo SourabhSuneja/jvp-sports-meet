@@ -409,13 +409,13 @@
                  }
              });
 
-showPopup(heading, message) { 
+function showPopup(heading, message) { 
   popupBox.style.display = 'flex';
   ribbons.style.display = 'block'; 
   ribbons.style.animation = 'showHide 2.5s ease-in-out forwards';
 }
 
-hidePopup() {
+function hidePopup() {
   popupCloseBtn.click();
 }
         
