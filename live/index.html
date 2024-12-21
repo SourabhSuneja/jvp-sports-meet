@@ -479,7 +479,7 @@
          
          function calculateScores(winners) {
          // Initialize the scores object
-         const scores = { Total: {} };
+         const scores = { 'Total': {'Ruby': 0, 'Emerald': 0, 'Sapphire': 0, 'Topaz': 0} };
          
          // Function to add points to a house
          function addPoints(scoreObj, house, points) {
@@ -495,7 +495,7 @@
          
          // Initialize the category in the scores object if not already present
          if (!scores[category]) {
-            scores[category] = {};
+            scores[category] = {'Ruby': 0, 'Emerald': 0, 'Sapphire': 0, 'Topaz': 0};
          }
          
          // Add points for winner1, winner2, and winner3
@@ -508,7 +508,6 @@
          addPoints(scores.Total, entry.winnerhouse2, 7);
          addPoints(scores.Total, entry.winnerhouse3, 5);
          });
-         
          return scores;
          }
          
@@ -551,6 +550,11 @@
          // Parse the current score and new content as integers
          let oldScore = parseInt(element.textContent, 10);
          let newScore = parseInt(newContent, 10);
+
+         // if new score is same as old score, do nothing
+         if(oldScore === newScore) {
+           return;
+         }
          
          // Determine the direction of counting (up or down)
          let step = oldScore < newScore ? 1 : -1;
@@ -599,7 +603,7 @@
            const row = document.createElement('tr');
            row.id = 'row' + winner.row_id;
            row.innerHTML = `
-             <td>${winner.game}</td>
+             <td>${formatGameName(winner.game)}</td>
              <td>${winner.classcategory}</td>
              <td>${winner.winner1}</td>
              <td>${winner.winner2}</td>
@@ -618,7 +622,7 @@
            const row = document.getElementById('row' + winner.row_id);
            
            row.innerHTML = `
-             <td>${winner.game}</td>
+             <td>${formatGameName(winner.game)}</td>
              <td>${winner.classcategory}</td>
              <td>${winner.winner1}</td>
              <td>${winner.winner2}</td>
@@ -647,10 +651,14 @@
          if(payload.eventType === 'INSERT') {
          winners.push(payload.new);
          addNewRow(payload.new);
+         const headlines = generateLiveWinHeadline();
+         updateScrollingText(headlines);
          }
          else if(payload.eventType === 'UPDATE') {
          updateWinner(payload.new.row_id, payload.new);
          updateExistingRow(payload.new);
+         const headlines = generateLiveWinHeadline();
+        alert(headlines.toUpperCase()); updateScrollingText(headlines);
          }
          
          const winnerCounts = calculateScores(winners);
@@ -659,10 +667,12 @@
          }
          
          function updateScrollingText(newText, speed = 35) {
+
+            speed = Math.ceil((35 / 137) * newText.length);
             const scrollingTextElement = document.getElementById('scrollingText');
          
-            // Update the scrlling text
-            scrollingTextElement.textContent = newText;
+            // Update the scrolling text
+            scrollingTextElement.innerHTML = newText;
          
             // Adjust the animation speed dynamically
             scrollingTextElement.style.animationDuration = `${speed}s`;
@@ -672,6 +682,15 @@
             void scrollingTextElement.offsetWidth; // Trigger a reflow
             scrollingTextElement.style.animation = `scrollText ${speed}s linear infinite`; // Reapply the animation
          }
+
+// helper function to remove the class category part from the game name for a cleaner string
+function formatGameName(input) {
+  // Split the string at the "|" symbol
+  const parts = input.split('|');
+  
+  // If there's a "|" symbol, return the substring after it, trimmed
+  return parts.length > 1 ? parts[1].trim() : input;
+}
          
          // helper function to capitalize first letter of each word
          function capitalizeFirstLetter(string) {
@@ -697,14 +716,14 @@
          function generateLiveWinHeadline() {
          const table = document.getElementById("winnersTable");
          const tableBody = table.querySelector("tbody");
-         const rows = tableBody ? table.rows : [];
+         const rows = tableBody ? tableBody.querySelectorAll("tr") : []; 
          
          if (rows.length === 0) {
          return;  // Do nothing if the table is empty
          }
          
-         // Get the last 3 rows or fewer if there are not enough rows
-         const lastRows = Array.from(rows).slice(-3);
+         // Get the last 2 rows or fewer if there are not enough rows
+         const lastRows = Array.from(rows).slice(-2);
          
          const headlines = lastRows.map(row => {
          const game = row.cells[0].textContent.trim();
@@ -718,10 +737,10 @@
          
          // Check if it's a team game (i.e., Class 3 to 5 | Kho Kho, etc.)
          if (getGameType(game) === 'team') {
-            return `<strong>${game}</strong> Results (Classes ${classGroup}): ${winner1} clinches 1st, ${winner2} bags 2nd, ${winner3} secures 3rd position.`;
+            return `<strong>${game}</strong> Results (Classes ${classGroup}): ${winnerHouse1} clinches 1st, ${winnerHouse2} bags 2nd, ${winnerHouse3} secures 3rd position.`;
          } else {
             // For individual games
-            return `<strong>${game}</strong> Results (Class ${classGroup}): ${winner1} clinches 1st, ${winner2} bags 2nd, ${winner3} secures 3rd position.`;
+            return `<strong>${game} Results (Class ${classGroup}):</strong> ${winner1} from ${winnerHouse1} house clinches 1st, ${winner2} from ${winnerHouse2} house bags 2nd, ${winner3} from ${winnerHouse3} house secures 3rd position.`;
          }
          });
          
