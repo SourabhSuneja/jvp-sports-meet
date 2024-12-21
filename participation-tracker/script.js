@@ -177,7 +177,7 @@ function areAllHousesSpecified(selection) {
    return true;
 }
 
-// function to capitalize first letter of each word
+// helper function to capitalize first letter of each word
 function capitalizeFirstLetter(string) {
    return string
                .toLowerCase() // Convert the entire string to lowercase
@@ -201,6 +201,7 @@ function getGameType(game) {
 // helper function to determine the class category
 function getClassCategory(classsection, game) {
    const classNumber = parseInt(classsection.split('-')[0], 10);
+   const gameName = game.toLowerCase();
    
    // if game type is individual, return class number as class category
    if (getGameType(game) === 'individual') {
