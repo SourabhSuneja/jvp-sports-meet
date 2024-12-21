@@ -29,6 +29,14 @@
          margin-top: 30px;
          color: white;
          font-size: 2rem;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         gap: 18px;
+         text-transform: uppercase;
+         }
+         h1 ion-icon {
+         font-size: 3rem;
          }
          h2 {
          text-align: center;
@@ -193,7 +201,10 @@
    </head>
    <body>
       <div class="dashboard-container">
-         <h1>JVP ANNUAL SPORTS MEET 2024</h1>
+         <h1>
+           <ion-icon name="tennisball-outline"></ion-icon>
+           <span>JVP Annual Sports Meet 2024</span>
+         </h1>
          <h2>Live Scorecard</h2>
          <!-- House Tiles -->
          <h3>Across All Class Groups</h3>
@@ -546,6 +557,8 @@
          });
          
       </script>
+      <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
    </body>
 </html>
 
