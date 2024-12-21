@@ -197,6 +197,82 @@
                 transform: translateX(-100%); /* Move completely off-screen to the left */
             }
         }
+         /* Pop-up Box styling */
+         .popup-box {
+         display: none;
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background: rgba(0, 0, 0, 0.7);
+         justify-content: center;
+         align-items: center;
+         backdrop-filter: blur(5px);
+         }
+         .popup-content {
+         background: rgba(255, 255, 255, 0.9);
+         padding: 40px;
+         border-radius: 20px;
+         box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+         max-width: 500px;
+         width: 90%;
+         position: relative;
+         color: #333;
+         animation: popUp 0.5s ease;
+         border: 10px solid #f3b10ebf;
+         }
+         @keyframes popUp {
+         0% {
+         transform: scale(0.8);
+         opacity: 0;
+         }
+         100% {
+         transform: scale(1);
+         opacity: 1;
+         }
+         }
+         .popup-close-btn {
+         font-size: 2em;
+         color: #242526;
+         cursor: pointer;
+         position: absolute;
+         top: 15px;
+         right: 25px;
+         transition: color 0.3s ease;
+         }
+         .popup-close-btn:hover {
+         color: #f00;
+         }
+        .popup-box, .popup-content, .popup-close-btn {
+         transition: all 0.3s ease;
+         }
+         #ribbons {
+         position: fixed; 
+         top: 0;
+         left: 50%;
+         max-width: 100vw; 
+         display: none;
+         z-index: 100000000;
+         pointer-events: none;
+         transform: translateX(-50%);
+         }
+         @keyframes showHide {
+         0% {
+         opacity: 0;
+         visibility: visible;
+         }
+         20% {
+         opacity: 1; 
+         }
+         80% {
+         opacity: 1; 
+         }
+         100% {
+         opacity: 0; 
+         visibility: hidden;
+         }
+         }
       </style>
    </head>
    <body>
@@ -274,7 +350,15 @@
          </div>
       </div>
       <!-- Dialog Overlay Ends -->
-      
+      <!-- Pop-up Box Starts -->
+         <div class="popup-box" id="popupBox">
+            <div class="popup-content">
+            <img id="ribbons" src="images/confetti.gif">
+               <span class="popup-close-btn" id="popupCloseBtn">&times;</span>
+               <p id="popupMsg"></p>
+            </div>
+         </div>
+      <!-- Pop-up Box Ends -->
       <!-- Scrolling Strip Starts -->
       <div class="scrolling-strip">
         <div class="scrolling-text" id="scrollingText">Get ready for an action-packed celebration! Jamna Vidyapeeth proudly presents the Annual Sports Meet 2024 – The ultimate showdown begins!</div>
@@ -283,6 +367,11 @@
       <script type="module" src="https://sourabhsuneja.github.io/jvp-sports-meet/js/supabase-crud.js"></script>
       <script src="https://sourabhsuneja.github.io/jvp-sports-meet/js/dialog.js"></script>
       <script>
+         const popupBox = document.getElementById('popupBox');
+         const ribbons = document.getElementById('ribbons');
+         const popupCloseBtn = document.getElementById('popupCloseBtn');
+         const downloadBtn = document.getElementById('downloadBtn');
+         
          let winners ;
          async function pollEntireData() {
          
@@ -305,10 +394,32 @@
          updateDashboard(winnerCounts);
                  
          }
+
+         // Close the popup when clicking the close button
+             popupCloseBtn.addEventListener('click', () => {
+                 popupBox.style.display = 'none';
+                 ribbons.style.display = 'none'; 
+             });
          
+             // Close the popup when clicking outside the popup content
+             popupBox.addEventListener('click', (e) => {
+                 if (e.target === popupBox) {
+                     popupBox.style.display = 'none';
+                     ribbons.style.display = 'none'; 
+                 }
+             });
+
+showPopup(heading, message) { 
+  popupBox.style.display = 'flex';
+  ribbons.style.display = 'block'; 
+  ribbons.style.animation = 'showHide 2.5s ease-in-out forwards';
+}
+
+hidePopup() {
+  popupCloseBtn.click();
+}
         
          // Function to download table data as CSV
-         const downloadBtn = document.getElementById('downloadBtn');
          downloadBtn.addEventListener('click', () => {
            const table = document.getElementById('winnersTable');
            const rows = Array.from(table.rows);
