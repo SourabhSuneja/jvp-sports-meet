@@ -551,6 +551,41 @@
             void scrollingTextElement.offsetWidth; // Trigger a reflow
             scrollingTextElement.style.animation = `scrollText ${speed}s linear infinite`; // Reapply the animation
         }
+
+        function generateLiveWinHeadline() {
+    const table = document.getElementById("winnersTable");
+    const tableBody = table.querySelector("tbody");
+    const rows = tableBody ? table.rows : [];
+
+    if (rows.length === 0) {
+        return;  // Do nothing if the table is empty
+    }
+
+    // Get the last 3 rows or fewer if there are not enough rows
+    const lastRows = Array.from(rows).slice(-3);
+
+    const headlines = lastRows.map(row => {
+        const game = row.cells[0].textContent.trim();
+        const classGroup = row.cells[1].textContent.trim();
+        const winner1 = row.cells[2].textContent.trim();
+        const winner2 = row.cells[3].textContent.trim();
+        const winner3 = row.cells[4].textContent.trim();
+        const winnerHouse1 = row.cells[5].textContent.trim();
+        const winnerHouse2 = row.cells[6].textContent.trim();
+        const winnerHouse3 = row.cells[7].textContent.trim();
+
+        // Check if it's a team game (i.e., Class 3 to 5 | Kho Kho, etc.)
+        if (game.includes("Kho Kho") || game.includes("Team")) {
+            return `<strong>${game}</strong> Results (Classes ${classGroup}): ${winner1} clinches 1st, ${winner2} bags 2nd, ${winner3} secures 3rd position.`;
+        } else {
+            // For individual games
+            return `<strong>${game}</strong> Results (Class ${classGroup}): ${winner1} clinches 1st, ${winner2} bags 2nd, ${winner3} secures 3rd position.`;
+        }
+    });
+
+    // Return the formatted headlines as a string
+    return headlines.join(" ");
+}
          
          window.addEventListener('load', function () {
          pollEntireData();
