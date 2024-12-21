@@ -161,6 +161,31 @@
          font-size: 1rem;
          padding-bottom: 24px;
          }
+         .scrolling-strip {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(to right, #333, #444);
+            color: white;
+            overflow: hidden;
+            padding: 10px 0;
+            z-index: 9999;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .scrolling-text {
+            display: inline-block;
+            white-space: nowrap;
+            position: relative;
+            animation: scrollText 30s linear infinite;
+        }
+        @keyframes scrollText {
+            from {
+                transform: translateX(100%); /* Start off-screen to the right */
+            }
+            to {
+                transform: translateX(-100%); /* Move completely off-screen to the left */
+            }
+        }
       </style>
    </head>
    <body>
@@ -235,6 +260,11 @@
       </div>
       <!-- Dialog Overlay Ends -->
       <footer>Crafted by Sourabh Sir</footer>
+      <!-- Scrolling Strip Starts -->
+      <div class="scrolling-strip">
+        <div class="scrolling-text" id="scrollingText">Kho Kho (Boys) Results (Classes 6–8): Amit Khandelwal (6-A3) clinches 1st, Naresh Pathak (6-A2) bags 2nd, Prateek Kumar Sharma (6-A1) secures 3rd!</div>
+      </div>
+      <!-- Scrolling Strip Ends -->
       <script type="module" src="https://sourabhsuneja.github.io/jvp-sports-meet/js/supabase-crud.js"></script>
       <script src="https://sourabhsuneja.github.io/jvp-sports-meet/js/dialog.js"></script>
       <script>
@@ -491,6 +521,21 @@
          updateDashboard(winnerCounts);
          
          }
+
+         function updateScrollingText(newText, speed = 15) {
+            const scrollingTextElement = document.getElementById('scrollingText');
+
+            // Update the scrlling text
+            scrollingTextElement.textContent = newText;
+
+            // Adjust the animation speed dynamically
+            scrollingTextElement.style.animationDuration = `${speed}s`;
+
+            // Restart the animation to reflect the changes instantly
+            scrollingTextElement.style.animation = 'none'; // Reset the animation
+            void scrollingTextElement.offsetWidth; // Trigger a reflow
+            scrollingTextElement.style.animation = `scrollText ${speed}s linear infinite`; // Reapply the animation
+        }
          
          window.addEventListener('load', function () {
          pollEntireData();
