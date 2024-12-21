@@ -186,15 +186,24 @@ function capitalizeFirstLetter(string) {
                .join(' ');    // Join the array of words back into a single string
 }
 
-// helper function to determine the class category
-function getClassCategory(classsection, game) {
-   const classNumber = parseInt(classsection.split('-')[0], 10);
-
+// helper function to determine game type (individual or team)
+function getGameType(game) {
    const gameName = game.toLowerCase();
-
    // Check if the game is individual based on keywords
    const individualKeywords = ["race", "running", "jump", "karate", "skating"];
    if (individualKeywords.some(keyword => gameName.includes(keyword))) {
+      return 'individual';
+   } else {
+      return 'team';
+   }
+}
+
+// helper function to determine the class category
+function getClassCategory(classsection, game) {
+   const classNumber = parseInt(classsection.split('-')[0], 10);
+   
+   // if game type is individual, return class number as class category
+   if (getGameType(game) === 'individual') {
       return classNumber.toString();
    }
 
