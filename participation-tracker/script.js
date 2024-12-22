@@ -88,7 +88,7 @@ function showStudent() {
    const students = studentNames[currentClass];
    const student = students[currentIndex];
    studentName.textContent = student;
-
+   console.log(selection[currentClass][student]);
    const studentData = selection[currentClass][student] || {
       house: '',
       games: []
@@ -326,5 +326,4 @@ window.onload = async function() {
   fetchAllClasses();
   const participationArray = await selectData('participants');
   selection = convertArrayToSelection(participationArray);
-  console.log(selection);
 }
