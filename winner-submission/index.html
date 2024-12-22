@@ -412,7 +412,7 @@ function getGameType(game) {
          
              // Update class and house info on selection
              select.addEventListener('change', () => {
-               const selected = participants.find(p => p.participant === select.value);
+               const selected = (gameType === 'individual') ? ( participants.find(p => p.participant === select.value) ) : {'house': select.value, 'class': 'Not Applicable'} ;
                document.getElementById(`info${index + 1}`).textContent =
                  selected ? `House: ${selected.house}, Class: ${selected.class}` : '';
              });
