@@ -430,7 +430,31 @@
          function hidePopup() {
          popupCloseBtn.click();
          }
-         
+
+// Set headlines and pop-up after win update
+function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
+     
+  if(updateElement === 'headline' || updateElement === 'both') {
+    const headlines = generateLiveWinHeadline();
+    // update scrolling text
+ updateScrollingText(headlines);
+  }
+
+  if(updateElement === 'popup' || updateElement === 'both') {
+    // show pop-up with a cheers message
+    const heading = "Cheers to the Champions!";
+    const popupContent = generateWinnersMessage(w.winner1, w.winner2, w.winner3, w.winnerHouse1, w.winnerHouse2, w.winnerHouse3, w.game);
+ showPopup(heading, popupContent, true);
+  }
+  
+}
+
+
+// Function to generate cheering text for the pop-up
+function generateWinnersMessage(winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3, game) {
+    return `🎉 Cheers to ${winner1} from ${winnerHouse1} for securing 1st place, ${winner2} from ${winnerHouse2} for 2nd, and ${winner3} from ${winnerHouse3} for 3rd in ${game}! 🏆 Well done, champions!`;
+}
+       
          // Function to download table data as CSV
          downloadBtn.addEventListener('click', () => {
            const table = document.getElementById('winnersTable');
@@ -653,13 +677,12 @@
          if(payload.eventType === 'INSERT') {
          winners.push(payload.new);
          addNewRow(payload.new);
-         const headlines = generateLiveWinHeadline();
-         updateScrollingText(headlines);
+         setHeadlineAndPopupAfterWin(payload.new, 'both');
          }
          else if(payload.eventType === 'UPDATE') {
          updateWinner(payload.new.row_id, payload.new);
          updateExistingRow(payload.new);
-         const headlines = generateLiveWinHeadline(); updateScrollingText(headlines);
+         setHeadlineAndPopupAfterWin(payload.new, 'headline');
          }
          
          const winnerCounts = calculateScores(winners);
