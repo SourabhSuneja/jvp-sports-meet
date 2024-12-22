@@ -335,7 +335,7 @@ function handleLiveUpdate(payload) {
    } else if (payload.eventType === 'UPDATE') {
       updateWinner(payload.new.row_id, payload.new);
       updateExistingRow(payload.new);
-      setHeadlineAndPopupAfterWin(payload.new, 'headline');
+      setHeadlineAndPopupAfterWin(payload.new, 'both');
    }
 
    const winnerCounts = calculateScores(winners);
