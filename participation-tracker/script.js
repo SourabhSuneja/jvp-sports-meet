@@ -88,7 +88,6 @@ function showStudent() {
    const students = studentNames[currentClass];
    const student = capitalizeFirstLetter(students[currentIndex]);
    studentName.textContent = student;
-   console.log(selection[currentClass][student]);
    const studentData = selection[currentClass][student] || {
       house: '',
       games: []
