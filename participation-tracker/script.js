@@ -86,7 +86,7 @@ houseSelect.addEventListener('change', () => {
 function showStudent() {
    if (!currentClass) return;
    const students = studentNames[currentClass];
-   const student = students[currentIndex];
+   const student = capitalizeFirstLetter(students[currentIndex]);
    studentName.textContent = student;
    console.log(selection[currentClass][student]);
    const studentData = selection[currentClass][student] || {
