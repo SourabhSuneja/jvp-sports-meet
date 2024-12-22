@@ -212,7 +212,6 @@ table td:first-child {
 	position: relative;
 	min-width: 100%;
 	text-transform: uppercase;
-	animation: scrollText 35s linear infinite;
 }
 
 @keyframes scrollText {
