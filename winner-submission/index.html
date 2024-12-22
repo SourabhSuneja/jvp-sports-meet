@@ -386,8 +386,19 @@
            classGroupSelect.disabled = false;
          }
          
+function getGameType(game) {
+   const gameName = game.toLowerCase();
+   // Check if the game is individual based on keywords
+   const individualKeywords = ["race", "running", "jump", "karate", "skating"];
+   if (individualKeywords.some(keyword => gameName.includes(keyword))) {
+      return 'individual';
+   } else {
+      return 'team';
+   }
+}
+
          function populateWinners(game, classGroup) {
-           const participants = participantsData.filter(row => row.game === game && row.classGroup === classGroup);
+           const participants = (getGameType(game) === 'individual') ? (participantsData.filter(row => row.game === game && row.classGroup === classGroup)) : ['Ruby', 'Emerald', 'Sapphire', 'Topaz'] ;
            ['winner1', 'winner2', 'winner3'].forEach((id, index) => {
              const select = document.getElementById(id);
              select.innerHTML = '<option value="">Select a participant</option>';
