@@ -91,12 +91,12 @@ async function fetchAllClasses() {
 ];
 
    await Promise.all(classes.map(fetchNamesForClassSection));
-   populateClassDropdown();
+   populateClassDropdown(classes);
 }
 
 // Populate class dropdown
-function populateClassDropdown() {
-   Object.keys(studentNames).forEach(classKey => {
+function populateClassDropdown(classes) {
+   classes.forEach(classKey => {
       const option = document.createElement('option');
       option.value = classKey;
       option.textContent = classKey;
