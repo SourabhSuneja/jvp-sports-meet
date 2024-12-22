@@ -225,21 +225,37 @@ async function selectData(
 }
 
 // delete data
-async function deleteRow(tableName, columnName, value) {
+async function deleteRow(
+   tableName,
+   matchColumns = [],
+   matchValues = []
+) {
    try {
+      // Validate input lengths
+      if (matchColumns.length !== matchValues.length) {
+         throw new Error("matchColumns and matchValues arrays must have the same length.");
+      }
+
+      // Create the match object
+      const matchData = {};
+      for (let i = 0; i < matchColumns.length; i++) {
+         matchData[matchColumns[i]] = matchValues[i];
+      }
+
+      // Perform the delete with filters
       const {
          data,
          error
       } = await supabase
          .from(tableName)
          .delete()
-         .eq(columnName, value)
+         .match(matchData)
          .select();
 
       if (error) throw error;
       return data;
    } catch (error) {
-      console.error("Error deleting row:", error.message);
+      console.error("Error deleting rows:", error.message);
       return null;
    }
 }
