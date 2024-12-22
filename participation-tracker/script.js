@@ -33,11 +33,30 @@ checkboxes.forEach(checkbox => {
 });
 
 async function deleteParticipant(participant, game, classsection, classcategory) {
-  const confirm = await showDialog ({
+    const confirm = await showDialog ({
         title: 'Remove Participant',
-        message: `Are you sure you want to remove ${participant} from ${game}?`,
+        message: `Are you sure you want to remove ${participant} (${classsection}) from ${game}?`,
         type: 'confirm'
                          });
+    if(confirm) {
+        showProcessingDialog();
+        const success = await deleteRow('participants', ['participant', 'game', 'classsection', 'classcategory'], [participant, game, classsection, classcategory]);
+        if(success) {
+            await showDialog({
+         title: 'Success',
+         message: "Participant removed successfully!",
+         type: 'alert'
+      });
+        }
+        else {
+            await showDialog({
+         title: 'Error',
+         message: "Error deleting the participant!",
+         type: 'alert'
+      });
+        }
+        hideProcessingDialog();
+    }
 }
 
 async function fetchNamesForClassSection(classSection) {
