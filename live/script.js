@@ -68,7 +68,7 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
    if (updateElement === 'popup' || updateElement === 'both') {
       // show pop-up with a cheers message
       const heading = "Bravo!";
-      const popupContent = generateWinnersMessage(w.winner1, w.winner2, w.winner3, w.winnerHouse1, w.winnerHouse2, w.winnerHouse3, w.game);
+      const popupContent = generateWinnersMessage(w.winner1, w.winner2, w.winner3, w.winnerhouse1, w.winnerhouse2, w.winnerhouse3, w.game);
       showPopup(heading, popupContent, true);
    }
 }
@@ -429,3 +429,4 @@ window.addEventListener('load', function () {
    pollEntireData();
    const subscription = subscribeToTable('winners', handleLiveUpdate);
 });
+
