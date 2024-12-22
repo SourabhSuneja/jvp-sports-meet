@@ -23,7 +23,7 @@ window.showDialog = function ({
    title,
    message,
    type
-}) {
+}, showRandomPhrase = true) {
    return new Promise((resolve) => {
       // Access the elements
       const overlay = document.getElementById('dialog-overlay');
@@ -76,9 +76,10 @@ window.showDialog = function ({
 
          dialogButtons.appendChild(okButton);
       } else if (type === 'processing') {
+         const loadingPhrase = showRandomPhrase ? getRandomLoadingPhrase() : 'Processing...';
          dialogBox.classList.add('dialog-minimal-padding');
          dialogMessage.classList.add('dialog-processing');
-         dialogMessage.innerHTML = `<img src="https://sourabhsuneja.github.io/jvp-sports-meet/images/loading.gif" style="height: 30px"> ${getRandomLoadingPhrase()}`;
+         dialogMessage.innerHTML = `<img src="https://sourabhsuneja.github.io/jvp-sports-meet/images/loading.gif" style="height: 30px"> ${loadingPhrase}`;
       }
 
       // Show the dialog
@@ -93,11 +94,11 @@ window.showDialog = function ({
 };
 
 // Attach showProcessingDialog and hideProcessingDialog functions to the global window object
-window.showProcessingDialog = function () {
+window.showProcessingDialog = function (showRandomPhrase = true) {
    window.showDialog({
       title: '',
       type: 'processing'
-   });
+   }, showRandomPhrase);
 };
 
 window.hideProcessingDialog = function () {
