@@ -4,6 +4,7 @@ const popupMsg = document.getElementById('popupMsg');
 const ribbons = document.getElementById('ribbons');
 const popupCloseBtn = document.getElementById('popupCloseBtn');
 const downloadBtn = document.getElementById('downloadBtn');
+const defaultHeadline = "Get ready for an action-packed celebration! Jamna Vidyapeeth proudly presents the Annual Sports Meet 2024 – The ultimate showdown begins!";
 
 let winners;
 async function pollEntireData() {
@@ -42,7 +43,7 @@ popupBox.addEventListener('click', (e) => {
    }
 });
 
-function showPopup(heading, message, showRibbons = false) {
+function showPopup(heading, message, showRibbons = false, stayAlive = 43200000) {
    popupHeading.innerHTML = heading;
    popupMsg.innerHTML = message;
    popupBox.style.display =  'flex';
@@ -50,6 +51,7 @@ function showPopup(heading, message, showRibbons = false) {
       ribbons.style.display = 'block';
       ribbons.style.animation = 'showHide 2.5s ease-in-out forwards';
    }
+   setTimeout(hidePopup, stayAlive); // hide pop-up after a set interval
 }
 
 function hidePopup() {
@@ -62,14 +64,14 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
    if (updateElement === 'headline' || updateElement === 'both') {
       const headlines = generateLiveWinHeadline();
       // update scrolling text
-      updateScrollingText(headlines);
+      updateScrollingText(newText = headlines, stayAlive = 30000);
    }
 
    if (updateElement === 'popup' || updateElement === 'both') {
       // show pop-up with a cheers message
       const heading = "Bravo!";
       const popupContent = generateWinnersMessage(w.winner1, w.winner2, w.winner3, w.winnerhouse1, w.winnerhouse2, w.winnerhouse3, w.game);
-      showPopup(heading, popupContent, true);
+      showPopup(heading, popupContent, true, 30000);
    }
 }
 
@@ -343,7 +345,7 @@ function handleLiveUpdate(payload) {
 
 }
 
-function updateScrollingText(newText, speed = 35) {
+function updateScrollingText(newText = defaultHeadline, speed = 35, stayAlive = 43200000) {
 
    speed = Math.ceil((35 / 137) * newText.length);
    const scrollingTextElement = document.getElementById('scrollingText');
@@ -358,6 +360,9 @@ function updateScrollingText(newText, speed = 35) {
    scrollingTextElement.style.animation = 'none'; // Reset the animation
    void scrollingTextElement.offsetWidth; // Trigger a reflow
    scrollingTextElement.style.animation = `scrollText ${speed}s linear infinite`; // Reapply the animation
+
+   // Remove the headlines after a set duration
+ setTimeout(updateScrollingText, stayAlive);
 }
 
 // helper function to remove the class category part from the game name for a cleaner string
