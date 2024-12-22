@@ -64,14 +64,14 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
    if (updateElement === 'headline' || updateElement === 'both') {
       const headlines = generateLiveWinHeadline();
       // update scrolling text
-      updateScrollingText(newText = headlines, stayAlive = 30000);
+      updateScrollingText(newText = headlines, stayAlive = 240000);
    }
 
    if (updateElement === 'popup' || updateElement === 'both') {
       // show pop-up with a cheers message
       const heading = "Bravo!";
       const popupContent = generateWinnersMessage(w.winner1, w.winner2, w.winner3, w.winnerhouse1, w.winnerhouse2, w.winnerhouse3, w.game);
-      showPopup(heading, popupContent, true, 30000);
+      showPopup(heading, popupContent, true, 60000);
    }
 }
 
@@ -337,7 +337,7 @@ function handleLiveUpdate(payload) {
    } else if (payload.eventType === 'UPDATE') {
       updateWinner(payload.new.row_id, payload.new);
       updateExistingRow(payload.new);
-      setHeadlineAndPopupAfterWin(payload.new, 'both');
+      setHeadlineAndPopupAfterWin(payload.new, 'headline');
    }
 
    const winnerCounts = calculateScores(winners);
@@ -345,21 +345,12 @@ function handleLiveUpdate(payload) {
 
 }
 
-function updateScrollingText(newText = defaultHeadline, speed = 35, stayAlive = 43200000) {
+function updateScrollingText(newText = defaultHeadline, stayAlive = 43200000) {
 
-   speed = Math.ceil((35 / 137) * newText.length);
    const scrollingTextElement = document.getElementById('scrollingText');
 
    // Update the scrolling text
    scrollingTextElement.innerHTML = newText;
-
-   // Adjust the animation speed dynamically
-   scrollingTextElement.style.animationDuration = `${speed}s`;
-
-   // Restart the animation to reflect the changes instantly
-   scrollingTextElement.style.animation = 'none'; // Reset the animation
-   void scrollingTextElement.offsetWidth; // Trigger a reflow
-   scrollingTextElement.style.animation = `scrollText ${speed}s linear infinite`; // Reapply the animation
 
    // Remove the headlines after a set duration
  setTimeout(resetHeadline, stayAlive);
@@ -409,8 +400,8 @@ function generateLiveWinHeadline() {
       return; // Do nothing if the table is empty
    }
 
-   // Get the last 2 rows or fewer if there are not enough rows
-   const lastRows = Array.from(rows).slice(-2);
+   // Get the last 3 rows or fewer if there are not enough rows
+   const lastRows = Array.from(rows).slice(-3).reverse();
 
    const headlines = lastRows.map(row => {
       const game = row.cells[0].textContent.trim();
@@ -432,7 +423,7 @@ function generateLiveWinHeadline() {
    });
 
    // Return the formatted headlines as a string
-   return headlines.join(" ");
+   return headlines.join("&nbsp;  |  &nbsp;");
 }
 
 window.addEventListener('load', function () {
