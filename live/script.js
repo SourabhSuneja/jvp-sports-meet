@@ -1,4 +1,6 @@
 const popupBox = document.getElementById('popupBox');
+const popupHeading = document.getElementById('popupHeading');
+const popupMsg = document.getElementById('popupMsg');
 const ribbons = document.getElementById('ribbons');
 const popupCloseBtn = document.getElementById('popupCloseBtn');
 const downloadBtn = document.getElementById('downloadBtn');
@@ -41,7 +43,9 @@ popupBox.addEventListener('click', (e) => {
 });
 
 function showPopup(heading, message, showRibbons = false) {
-   popupBox.style.display = 'flex';
+   popupHeading.innerHTML = heading;
+   popupMsg.innerHTML = message;
+   popupBox.style.display =  'flex';
    if (showRibbons) {
       ribbons.style.display = 'block';
       ribbons.style.animation = 'showHide 2.5s ease-in-out forwards';
@@ -63,13 +67,11 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
 
    if (updateElement === 'popup' || updateElement === 'both') {
       // show pop-up with a cheers message
-      const heading = "Cheers to the Champions!";
+      const heading = "Bravo!";
       const popupContent = generateWinnersMessage(w.winner1, w.winner2, w.winner3, w.winnerHouse1, w.winnerHouse2, w.winnerHouse3, w.game);
       showPopup(heading, popupContent, true);
    }
-
 }
-
 
 // Function to generate cheering text for the pop-up
 function generateWinnersMessage(winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3, game) {
