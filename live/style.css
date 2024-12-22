@@ -207,10 +207,7 @@ table td:first-child {
 }
 
 .scrolling-text {
-	display: inline-block;
 	white-space: nowrap;
-	position: relative;
-	min-width: 100%;
 	text-transform: uppercase;
 }
 
