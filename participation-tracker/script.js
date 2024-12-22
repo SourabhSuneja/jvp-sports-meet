@@ -27,12 +27,12 @@ checkboxes.forEach(checkbox => {
           const game = event.target.value;
           const classsection = currentClass;
           const classcategory = getClassCategory(classsection, game)
-          deleteParticipant(participant, game, classsection, classcategory);
+          deleteParticipant(participant, game, classsection, classcategory, event.target);
       }
    });
 });
 
-async function deleteParticipant(participant, game, classsection, classcategory) {
+async function deleteParticipant(participant, game, classsection, classcategory, checkbox) {
     const confirm = await showDialog ({
         title: 'Remove Participant',
         message: `Are you sure you want to remove ${participant} (${classsection}) from ${game}?`,
@@ -56,6 +56,8 @@ async function deleteParticipant(participant, game, classsection, classcategory)
       });
         }
         hideProcessingDialog();
+    } else {
+        checkbox.checked = true;
     }
 }
 
