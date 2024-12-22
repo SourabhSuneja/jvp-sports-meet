@@ -157,6 +157,25 @@ async function insertData(tableName, data) {
    }
 }
 
+// upsert data
+async function upsertData(tableName, data, conflictColumns = []) {
+   try {
+      const {
+         data: upsertedData,
+         error
+      } = await supabase
+         .from(tableName)
+         .upsert(data, { onConflict: conflictColumns })
+         .select();
+
+      if (error) throw error;
+      return upsertedData;
+   } catch (error) {
+      console.error("Error upserting data:", error.message);
+      return null;
+   }
+}
+
 // select data
 async function selectData(
    tableName,
@@ -326,6 +345,7 @@ window.signOutUser = signOutUser;
 window.signUpUser = signUpUser;
 window.changeUserPassword = changeUserPassword;
 window.insertData = insertData;
+window.upsertData = upsertData;
 window.selectData = selectData;
 window.deleteRow = deleteRow;
 window.updateRow = updateRow;
