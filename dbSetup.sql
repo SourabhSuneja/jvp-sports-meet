@@ -74,6 +74,13 @@ FOR UPDATE
 TO authenticated
 USING ( true );
 
+-- Policy for deleting data
+CREATE POLICY "Allow authenticated users to delete data"
+ON participants
+FOR DELETE
+TO authenticated
+USING ( true );
+
 -- Policy for selecting data
 CREATE POLICY "Allow users to select data"
 ON participants
