@@ -75,7 +75,7 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
 
 // Function to generate cheering text for the pop-up
 function generateWinnersMessage(winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3, game) {
-   return `🎉 Cheers to ${winner1} from ${winnerHouse1} for securing 1st place, ${winner2} from ${winnerHouse2} for 2nd, and ${winner3} from ${winnerHouse3} for 3rd in ${game}! 🏆 Well done, champions!`;
+   return `🎉 Cheers to ${winner1} from ${winnerHouse1} for securing 1st place, ${winner2} from ${winnerHouse2} for 2nd, and ${winner3} from ${winnerHouse3} for 3rd in ${game}! <br>🏆 Well done, champions! 🏆`;
 }
 
 // Function to download table data as CSV
@@ -429,4 +429,5 @@ window.addEventListener('load', function () {
    pollEntireData();
    const subscription = subscribeToTable('winners', handleLiveUpdate);
 });
+
 
