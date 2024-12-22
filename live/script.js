@@ -362,7 +362,12 @@ function updateScrollingText(newText = defaultHeadline, speed = 35, stayAlive = 
    scrollingTextElement.style.animation = `scrollText ${speed}s linear infinite`; // Reapply the animation
 
    // Remove the headlines after a set duration
- setTimeout(updateScrollingText, stayAlive);
+ setTimeout(resetHeadline, stayAlive);
+}
+
+// function to reset the headline back to the default welcome headline
+function resetHeadline() {
+   document.getElementById('scrollingText').innerHTML = defaultHeadline;
 }
 
 // helper function to remove the class category part from the game name for a cleaner string
