@@ -326,4 +326,5 @@ window.onload = async function() {
   fetchAllClasses();
   const participationArray = await selectData('participants');
   selection = convertArrayToSelection(participationArray);
+  console.log(selection);
 }
