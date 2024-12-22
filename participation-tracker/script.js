@@ -21,8 +21,24 @@ const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 checkboxes.forEach(checkbox => {
    checkbox.addEventListener('change', event => {
       saveSelection();
+      if(!event.target.checked) {
+          // delete current student's participation in the selected game if the checkbox state changed from checked to unchecked
+          const participant = capitalizeFirstLetter(studentNames[currentClass][currentIndex]);
+          const game = event.target.value;
+          const classsection = currentClass;
+          const classcategory = getClassCategory(classsection, game)
+          deleteParticipant(participant, game, classsection, classcategory);
+      }
    });
 });
+
+async function deleteParticipant(participant, game, classsection, classcategory) {
+  const confirm = await showDialog ({
+        title: 'Remove Participant',
+        message: `Are you sure you want to remove ${participant} from ${game}?`,
+        type: 'confirm'
+                         });
+}
 
 async function fetchNamesForClassSection(classSection) {
    try {
