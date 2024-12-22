@@ -398,14 +398,15 @@ function getGameType(game) {
 }
 
          function populateWinners(game, classGroup) {
-           const participants = (getGameType(game) === 'individual') ? (participantsData.filter(row => row.game === game && row.classGroup === classGroup)) : ['Ruby', 'Emerald', 'Sapphire', 'Topaz'] ;
+           const gameType = getGameType(game);
+           const participants = (gameType === 'individual') ? (participantsData.filter(row => row.game === game && row.classGroup === classGroup)) : ['Ruby', 'Emerald', 'Sapphire', 'Topaz'] ;
            ['winner1', 'winner2', 'winner3'].forEach((id, index) => {
              const select = document.getElementById(id);
              select.innerHTML = '<option value="">Select a participant</option>';
              participants.forEach(participant => {
                const option = document.createElement('option');
-               option.value = participant.participant;
-               option.textContent = participant.participant;
+               option.value = (gameType === 'individual') ? participant.participant : participant;
+               option.textContent = (gameType === 'individual') ? participant.participant : participant;
                select.appendChild(option);
              });
          
