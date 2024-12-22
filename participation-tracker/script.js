@@ -39,7 +39,7 @@ async function deleteParticipant(participant, game, classsection, classcategory)
         type: 'confirm'
                          });
     if(confirm) {
-        showProcessingDialog();
+        showProcessingDialog(false);
         const success = await deleteRow('participants', ['participant', 'game', 'classsection', 'classcategory'], [participant, game, classsection, classcategory]);
         if(success) {
             await showDialog({
