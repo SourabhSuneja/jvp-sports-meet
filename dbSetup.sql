@@ -61,17 +61,17 @@ CREATE TABLE participants (
 ALTER TABLE participants ENABLE ROW LEVEL SECURITY;
 
 -- Policy for inserting data
-CREATE POLICY "Allow users to insert data"
+CREATE POLICY "Allow authenticated users to insert data"
 ON participants
 FOR INSERT
-TO authenticated, anon
+TO authenticated
 WITH CHECK ( true );
 
 -- Policy for updating data
-CREATE POLICY "Allow users to update data"
+CREATE POLICY "Allow authenticated users to update data"
 ON participants
 FOR UPDATE
-TO authenticated, anon
+TO authenticated
 USING ( true );
 
 -- Policy for selecting data
