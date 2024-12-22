@@ -320,8 +320,56 @@ async function sendToDatabase(data) {
       }
 }
 
+// fetch classwise list of all students in school
+fetchAllClasses();
+
 window.onload = async function() {
-  fetchAllClasses();
+  // check auth status
+  const authSuccess = await window.checkAuth();
+           if(authSuccess) {
+               document.getElementById('sign-in-screen').style.display = 'none';
+           }
+  
   const participationArray = await selectData('participants');
   selection = convertArrayToSelection(participationArray);
 }
+
+// function to login user
+         async function login() {
+         const signInScreen = document.getElementById('sign-in-screen');
+         const errorField = document.getElementById('error-message');
+         const btn = document.getElementById('sign-in-btn');
+         const username = document.getElementById('username').value.trim();
+         const password = document.getElementById('password').value;
+         
+         const errorIcon = '<ion-icon name="alert-circle-outline" class="sign-in-error-icon"></ion-icon>';
+         
+         const email = (username + '@jvp.com').toLowerCase();
+         
+         btn.innerHTML = '<i class="fas white fa-spinner fa-spin"></i> Wait...';
+         btn.disabled = true;
+         errorField.innerHTML = '';
+         
+         if(username === '' || password === '') {
+         errorField.innerHTML = errorIcon + '<span>Username and password are required.</span>';
+         btn.disabled = false;
+         btn.innerHTML = 'Sign In';
+         return ;       
+         }
+         
+         try {
+         const data = await window.signInUser(email, password);
+         window.userId = data.user.id;
+         signInScreen.style.display = 'none';
+         } catch (error) {
+         errorField.innerHTML = errorIcon + '<span>' + error.message + '</span>';
+         btn.disabled = false;
+         btn.innerHTML = 'Sign In';
+         }
+         }
+         
+         // add event listener to sign in button
+         document.getElementById('sign-in-btn').addEventListener('click', function(event) {
+         event.preventDefault();
+         login();
+         });
