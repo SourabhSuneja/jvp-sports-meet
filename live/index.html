@@ -419,10 +419,12 @@
                  }
              });
          
-         function showPopup(heading, message) { 
+         function showPopup(heading, message, showRibbons = false) { 
          popupBox.style.display = 'flex';
-         ribbons.style.display = 'block'; 
-         ribbons.style.animation = 'showHide 2.5s ease-in-out forwards';
+         if(showRibbons) {
+            ribbons.style.display = 'block'; 
+            ribbons.style.animation = 'showHide 2.5s ease-in-out forwards';
+          }
          }
          
          function hidePopup() {
@@ -657,8 +659,7 @@
          else if(payload.eventType === 'UPDATE') {
          updateWinner(payload.new.row_id, payload.new);
          updateExistingRow(payload.new);
-         const headlines = generateLiveWinHeadline();
-        alert(headlines.toUpperCase()); updateScrollingText(headlines);
+         const headlines = generateLiveWinHeadline(); updateScrollingText(headlines);
          }
          
          const winnerCounts = calculateScores(winners);
