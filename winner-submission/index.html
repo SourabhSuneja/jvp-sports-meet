@@ -447,11 +447,11 @@ function getGameType(game) {
          
            const selected3 = participants.find(p => p.participant === winner3) || null;
          
-           const winnerHouse1 = selected1 ? selected1.house : null;
+           const winnerHouse1 = selected1 ? selected1.house : winner1;
          
-           const winnerHouse2 = selected2 ? selected2.house : null;
+           const winnerHouse2 = selected2 ? selected2.house : winner2;
          
-           const winnerHouse3 = selected3 ? selected3.house : null;
+           const winnerHouse3 = selected3 ? selected3.house : winner3;
          
            const winnerClass1 = selected1 ? selected1.class : null;
          
