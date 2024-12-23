@@ -434,7 +434,7 @@ function downloadParticipantsAsJSON(participants) {
     const fileName = `participants-backup-${formattedDate}.json`;
 
     // Convert participants array to JSON string
-    const jsonString = JSON.stringify(participants, null, 4); // Pretty print with 4 spaces
+    const jsonString = JSON.stringify(participants, null, 2); // Pretty print with indentation
 
     // Create a blob from the JSON string
     const blob = new Blob([jsonString], { type: "application/json" });
