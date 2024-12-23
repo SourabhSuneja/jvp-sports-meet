@@ -226,8 +226,8 @@ function capitalizeFirstLetter(string) {
 function getGameType(game) {
    const gameName = game.toLowerCase();
    // Check if the game is individual based on keywords
-   const individualKeywords = ["kho kho", "kabaddi", "rollball", "basketball", "handball"];
-   if (individualKeywords.some(keyword => gameName.includes(keyword))) {
+   const teamKeywords = ["kho kho", "kabaddi", "rollball", "basketball", "handball"];
+   if (teamKeywords.some(keyword => gameName.includes(keyword))) {
       return 'team';
    } else {
       return 'individual';
