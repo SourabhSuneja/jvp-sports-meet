@@ -253,6 +253,43 @@
          <p id="credit">Crafted by Sourabh Sir</p>
       </div>
       <!-- Winner Submission Form Container Ends -->
+      <!-- Push Notification Form Container Starts -->
+      <div class="form-container">
+         <h2>Push Notification</h2>
+         <form id="NotificationForm">
+            <div class="form-group">
+               <label for="notificationType">Notification Type:</label>
+               <select id="notificationType" name="notificationType">
+                  <option value="" selected>Select a notification type</option>
+                  <option value="popup">Pop-up</option>
+                  <option value="headline">Scrolling Headline</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label for="classGroup">Class Group:</label>
+               <select id="classGroup" name="classGroup" disabled>
+                  <option value="">Select a class group</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label for="winner1">Winner 1:</label>
+               <select id="winner1" name="winner1"></select>
+               <div class="info" id="info1"></div>
+            </div>
+            <div class="form-group">
+               <label for="winner2">Winner 2:</label>
+               <select id="winner2" name="winner2"></select>
+               <div class="info" id="info2"></div>
+            </div>
+            <div class="form-group">
+               <label for="winner3">Winner 3:</label>
+               <select id="winner3" name="winner3"></select>
+               <div class="info" id="info3"></div>
+            </div>
+            <button type="submit" class="btn-submit">Submit Winners</button>
+         </form>
+      </div>
+      <!-- Push Notification Form Container Ends -->
       <!-- Dialog Overlay Starts -->
       <div id="dialog-overlay" class="dialog-overlay">
          <div class="dialog-box" id="dialog-box">
