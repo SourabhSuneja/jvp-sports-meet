@@ -410,3 +410,13 @@ window.onload = async function() {
          event.preventDefault();
          login();
          });
+
+         // Add an event listener to the document for keydown events to allow easy switching between cards
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'ArrowRight') {
+        nextBtn.click();
+    } else if (event.key === 'ArrowLeft') {
+        prevBtn.click();
+    }
+});
+
