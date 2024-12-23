@@ -295,7 +295,11 @@
          
          async function submitWinners(game, classCategory, winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3) {
          showProcessingDialog();
-         
+
+         winner1 = formatTeamName(winner1);
+         winner2 = formatTeamName(winner2);
+         winner3 = formatTeamName(winner3);
+            
          const selected = await selectData(
          'winners',
          fetchSingle = true,
@@ -395,6 +399,22 @@ function getGameType(game) {
    } else {
       return 'team';
    }
+}
+
+         function formatTeamName(input) {
+    // Define a regex pattern to match "<Name> (Team)" format
+    const teamPattern = /^(\w+)\s+\(Team\)$/;
+    
+    // Test if the input string matches the pattern
+    const match = input.match(teamPattern);
+    
+    if (match) {
+        // If there's a match, construct and return the modified string
+        return `Team ${match[1]}`;
+    }
+    
+    // If no match, return the original string
+    return input;
 }
 
          function populateWinners(game, classGroup) {
