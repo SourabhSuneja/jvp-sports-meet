@@ -453,11 +453,11 @@ function getGameType(game) {
          
            const winnerHouse3 = selected3 ? selected3.house : winner3;
          
-           const winnerClass1 = selected1 ? selected1.class : null;
+           const winnerClass1 = selected1 ? selected1.class : 'Team';
          
-           const winnerClass2 = selected2 ? selected2.class : null;
+           const winnerClass2 = selected2 ? selected2.class : 'Team';
          
-           const winnerClass3 = selected3 ? selected3.class : null;
+           const winnerClass3 = selected3 ? selected3.class : 'Team';
          
            submitWinners(game, classGroup, `${winner1} (${winnerClass1})`, `${winner2} (${winnerClass2})`, `${winner3} (${winnerClass3})`, winnerHouse1, winnerHouse2, winnerHouse3);
          });
