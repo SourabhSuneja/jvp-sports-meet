@@ -15,6 +15,7 @@ const nextBtn = document.getElementById('nextBtn');
 const prevBtnTop = document.getElementById('prevBtnTop');
 const nextBtnTop = document.getElementById('nextBtnTop');
 const submitBtn = document.getElementById('submitBtn');
+const backupBtn = document.getElementById('backupBtn');
 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
 // Attach an event listener to each checkbox on the page
@@ -136,6 +137,7 @@ function showStudent() {
 
    studentCard.classList.remove('hidden');
    submitBtn.classList.remove('hidden');
+backupBtn.classList.remove('hidden');
 
    // scroll to the top
    scrollToTop();
@@ -410,6 +412,45 @@ window.onload = async function() {
          event.preventDefault();
          login();
          });
+
+// backup download
+backupBtn.addEventListener('click', () => {
+   downloadParticipantsAsJSON(convertSelectionToArray(selection));
+});
+
+function downloadParticipantsAsJSON(participants) {
+    // Format current date and time
+    const now = new Date();
+    const formattedDate = now.toLocaleString("en-US", {
+        day: "2-digit",
+        month: "short",
+        year: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+    }).replace(/,/g, "").replace(/ /g, "-").replace(/:/g, "-");
+
+    // File name with current date and time
+    const fileName = `participants-backup-${formattedDate}.json`;
+
+    // Convert participants array to JSON string
+    const jsonString = JSON.stringify(participants, null, 4); // Pretty print with 4 spaces
+
+    // Create a blob from the JSON string
+    const blob = new Blob([jsonString], { type: "application/json" });
+
+    // Create a temporary anchor element
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+
+    // Trigger the download
+    document.body.appendChild(link);
+    link.click();
+
+    // Cleanup
+    document.body.removeChild(link);
+}
 
          // Add an event listener to the document for keydown events to allow easy switching between cards
 document.addEventListener('keydown', function(event) {
