@@ -5,6 +5,24 @@ const ribbons = document.getElementById('ribbons');
 const popupCloseBtn = document.getElementById('popupCloseBtn');
 const downloadBtn = document.getElementById('downloadBtn');
 const defaultHeadline = "Get ready for an action-packed celebration! Jamna Vidyapeeth proudly presents the Annual Sports Meet 2024 – The ultimate showdown begins!";
+// Array of congratulatory words and phrases
+const congratulatoryWords = [
+  "Bravo!",
+  "Congratulations!",
+  "Well done!",
+  "Amazing performance!",
+  "Fantastic effort!",
+  "Outstanding!",
+  "Great job!",
+  "Keep it up!",
+  "You're a star!",
+  "Way to go!",
+  "Impressive!",
+  "Excellent work!",
+  "Superb!",
+  "You're unstoppable!",
+  "What a win!"
+];
 
 let winners;
 async function pollEntireData() {
@@ -69,7 +87,7 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
 
    if (updateElement === 'popup' || updateElement === 'both') {
       // show pop-up with a cheers message
-      const heading = "Bravo!";
+      const heading = "🎉 " + getRandomCongratulatoryWord() + " 🎉";
       const popupContent = generateWinnersMessage(w.winner1, w.winner2, w.winner3, w.winnerhouse1, w.winnerhouse2, w.winnerhouse3, w.game);
       showPopup(heading, popupContent, true, 60000);
    }
@@ -77,7 +95,17 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
 
 // Function to generate cheering text for the pop-up
 function generateWinnersMessage(winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3, game) {
-   return `🎉 Cheers to ${winner1} from ${winnerHouse1} for securing 1st place, ${winner2} from ${winnerHouse2} for 2nd, and ${winner3} from ${winnerHouse3} for 3rd in ${game}! <br>🏆 Well done, champions! 🏆`;
+   if(getGameType(game) === 'individual') {
+      return `Cheers to ${winner1} from ${winnerHouse1} house for securing 1st place, ${winner2} from ${winnerHouse2} house for 2nd, and ${winner3} from ${winnerHouse3} house for 3rd in ${game}! <br>🏆 Well done, champions! 🏆`;
+   } else {
+      return `Cheers to ${winnerHouse1} house for securing 1st place, ${winnerHouse2} house for 2nd, and ${winnerHouse3} house for 3rd in ${game}! <br>🏆 Well done, champions! 🏆`;
+   }   
+}
+
+// Function to randomly pick a congratulatory word or phrase
+function getRandomCongratulatoryWord() {
+  const randomIndex = Math.floor(Math.random() * congratulatoryWords.length);
+  return congratulatoryWords[randomIndex];
 }
 
 // Function to download table data as CSV
