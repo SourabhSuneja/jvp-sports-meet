@@ -109,3 +109,10 @@ FOR INSERT
 TO authenticated
 WITH CHECK ( true );
 
+-- Policy for selecting data
+CREATE POLICY "Allow users to select data"
+ON notifications
+FOR SELECT
+TO authenticated, anon
+USING ( true );
+
