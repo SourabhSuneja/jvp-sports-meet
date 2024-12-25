@@ -427,9 +427,17 @@ function generateLiveWinHeadline() {
 }
 
 function handleNotifications(payload) {
-  if (payload.eventType === 'INSERT') {
-    const data = payload.new;
-  }
+    if (payload.eventType === 'INSERT') {
+      const type = payload.new.type;
+      const heading = payload.new.heading;
+      const content = payload.new.content;
+      if (type === 'headline' || type === 'both') {
+        const combined = `<strong>${heading}: </strong>${content}`; updateScrollingText(newText = combined);
+      } 
+      if (type === 'popup' || type === 'both') {
+        showPopup(heading, content, false, 120000);
+      } 
+    }
 }
 
 window.addEventListener('load', function () {
