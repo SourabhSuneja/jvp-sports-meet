@@ -3,6 +3,7 @@ ALTER DATABASE postgres SET timezone TO 'Asia/Kolkata';
 -- Clean up previous tables
 DROP TABLE IF EXISTS winners;
 DROP TABLE IF EXISTS participants;
+DROP TABLE IF EXISTS notifications;
 
 -- Create table "winners"
 CREATE TABLE winners (
@@ -88,4 +89,22 @@ FOR SELECT
 TO authenticated, anon
 USING ( true );
 
+
+-- Create table "notifications"
+CREATE TABLE notifications (
+    notification_id SERIAL PRIMARY KEY,
+    heading TEXT,
+    content TEXT NOT NULL,
+    generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Enable Row Level Security (RLS)
+ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
+
+-- Policy for inserting data
+CREATE POLICY "Allow authenticated users to insert data"
+ON notifications
+FOR INSERT
+TO authenticated
+WITH CHECK ( true );
 
