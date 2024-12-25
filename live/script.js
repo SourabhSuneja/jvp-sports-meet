@@ -426,9 +426,16 @@ function generateLiveWinHeadline() {
    return headlines.join("&nbsp;  |  &nbsp;");
 }
 
+function handleNotifications(payload) {
+  if (payload.eventType === 'INSERT') {
+    const data = payload.new;
+  }
+}
+
 window.addEventListener('load', function () {
    pollEntireData();
    const subscription = subscribeToTable('winners', handleLiveUpdate);
+   const subscription2 = subscribeToTable('notifications', handleNotifications);
 });
 
 
