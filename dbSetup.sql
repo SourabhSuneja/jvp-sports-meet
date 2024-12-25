@@ -93,6 +93,7 @@ USING ( true );
 -- Create table "notifications"
 CREATE TABLE notifications (
     notification_id SERIAL PRIMARY KEY,
+    type VARCHAR(255),
     heading TEXT,
     content TEXT NOT NULL,
     generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
