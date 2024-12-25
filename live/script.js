@@ -427,16 +427,16 @@ function generateLiveWinHeadline() {
 }
 
 function handleNotifications(payload) {
-    if (payload.eventType === 'INSERT') {
-      const type = payload.new.type;
-      const heading = payload.new.heading;
-      const content = payload.new.content;
-      if (type === 'headline' || type === 'both') {
-        const combined = `<strong>${heading}: </strong>${content}`; updateScrollingText(newText = combined);
-      } 
-      if (type === 'popup' || type === 'both') {
-        showPopup(heading, content, false, 120000);
-      } 
+    if (payload.eventType === 'INSERT' && payload.new) {
+        const { type, heading, content } = payload.new;
+
+        if (type === 'headline' || type === 'both') {
+            const combined = `<strong>${heading}: </strong>${content}`;
+            updateScrollingText(combined);
+        }
+        if (type === 'popup' || type === 'both') {
+            showPopup(heading, content, false, 120000);
+        }
     }
 }
 
