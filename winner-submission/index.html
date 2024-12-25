@@ -210,6 +210,53 @@
          width: 100%;
          box-sizing: border-box;
          }
+         #notificationForm input[type="text"] {
+         padding-left: 10px;
+         box-shadow: none;
+         border: 2px solid #ccc;
+         border-radius: 7px;
+         outline: none; 
+         transition: all 0.3s ease;
+         }
+         #notificationForm .input-hint {
+         color: rgb(60,60,60);
+         padding: 8px 2px;
+         font-style: italic;
+         }
+         #notificationForm textarea {
+         padding: 10px 8px;
+         box-shadow: none;
+         border: 2px solid #ccc;
+         border-radius: 7px;
+         outline: none; 
+         transition: all 0.3s ease;
+         width: 100%;
+         font-size: 1rem;
+         font-family: Arial, sans-serif;
+         }
+         #notificationForm input[type="text"]:focus, #notificationForm textarea:focus {
+         border: 2px solid #004e92;
+         }
+         #notificationForm .btn-generate {
+         display: inline-block;
+         padding: 10px 10px;
+         background: #228B22;
+         color: white;
+         border: none;
+         border-radius: 6px;
+         margin: 12px 0;
+         font-size: 0.9rem;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         text-align: center;
+         }
+         #notificationForm .btn-generate:hover, #notificationForm .btn-generate:focus {
+         background: #2E9B2E;
+         }
+         #error-message-notification {
+         color: red;
+         padding: 8px 2px;
+         }
       </style>
    </head>
    <body>
@@ -256,37 +303,30 @@
       <!-- Push Notification Form Container Starts -->
       <div class="form-container">
          <h2>Push Notification</h2>
-         <form id="NotificationForm">
+         <form id="notificationForm">
             <div class="form-group">
                <label for="notificationType">Notification Type:</label>
                <select id="notificationType" name="notificationType">
-                  <option value="" selected>Select a notification type</option>
                   <option value="popup">Pop-up</option>
                   <option value="headline">Scrolling Headline</option>
                </select>
             </div>
             <div class="form-group">
-               <label for="classGroup">Class Group:</label>
-               <select id="classGroup" name="classGroup" disabled>
-                  <option value="">Select a class group</option>
-               </select>
+               <label for="notificationHeading">Notification Heading:</label>
+               <input type="text" id="notificationHeading" placeholder="E.g. Announcement">
             </div>
             <div class="form-group">
-               <label for="winner1">Winner 1:</label>
-               <select id="winner1" name="winner1"></select>
-               <div class="info" id="info1"></div>
+               <label for="notificationKeywords">Notification Keywords:</label> 
+               <input type="text" id="notificationKeywords" placeholder="E.g. Ruby into kabaddi semi-finals">
+               <div class="input-hint">AI will use these keywords to generate a perfect notification for you.</div>
+               <button id="generateHeadline" type="button" class="btn-generate">Generate Headline</button>
             </div>
             <div class="form-group">
-               <label for="winner2">Winner 2:</label>
-               <select id="winner2" name="winner2"></select>
-               <div class="info" id="info2"></div>
+               <label for="notificationHeadline">AI-Generated Headline:</label> 
+               <textarea id="notificationHeadline" rows="5"></textarea>
+               <div id="error-message-notification" class="error-message" style="display: block"></div>
             </div>
-            <div class="form-group">
-               <label for="winner3">Winner 3:</label>
-               <select id="winner3" name="winner3"></select>
-               <div class="info" id="info3"></div>
-            </div>
-            <button type="submit" class="btn-submit">Submit Winners</button>
+            <button type="submit" class="btn-submit">Push to Screen</button>
          </form>
       </div>
       <!-- Push Notification Form Container Ends -->
@@ -332,7 +372,7 @@
          
          async function submitWinners(game, classCategory, winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3) {
          showProcessingDialog();
-
+         
          winner1 = formatTeamName(winner1);
          winner2 = formatTeamName(winner2);
          winner3 = formatTeamName(winner3);
@@ -427,34 +467,34 @@
            classGroupSelect.disabled = false;
          }
          
-// helper function to determine game type (individual or team)
-function getGameType(game) {
-   const gameName = game.toLowerCase();
-   // Check if the game is team game based on keywords
-   const teamKeywords = ["kho kho", "kabaddi", "rollball", "basketball", "handball"];
-   if (teamKeywords.some(keyword => gameName.includes(keyword))) {
-      return 'team';
-   } else {
-      return 'individual';
-   }
-}
-
+         // helper function to determine game type (individual or team)
+         function getGameType(game) {
+         const gameName = game.toLowerCase();
+         // Check if the game is team game based on keywords
+         const teamKeywords = ["kho kho", "kabaddi", "rollball", "basketball", "handball"];
+         if (teamKeywords.some(keyword => gameName.includes(keyword))) {
+         return 'team';
+         } else {
+         return 'individual';
+         }
+         }
+         
          function formatTeamName(input) {
-    // Define a regex pattern to match "<Name> (Team)" format
-    const teamPattern = /^(\w+)\s+\(Team\)$/;
-    
-    // Test if the input string matches the pattern
-    const match = input.match(teamPattern);
-    
-    if (match) {
-        // If there's a match, construct and return the modified string
-        return `Team ${match[1]}`;
-    }
-    
-    // If no match, return the original string
-    return input;
-}
-
+         // Define a regex pattern to match "<Name> (Team)" format
+         const teamPattern = /^(\w+)\s+\(Team\)$/;
+         
+         // Test if the input string matches the pattern
+         const match = input.match(teamPattern);
+         
+         if (match) {
+         // If there's a match, construct and return the modified string
+         return `Team ${match[1]}`;
+         }
+         
+         // If no match, return the original string
+         return input;
+         }
+         
          function populateWinners(game, classGroup) {
            const gameType = getGameType(game);
            const participants = (gameType === 'individual') ? (participantsData.filter(row => row.game === game && row.classGroup === classGroup)) : ['Ruby', 'Emerald', 'Sapphire', 'Topaz'] ;
@@ -578,6 +618,58 @@ function getGameType(game) {
          login();
          });
       </script>
+      <script>
+         // Handle notification sending
+         document.getElementById('notificationForm').addEventListener('submit', async function (e) {
+              e.preventDefault();
+         
+              const heading = document.getElementById('notificationHeading').value.trim() || 'Announcement' ;
+              const content = document.getElementById('notificationHeadline').value.trim();
+              const type = document.getElementById('notificationType').value || 'popup';
+         
+               if(heading === '' || content === '') {
+                  document.getElementById('error-message-notification').innerText = 'Notification heading and content are required.' ;
+                  return;
+               }
+         
+          showProcessingDialog(false);
+         
+               const result = await insertData('notifications', {type, heading, content});
+               hideProcessingDialog();
+               if(result) {
+                   showDialog({
+                     title: 'Success',
+                     message: 'Notification pushed to live screen!',
+                     type: 'alert'
+                  });
+               } else {
+                   showDialog({
+                     title: 'Error',
+                     message: 'Error sending notification to live screen!',
+                     type: 'alert'
+                  });
+               }
+              
+         });
+         
+         // Generate headlines with AI
+         document.getElementById('generateHeadline').addEventListener('click', async function (e) {
+              e.preventDefault();
+              document.getElementById('error-message-notification').innerText = '';
+         
+          
+              const keywords = document.getElementById('notificationKeywords').value.trim();
+              if(keywords === '') {
+                  document.getElementById('error-message-notification').innerText = 'Please provide a few keywords for AI to generate a headline.' ;
+                  return;
+              }
+              showProcessingDialog(false);
+              const response = await generateHeadline(keywords);
+              hideProcessingDialog();
+              document.getElementById('notificationHeadline').value = response.trim();
+         });               
+      </script>
+      <script src="ai-headline.js"></script>
       <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
       <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
    </body>
