@@ -239,8 +239,8 @@
          window.onload = async function() {
              selection = await selectData('participants');
              selection2 = await selectData('participants2');
-             temp = mergeSelections(selection, selection2)
-             createTables(temp);
+             mergeSelections(selection, selection2)
+             createTables(selection);
              removeBlankRowsFromTables();
          }
       </script>
