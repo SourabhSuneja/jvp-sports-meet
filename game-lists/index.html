@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Game Participation Lists</title>
+      <style>
+         body {
+         font-family: Arial, sans-serif;
+         background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+         margin: 0;
+         padding: 20px;
+         }
+         .table-container {
+         margin-bottom: 30px;
+         background-color: white;
+         border-radius: 8px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+         overflow-x: auto;
+         padding: 20px;
+         }
+         h2 {
+         text-align: center;
+         margin-bottom: 20px;
+         font-size: 1.5rem;
+         color: #333;
+         }
+         table {
+         width: 100%;
+         border-collapse: collapse;
+         margin-bottom: 20px;
+         }
+         th, td {
+         padding: 10px;
+         text-align: left;
+         }
+         th {
+         background-color: #f2f2f2;
+         color: #333;
+         }
+         tr:nth-child(even) {
+         background-color: #f9f9f9;
+         }
+         tr:nth-child(odd) {
+         background-color: #fff;
+         }
+         @media (max-width: 600px) {
+         table {
+         font-size: 0.9rem;
+         }
+         }
+      </style>
+   </head>
+   <body>
+      <div id="tables"></div>
+      <script type="module" src="https://sourabhsuneja.github.io/jvp-sports-meet/js/supabase-crud.js"></script>
+      <script>
+         let selection;
+         // Converts the selection object into an array of participation data.
+         function convertSelectionToArray(selection) {
+         const outputArray = [];
+         
+         for (const classsection in selection) {
+         const students = selection[classsection];
+         
+         for (const participant in students) {
+          const {
+             house,
+             games
+          } = students[participant];
+         
+          if (games.length > 0) {
+             games.forEach(game => {
+                outputArray.push({
+                   game,
+                   participant,
+                   classsection,
+                   classcategory: getClassCategory(classsection, game),
+                   house
+                });
+             });
+          }
+         }
+         }
+         return outputArray;
+         }
+         
+         // helper function to determine the class category
+         function getClassCategory(classsection, game) {
+         const classNumber = parseInt(classsection.split('-')[0], 10);
+         const gameName = game.toLowerCase();
+         
+         // if game type is individual, return class number as class category
+         if (getGameType(game) === 'individual') {
+         return classNumber.toString();
+         }
+         
+         // If class category is already appearing in the game name, use that category
+         if (gameName.includes("1 to 2")) {
+         return "1 to 2";
+         } else if (gameName.includes("3 to 5")) {
+         return "3 to 5";
+         } else if (gameName.includes("6 to 8")) {
+         return "6 to 8";
+         } else if (gameName.includes("9 to 12")) {
+         return "9 to 12";
+         }
+         
+         // Determine team game category based on class number, if class category wasn't found in the game name
+         if (classNumber >= 1 && classNumber <= 2) {
+         return "1 to 2";
+         } else if (classNumber >= 3 && classNumber <= 5) {
+         return "3 to 5";
+         } else if (classNumber >= 6 && classNumber <= 12) {
+         return "6 to 12";
+         }
+         
+         // Default category (if class number is out of bounds)
+         return "NA";
+         }
+         
+         function createTables(data) {
+             const tableContainer = document.getElementById('tables');
+         
+             // Group data by game and class category
+             const groupedData = data.reduce((acc, curr) => {
+                 const key = `${curr.game} Class Category: ${curr.classcategory}`;
+                 if (!acc[key]) {
+                     acc[key] = [];
+                 }
+                 acc[key].push(curr);
+                 return acc;
+             }, {});
+         
+             // Create a table for each group
+             Object.keys(groupedData).forEach(group => {
+                 const tableDiv = document.createElement('div');
+                 tableDiv.className = 'table-container';
+         
+                 const title = document.createElement('h2');
+                 title.textContent = group;
+                 tableDiv.appendChild(title);
+         
+                 const table = document.createElement('table');
+                 const thead = document.createElement('thead');
+                 const tbody = document.createElement('tbody');
+         
+                 // Table headers
+                 const headers = ['S. No', 'Participant (Ruby)', 'Participant (Emerald)', 'Participant (Sapphire)', 'Participant (Topaz)'];
+                 const headerRow = document.createElement('tr');
+                 headers.forEach(header => {
+                     const th = document.createElement('th');
+                     th.textContent = header;
+                     headerRow.appendChild(th);
+                 });
+                 thead.appendChild(headerRow);
+         
+                 // Organize participants by house
+                 const participantsByHouse = {
+                     Ruby: [],
+                     Emerald: [],
+                     Sapphire: [],
+                     Topaz: []
+                 };
+         
+                 groupedData[group].forEach(item => {
+                     participantsByHouse[item.house].push(`${item.participant} (${item.classsection})`);
+                 });
+         
+                 // Ensure no gaps by finding the maximum number of participants across all houses
+                 const allParticipants = Object.values(participantsByHouse).flat();
+                 const maxRows = allParticipants.length;
+         
+                 for (let i = 0; i < maxRows; i++) {
+                     const row = document.createElement('tr');
+                     const cells = [
+                         i + 1,
+                         participantsByHouse.Ruby[i] || '',
+                         participantsByHouse.Emerald[i] || '',
+                         participantsByHouse.Sapphire[i] || '',
+                         participantsByHouse.Topaz[i] || ''
+                     ];
+                     cells.forEach(cell => {
+                         const td = document.createElement('td');
+                         td.textContent = cell;
+                         row.appendChild(td);
+                     });
+                     tbody.appendChild(row);
+                 }
+         
+                 table.appendChild(thead);
+                 table.appendChild(tbody);
+                 tableDiv.appendChild(table);
+                 tableContainer.appendChild(tableDiv);
+             });
+         }
+         
+         function removeBlankRowsFromTables() {
+         // Get all tables on the webpage
+         const tables = document.querySelectorAll("table");
+         
+         tables.forEach((table) => {
+         const rows = table.rows; // Get all rows in the table
+         
+         // Iterate through the rows in reverse to avoid issues while deleting
+         for (let i = rows.length - 1; i >= 0; i--) {
+             const cells = rows[i].cells; // Get all cells in the current row
+             let isBlankRow = true;
+         
+             // Check if all cells except the first one are empty
+             for (let j = 1; j < cells.length; j++) { // Start from the second cell
+                 if (cells[j].textContent.trim() !== "") {
+                     isBlankRow = false;
+                     break;
+                 }
+             }
+         
+             // If the row is blank (ignoring the first cell), remove it
+             if (isBlankRow) {
+                 table.deleteRow(i);
+             }
+         }
+         });
+         }
+         
+         window.onload = async function() {
+             selection = await selectData('participants'); 
+             createTables(selection);
+             removeBlankRowsFromTables();
+         }
+      </script>
+   </body>
+</html>
