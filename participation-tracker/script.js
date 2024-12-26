@@ -2,6 +2,7 @@ const baseURL = "https://sourabhsuneja.github.io/quiz/students/";
 const studentNames = {};
 
 let selection = {};
+let selection2 = {};
 let temp = {};
 let currentClass = '';
 let currentIndex = 0;
@@ -372,8 +373,32 @@ window.onload = async function() {
                document.getElementById('sign-in-screen').style.display = 'none';
            }
   
-  const participationArray = await selectData('participants');
+  const participationArray1 = await selectData('participants');
+  const participationArray2 = await selectData('participants_backup');
   selection = convertArrayToSelection(participationArray);
+  selection2 = convertArrayToSelection(participationArray2);
+  mergeSelections(selection, selection2);
+}
+
+function mergeSelections(selection, selection2) {
+    for (const [key, value] of Object.entries(selection2)) {
+        if (selection.hasOwnProperty(key)) {
+            // Merge data if key exists in both
+            if (Array.isArray(selection[key]) && Array.isArray(value)) {
+                // Merge arrays
+                selection[key] = [...selection[key], ...value];
+            } else if (typeof selection[key] === 'object' && typeof value === 'object') {
+                // Merge objects recursively
+                mergeSelections(selection[key], value);
+            } else {
+                // If not an object or array, overwrite
+                selection[key] = value;
+            }
+        } else {
+            // Create new key if it doesn't exist
+            selection[key] = value;
+        }
+    }
 }
 
 // function to login user
