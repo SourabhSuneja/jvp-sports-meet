@@ -113,6 +113,18 @@
 
    return selection;
 }
+
+// helper function to determine game type (individual or team)
+function getGameType(game) {
+   const gameName = game.toLowerCase();
+   // Check if the game is individual based on keywords
+   const teamKeywords = ["kho kho", "kabaddi", "rollball", "basketball", "handball"];
+   if (teamKeywords.some(keyword => gameName.includes(keyword))) {
+      return 'team';
+   } else {
+      return 'individual';
+   }
+}
          
          // helper function to determine the class category
          function getClassCategory(classsection, game) {
