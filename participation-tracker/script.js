@@ -2,6 +2,7 @@ const baseURL = "https://sourabhsuneja.github.io/quiz/students/";
 const studentNames = {};
 
 let selection = {};
+let temp = {};
 let currentClass = '';
 let currentIndex = 0;
 
@@ -337,7 +338,9 @@ async function handleSubmission(selection) {
       return;
    }
    // send data to Supabase
-   sendToDatabase(convertSelectionToArray(selection));
+   temp[currentClass] = selection[currentClass];
+   console.log(temp);
+   sendToDatabase(convertSelectionToArray(temp));
 }
 
 async function sendToDatabase(data) {
