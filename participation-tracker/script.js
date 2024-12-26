@@ -44,6 +44,7 @@ async function deleteParticipant(participant, game, classsection, classcategory,
     if(confirm) {
         showProcessingDialog(false);
         const success = await deleteRow('participants', ['participant', 'game', 'classsection', 'classcategory'], [participant, game, classsection, classcategory]);
+        const success2 = await deleteRow('participants2', ['participant', 'game', 'classsection', 'classcategory'], [participant, game, classsection, classcategory]);
         if(success) {
             await showDialog({
          title: 'Success',
