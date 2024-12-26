@@ -345,7 +345,7 @@ async function handleSubmission(selection) {
 
 async function sendToDatabase(data) {
         showProcessingDialog();
-        const inserted = await upsertData('participants', data, ["game", "classcategory", "participant", "classsection"]);
+        const inserted = await upsertData('participants_backup', data, ["game", "classcategory", "participant", "classsection"]);
         hideProcessingDialog();
         if (inserted) {
          showDialog({
