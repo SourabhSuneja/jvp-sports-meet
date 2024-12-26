@@ -55,7 +55,9 @@
       <div id="tables"></div>
       <script type="module" src="https://sourabhsuneja.github.io/jvp-sports-meet/js/supabase-crud.js"></script>
       <script>
-         let selection;
+         let selection = {};
+         let selection2 = {};
+         let temp = {};
          // Converts the selection object into an array of participation data.
          function convertSelectionToArray(selection) {
          const outputArray = [];
@@ -222,10 +224,23 @@
          }
          });
          }
-         
+
+         function mergeSelections(selection, selection2) {
+    for (const [key, value] of Object.entries(selection2)) {
+        if (selection.hasOwnProperty(key)) {
+            // Replace the value in selection with the value from selection2
+            selection[key] = value;
+        } else {
+            // Add new key-value pair from selection2 to selection
+            selection[key] = value;
+        }
+    }
+}
          window.onload = async function() {
-             selection = await selectData('participants'); 
-             createTables(selection);
+             selection = await selectData('participants');
+             selection2 = await selectData('participants2');
+             temp = mergeSelections(selection, selection2)
+             createTables(temp);
              removeBlankRowsFromTables();
          }
       </script>
