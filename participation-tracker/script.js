@@ -346,7 +346,7 @@ async function handleSubmission(selection) {
 
 async function sendToDatabase(data) {
         showProcessingDialog();
-        const inserted = await upsertData('participants_backup', data, ["game", "classcategory", "participant", "classsection"]);
+        const inserted = await upsertData('participants2', data, ["game", "classcategory", "participant", "classsection"]);
         hideProcessingDialog();
         if (inserted) {
          showDialog({
@@ -374,7 +374,7 @@ window.onload = async function() {
            }
   
   const participationArray = await selectData('participants');
-  const participationArray2 = await selectData('participants_backup');
+  const participationArray2 = await selectData('participants2');
   selection = convertArrayToSelection(participationArray);
   selection2 = convertArrayToSelection(participationArray2);
   mergeSelections(selection, selection2);
