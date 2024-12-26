@@ -373,7 +373,7 @@ window.onload = async function() {
                document.getElementById('sign-in-screen').style.display = 'none';
            }
   
-  const participationArray1 = await selectData('participants');
+  const participationArray = await selectData('participants');
   const participationArray2 = await selectData('participants_backup');
   selection = convertArrayToSelection(participationArray);
   selection2 = convertArrayToSelection(participationArray2);
