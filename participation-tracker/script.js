@@ -383,23 +383,15 @@ window.onload = async function() {
 function mergeSelections(selection, selection2) {
     for (const [key, value] of Object.entries(selection2)) {
         if (selection.hasOwnProperty(key)) {
-            // Merge data if key exists in both
-            if (Array.isArray(selection[key]) && Array.isArray(value)) {
-                // Merge arrays
-                selection[key] = [...selection[key], ...value];
-            } else if (typeof selection[key] === 'object' && typeof value === 'object') {
-                // Merge objects recursively
-                mergeSelections(selection[key], value);
-            } else {
-                // If not an object or array, overwrite
-                selection[key] = value;
-            }
+            // Replace the value in selection with the value from selection2
+            selection[key] = value;
         } else {
-            // Create new key if it doesn't exist
+            // Add new key-value pair from selection2 to selection
             selection[key] = value;
         }
     }
 }
+
 
 // function to login user
          async function login() {
