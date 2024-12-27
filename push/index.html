@@ -647,6 +647,14 @@
          }
          }
          }
+
+         function showError(message) {
+               showDialog({
+                title: 'Error',
+                message,
+                type: 'alert'
+               });
+         }
          
          // helper function to determine game type (individual or team)
          function getGameType(game) {
@@ -681,11 +689,44 @@
          
            const game = document.getElementById('game').value;
            const classcategory = document.getElementById('classGroup').value;
-           const winner1 = document.getElementById('winner1').value.trim();
-           const winner2 = document.getElementById('winner2').value.trim();
-           const winner3 = document.getElementById('winner3').value.trim();
+           let winner1 = document.getElementById('winner1').value.trim();
+           let winner2 = document.getElementById('winner2').value.trim();
+           let winner3 = document.getElementById('winner3').value.trim();
+           const winnerclass1 = document.getElementById('winnerclass1').value;
+           const winnerclass2 = document.getElementById('winnerclass2').value;
+           const winnerclass3 = document.getElementById('winnerclass3').value;
+           const winnerhouse1 = document.getElementById('winnerhouse1').value;
+           const winnerhouse2 = document.getElementById('winnerhouse2').value;
+           const winnerhouse3 = document.getElementById('winnerhouse3').value;
+
+           const gameType = getGameType(game);
+
+           if(game === '' || classcategory === '') {
+                showError('Please select a game and class category for the game.');
+                return;
+           }
+
+           if(gameType === 'individual') {
+                 if(winner1 === '' || winner2 === '' || winner3 === '') {
+                    showError('Please input the names of the winners.');
+                    return;
+                 }
+                 if(winnerclass1 === '' || winnerclass2 === '' || winnerclass3 === '') {
+                    showError('Please select the classes of the winners.');
+                    return;
+                 }
+           } else {
+                 winner1 = winnerhouse1 + (Team);
+                 winner2 = winnerhouse2 + (Team);
+                 winner3 = winnerhouse3 + (Team);
+           }
+
+           if(winnerhouse1 === '' || winnerhouse2 === '' || winnerhouse3 === '') {
+                showError('Please select the winner houses.');
+                return;
+           }
          
-           submitWinners(game, classcategory, `${winner1} (${winnerClass1})`, `${winner2} (${winnerClass2})`, `${winner3} (${winnerClass3})`, winnerHouse1, winnerHouse2, winnerHouse3);
+           submitWinners(game, classcategory, `${winner1} (${winnerclass1})`, `${winner2} (${winnerclass2})`, `${winner3} (${winnerclass3})`, winnerhouse1, winnerhouse2, winnerhouse3);
          });
          
          window.onload = async function() {
