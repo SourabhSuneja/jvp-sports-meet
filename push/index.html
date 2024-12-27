@@ -350,7 +350,7 @@
             </div>
             <div class="form-group">
                <label for="winner1">Winner 1:</label>
-               <input type="text" id="winner1" placeholder="Name of student">
+               <input class="winnerInputs" type="text" id="winner1" placeholder="Name of student">
                <select id="winnerclass1">
                   <option value="" selected>Select student's class</option>
                   <option value="1-A1">1-A1</option>
@@ -403,7 +403,7 @@
             </div>
             <div class="form-group">
                <label for="winner2">Winner 2:</label>
-               <input type="text" id="winner2" placeholder="Name of student">
+               <input class="winnerInputs" type="text" id="winner2" placeholder="Name of student">
                <select id="winnerclass2">
                   <option value="" selected>Select student's class</option>
                   <option value="1-A1">1-A1</option>
@@ -456,7 +456,7 @@
             </div>
             <div class="form-group">
                <label for="winner3">Winner 3:</label>
-               <input type="text" id="winner3" placeholder="Name of student">
+               <input class="winnerInputs" type="text" id="winner3" placeholder="Name of student">
                <select id="winnerclass3">
                   <option value="" selected>Select student's class</option>
                   <option value="1-A1">1-A1</option>
@@ -655,6 +655,28 @@
                 type: 'alert'
                });
          }
+
+         // Get the game select element
+        const gameSelect = document.getElementById('game');
+
+        // Add event listener for the 'change' event
+        gameSelect.addEventListener('change', function () {
+            // Get the selected value
+            const selectedValue = gameSelect.value;
+
+            // Determine the game type
+            const gameType = getGameType(selectedValue);
+
+            // Get elements with class "winnerInputs"
+            const winnerInputs = document.querySelectorAll('.winnerInputs');
+
+            // Show or hide elements based on game type
+            if (gameType === 'individual') {
+                winnerInputs.forEach(element => element.style.display = 'block');
+            } else if (gameType === 'team') {
+                winnerInputs.forEach(element => element.style.display = 'none');
+            }
+        });
          
          // helper function to determine game type (individual or team)
          function getGameType(game) {
