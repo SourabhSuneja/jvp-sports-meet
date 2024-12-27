@@ -680,12 +680,12 @@
            e.preventDefault();
          
            const game = document.getElementById('game').value;
-           const classGroup = document.getElementById('classGroup').value;
-           const winner1 = document.getElementById('winner1').value;
-           const winner2 = document.getElementById('winner2').value;
-           const winner3 = document.getElementById('winner3').value;
+           const classcategory = document.getElementById('classGroup').value;
+           const winner1 = document.getElementById('winner1').value.trim();
+           const winner2 = document.getElementById('winner2').value.trim();
+           const winner3 = document.getElementById('winner3').value.trim();
          
-           submitWinners(game, classGroup, `${winner1} (${winnerClass1})`, `${winner2} (${winnerClass2})`, `${winner3} (${winnerClass3})`, winnerHouse1, winnerHouse2, winnerHouse3);
+           submitWinners(game, classcategory, `${winner1} (${winnerClass1})`, `${winner2} (${winnerClass2})`, `${winner3} (${winnerClass3})`, winnerHouse1, winnerHouse2, winnerHouse3);
          });
          
          window.onload = async function() {
