@@ -353,7 +353,7 @@
                <label for="winner1">Winner 1:</label>
                <input class="winnerInputs" type="text" id="winner1" placeholder="Name of student">
                <select class="winnerInputs" id="winnerclass1">
-                  <option value="" selected>Select student's class</option>
+                  <option value="" selected>Select class</option>
                   <option value="1-A1">1-A1</option>
                   <option value="1-A2">1-A2</option>
                   <option value="1-A3">1-A3</option>
@@ -406,7 +406,7 @@
                <label for="winner2">Winner 2:</label>
                <input class="winnerInputs" type="text" id="winner2" placeholder="Name of student">
                <select class="winnerInputs" id="winnerclass2">
-                  <option value="" selected>Select student's class</option>
+                  <option value="" selected>Select class</option>
                   <option value="1-A1">1-A1</option>
                   <option value="1-A2">1-A2</option>
                   <option value="1-A3">1-A3</option>
@@ -459,7 +459,7 @@
                <label for="winner3">Winner 3:</label>
                <input class="winnerInputs" type="text" id="winner3" placeholder="Name of student">
                <select class="winnerInputs" id="winnerclass3">
-                  <option value="" selected>Select student's class</option>
+                  <option value="" selected>Select class</option>
                   <option value="1-A1">1-A1</option>
                   <option value="1-A2">1-A2</option>
                   <option value="1-A3">1-A3</option>
@@ -714,9 +714,9 @@
            let winner1 = document.getElementById('winner1').value.trim();
            let winner2 = document.getElementById('winner2').value.trim();
            let winner3 = document.getElementById('winner3').value.trim();
-           const winnerclass1 = document.getElementById('winnerclass1').value;
-           const winnerclass2 = document.getElementById('winnerclass2').value;
-           const winnerclass3 = document.getElementById('winnerclass3').value;
+           let winnerclass1 = document.getElementById('winnerclass1').value;
+           let winnerclass2 = document.getElementById('winnerclass2').value;
+           let winnerclass3 = document.getElementById('winnerclass3').value;
            const winnerhouse1 = document.getElementById('winnerhouse1').value;
            const winnerhouse2 = document.getElementById('winnerhouse2').value;
            const winnerhouse3 = document.getElementById('winnerhouse3').value;
@@ -738,9 +738,12 @@
                     return;
                  }
            } else {
-                 winner1 = winnerhouse1 + ' (Team)';
-                 winner2 = winnerhouse2 + ' (Team)';
-                 winner3 = winnerhouse3 + ' (Team)';
+                 winnerclass1 = 'Team';
+                 winnerclass2 = 'Team';
+                 winnerclass3 = 'Team';
+                 winner1 = winnerhouse1;
+                 winner2 = winnerhouse2;
+                 winner3 = winnerhouse3;
            }
 
            if(winnerhouse1 === '' || winnerhouse2 === '' || winnerhouse3 === '') {
