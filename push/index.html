@@ -581,6 +581,12 @@
       <script type="module" src="https://sourabhsuneja.github.io/jvp-sports-meet/js/supabase-crud.js"></script>
       <script src="https://sourabhsuneja.github.io/jvp-sports-meet/js/dialog.js"></script>
       <script>
+         // Get the required DOM elements
+        const gameSelect = document.getElementById('game');
+        const winnersForm = document.getElementById('winnersForm');
+        const notificationForm = document.getElementById('notificationForm');
+
+
          async function submitWinners(game, classCategory, winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3) {
          showProcessingDialog();
          
@@ -646,6 +652,7 @@
          });
          }
          }
+         winnersForm.reset();
          }
 
          function showError(message) {
@@ -655,9 +662,6 @@
                 type: 'alert'
                });
          }
-
-         // Get the game select element
-        const gameSelect = document.getElementById('game');
 
         // Add event listener for the 'change' event
         gameSelect.addEventListener('change', function () {
@@ -825,6 +829,7 @@
                      message: 'Notification pushed to live screen!',
                      type: 'alert'
                   });
+                  notificationForm.reset();
                } else {
                    showDialog({
                      title: 'Error',
