@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>JVP Annual Sports Meet Winner Submission</title>
+      <!-- font awesome icons link -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+      <link rel="stylesheet" href="https://sourabhsuneja.github.io/jvp-sports-meet/css/dialog.css">
+      <style>
+         * {
+         max-height: 9999999px;
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+         }
+         body {
+         font-family: Arial, sans-serif;
+         background: #000428;
+         color: white;
+         margin: 0;
+         padding: 20px;
+         }
+         h1 {
+         text-align: center;
+         margin-top: 2rem;
+         color: white;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         gap: 1rem;
+         }
+         h1 ion-icon {
+         font-size: 2.8rem;
+         }
+         .form-container {
+         max-width: 600px;
+         margin: 0 auto;
+         margin-top: 48px;
+         background: #ffffff;
+         padding: 20px;
+         padding-top: 30px;
+         border-radius: 10px;
+         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+         color: #333;
+         }
+         .form-container h2 {
+         text-align: center;
+         margin-bottom: 20px;
+         color: #004e92;
+         }
+         .form-group {
+         margin-bottom: 15px;
+         }
+         .form-group label {
+         display: block;
+         font-weight: bold;
+         margin-bottom: 5px;
+         }
+         .form-group select {
+         width: 100%;
+         padding: 10px;
+         border: 1px solid #ddd;
+         border-radius: 5px;
+         }
+         .info {
+         font-size: 14px;
+         margin-top: 5px;
+         color: #004e92;
+         }
+         .btn-submit {
+         display: block;
+         width: 100%;
+         padding: 12px;
+         background: #004e92;
+         color: white;
+         font-size: 16px;
+         border: none;
+         border-radius: 5px;
+         cursor: pointer;
+         transition: background 0.3s;
+         }
+         .btn-submit:hover {
+         background: #003570;
+         }
+         #credit {
+         text-align: center;
+         color: rgb(70,70,70);
+         font-size: 1rem;
+         margin-top: 24px;
+         }
+         /* Sign in screen */
+         #sign-in-screen {
+         position: fixed;
+         top: 0;
+         left: 0;
+         margin: 0;
+         padding: 0;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+         width: 100vw;
+         background-color: #fff;
+         color: rgb(70,70,70);
+         z-index: 9999999; 
+         overflow: scroll;
+         }
+         .sign-in-container {
+         padding: 2rem 1.5rem;
+         border-radius: 12px;
+         width: calc(100% - 16px);
+         max-width: 400px;
+         text-align: center;
+         box-sizing: border-box;
+         background: linear-gradient(145deg, #ffffff, #f0f0f0); 
+         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+         }
+         .sign-in-container h1 {
+         font-size: 1.6rem;
+         font-weight: 700;
+         margin-bottom: 1.2rem;
+         margin-top: 1.1rem;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         flex-direction: column;
+         gap: 1rem;
+         color: rgb(30,30,30);
+         }
+         .sign-in-container h1 ion-icon {
+         color: #004e92;
+         --ionicon-stroke-width: 40px;
+         margin-bottom: 1rem;
+         font-size: 3.6rem;
+         }
+         .sign-in-text {
+         font-size: 1.2rem; 
+         margin-top: 16px;
+         margin-bottom: 18px;
+         font-weight: bold;
+         }
+         .credit-text-in-form {
+         font-size: 1rem; 
+         margin-top: 38px;
+         margin-bottom: 4px;
+         color: rgb(90,90,90);
+         }
+         input[type="text"], input[type="password"] {
+         width: 100%;
+         padding: 12px 15px;
+         padding-left: 42px;
+         border: none;
+         border-radius: 8px;
+         font-size: 1rem;
+         transition: all 0.3s ease;
+         box-sizing: border-box;    
+         background: #ffffff;
+         color: #333;
+         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+         }
+         input[type="text"]:focus, input[type="password"]:focus {
+         outline: none;
+         box-shadow: 0 0 8px #0061b2;
+         }
+         .sign-in-container .form-group ion-icon {
+         position: absolute;
+         top: 50%;
+         left: 15px;
+         transform: translateY(-50%);
+         color: #004e92;
+         --ionicon-stroke-width: 45px;
+         }
+         .sign-in-container button {
+         width: 100%;
+         padding: 12px 20px;
+         border: none;
+         border-radius: 8px;
+         font-size: 1rem;
+         font-weight: 500;
+         cursor: pointer;
+         transition: background-color 0.3s ease, transform 0.2s ease;
+         box-sizing: border-box;
+         background: #004e92;
+         color: #fff;
+         }
+         .sign-in-container button:hover {
+         transform: translateY(-3px);
+         background-color: #0061b2;
+         }
+         .sign-in-container button:active {
+         transform: translateY(0);
+         }
+         .sign-in-container .error-message {
+         font-size: 0.9rem;
+         margin-top: 10px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         color: #d32f2f;
+         }
+         .sign-in-container .sign-in-error-icon {
+         margin-right: 6px;
+         font-size: 1.2rem;
+         }
+         .sign-in-container .form-group {
+         position: relative;
+         margin-bottom: 1.5rem;
+         width: 100%;
+         box-sizing: border-box;
+         }
+         #notificationForm input[type="text"] {
+         padding-left: 10px;
+         box-shadow: none;
+         border: 2px solid #ccc;
+         border-radius: 7px;
+         outline: none; 
+         transition: all 0.3s ease;
+         }
+         #notificationForm .input-hint {
+         color: rgb(60,60,60);
+         padding: 8px 2px;
+         font-style: italic;
+         }
+         #notificationForm textarea {
+         padding: 10px 8px;
+         box-shadow: none;
+         border: 2px solid #ccc;
+         border-radius: 7px;
+         outline: none; 
+         transition: all 0.3s ease;
+         width: 100%;
+         font-size: 1rem;
+         font-family: Arial, sans-serif;
+         }
+         #notificationForm input[type="text"]:focus, #notificationForm textarea:focus {
+         border: 2px solid #004e92;
+         }
+         #notificationForm .btn-generate {
+         display: inline-block;
+         padding: 10px 10px;
+         background: #228B22;
+         color: white;
+         border: none;
+         border-radius: 6px;
+         margin: 12px 0;
+         font-size: 0.9rem;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         text-align: center;
+         }
+         #notificationForm .btn-generate:hover, #notificationForm .btn-generate:focus {
+         background: #2E9B2E;
+         }
+         #error-message-notification {
+         color: red;
+         padding: 8px 2px;
+         }
+      </style>
+   </head>
+   <body>
+      <h1>
+         <ion-icon name="tennisball-outline"></ion-icon>
+         <span>JVP Annual Sports Meet 2024</span>
+      </h1>
+      <!-- Winner Submission Form Container Starts -->
+      <div class="form-container">
+         <h2>Submit Winners</h2>
+         <form id="winnersForm">
+            <div class="form-group">
+               <label for="game">Game:</label>
+               <select id="game" name="game">
+                  <option value="">Select a game</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label for="classGroup">Class Group:</label>
+               <select id="classGroup" name="classGroup" disabled>
+                  <option value="">Select a class group</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label for="winner1">Winner 1:</label>
+               <select id="winner1" name="winner1"></select>
+               <div class="info" id="info1"></div>
+            </div>
+            <div class="form-group">
+               <label for="winner2">Winner 2:</label>
+               <select id="winner2" name="winner2"></select>
+               <div class="info" id="info2"></div>
+            </div>
+            <div class="form-group">
+               <label for="winner3">Winner 3:</label>
+               <select id="winner3" name="winner3"></select>
+               <div class="info" id="info3"></div>
+            </div>
+            <button type="submit" class="btn-submit">Submit Winners</button>
+         </form>
+         <p id="credit">Crafted by Sourabh Sir</p>
+      </div>
+      <!-- Winner Submission Form Container Ends -->
+      <!-- Push Notification Form Container Starts -->
+      <div class="form-container">
+         <h2>Push Notification</h2>
+         <form id="notificationForm">
+            <div class="form-group">
+               <label for="notificationType">Notification Type:</label>
+               <select id="notificationType" name="notificationType">
+                  <option value="popup" selected>Pop-up</option>
+                  <option value="headline">Scrolling Headline</option>
+                  <option value="both">Both</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label for="notificationHeading">Notification Heading:</label>
+               <input type="text" id="notificationHeading" placeholder="E.g. Announcement">
+            </div>
+            <div class="form-group">
+               <label for="notificationKeywords">Notification Keywords:</label> 
+               <input type="text" id="notificationKeywords" placeholder="E.g. Ruby into kabaddi semi-finals">
+               <div class="input-hint">AI will use these keywords to generate a perfect notification for you.</div>
+               <button id="generateHeadline" type="button" class="btn-generate">Generate Headline</button>
+            </div>
+            <div class="form-group">
+               <label for="notificationHeadline">AI-Generated Headline:</label> 
+               <textarea id="notificationHeadline" rows="5"></textarea>
+               <div id="error-message-notification" class="error-message" style="display: block"></div>
+            </div>
+            <button type="submit" class="btn-submit">Push to Screen</button>
+         </form>
+      </div>
+      <!-- Push Notification Form Container Ends -->
+      <!-- Dialog Overlay Starts -->
+      <div id="dialog-overlay" class="dialog-overlay">
+         <div class="dialog-box" id="dialog-box">
+            <div class="dialog-header" id="dialog-header">Title</div>
+            <div class="dialog-message" id="dialog-message">Message goes here</div>
+            <div class="dialog-buttons" id="dialog-buttons">
+               <!-- Buttons will be added dynamically -->
+            </div>
+         </div>
+      </div>
+      <!-- Dialog Overlay Ends -->
+      <!-- Sign in Screen Starts -->
+      <div id="sign-in-screen" class="custom-scroll">
+         <div class="sign-in-container">
+            <h1>
+               <ion-icon name="tennisball-outline"></ion-icon>
+               <span>JVP Annual Sports Meet</span>
+            </h1>
+            <div class="sign-in-text">Sign in to continue</div>
+            <form id="signInForm">
+               <div class="form-group">
+                  <input type="text" id="username" placeholder="Enter your username" >
+                  <ion-icon name="person-outline"></ion-icon>
+               </div>
+               <div class="form-group">
+                  <input type="password" id="password" placeholder="Enter your password" >
+                  <ion-icon name="lock-closed-outline"></ion-icon>
+               </div>
+               <button id="sign-in-btn" type="submit">Sign In</button>
+               <div id="error-message" class="error-message"></div>
+            </form>
+            <div class="credit-text-in-form">Crafted by Sourabh Sir</div>
+         </div>
+      </div>
+      <!-- Sign in Screen Ends -->
+      <script type="module" src="https://sourabhsuneja.github.io/jvp-sports-meet/js/supabase-crud.js"></script>
+      <script src="https://sourabhsuneja.github.io/jvp-sports-meet/js/dialog.js"></script>
+      <script>
+         let participantsData = [];
+         
+         async function submitWinners(game, classCategory, winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3) {
+         showProcessingDialog();
+         
+         winner1 = formatTeamName(winner1);
+         winner2 = formatTeamName(winner2);
+         winner3 = formatTeamName(winner3);
+            
+         const selected = await selectData(
+         'winners',
+         fetchSingle = true,
+         columns = "*",
+         matchColumns = ['game', 'classcategory'],
+         matchValues = [game, classCategory]
+         );
+         
+         if (selected) {
+         const updated = await updateRow(
+         'winners',
+         matchColumns = ['game', 'classcategory'],
+         matchValues = [game, classCategory],
+         updateColumns = ['winner1', 'winner2', 'winner3', 'winnerhouse1', 'winnerhouse2', 'winnerhouse3'],
+         updateValues = [winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3]
+         );
+         hideProcessingDialog();
+         if (updated) {
+         showDialog({
+            title: 'Success',
+            message: 'Winners updated successfully!',
+            type: 'alert'
+         });
+         } else {
+         showDialog({
+            title: 'Error',
+            message: 'Error updating data!',
+            type: 'alert'
+         });
+         }
+         
+         } else {
+         const data = {
+         game,
+         "classcategory": classCategory,
+         winner1,
+         winner2,
+         winner3,
+         "winnerhouse1": winnerHouse1,
+         "winnerhouse2": winnerHouse2,
+         "winnerhouse3": winnerHouse3
+         }
+         const inserted = await insertData('winners', data);
+         hideProcessingDialog();
+         if (inserted) {
+         showDialog({
+            title: 'Success',
+            message: 'Winners inserted successfully!',
+            type: 'alert'
+         });
+         } else {
+         showDialog({
+            title: 'Error',
+            message: 'Error inserting data!',
+            type: 'alert'
+         });
+         }
+         }
+         }
+         
+         async function fetchParticipantsData() {
+           const result = await selectData('participants');
+           participantsData = transformParticipationData(result);
+           populateGameOptions();
+         }
+         
+         function populateGameOptions() {
+           const games = [...new Set(participantsData.map(row => row.game))];
+           const gameSelect = document.getElementById('game');
+           games.forEach(game => {
+             const option = document.createElement('option');
+             option.value = game;
+             option.textContent = game;
+             gameSelect.appendChild(option);
+           });
+         }
+         
+         function populateClassGroups(game) {
+           const classGroups = [...new Set(participantsData.filter(row => row.game === game).map(row => row.classGroup))];
+           const classGroupSelect = document.getElementById('classGroup');
+           classGroupSelect.innerHTML = '<option value="">Select a class group</option>';
+           classGroups.forEach(group => {
+             const option = document.createElement('option');
+             option.value = group;
+             option.textContent = group;
+             classGroupSelect.appendChild(option);
+           });
+           classGroupSelect.disabled = false;
+         }
+         
+         // helper function to determine game type (individual or team)
+         function getGameType(game) {
+         const gameName = game.toLowerCase();
+         // Check if the game is team game based on keywords
+         const teamKeywords = ["kho kho", "kabaddi", "rollball", "basketball", "handball"];
+         if (teamKeywords.some(keyword => gameName.includes(keyword))) {
+         return 'team';
+         } else {
+         return 'individual';
+         }
+         }
+         
+         function formatTeamName(input) {
+         // Define a regex pattern to match "<Name> (Team)" format
+         const teamPattern = /^(\w+)\s+\(Team\)$/;
+         
+         // Test if the input string matches the pattern
+         const match = input.match(teamPattern);
+         
+         if (match) {
+         // If there's a match, construct and return the modified string
+         return `Team ${match[1]}`;
+         }
+         
+         // If no match, return the original string
+         return input;
+         }
+         
+         function populateWinners(game, classGroup) {
+           const gameType = getGameType(game);
+           const participants = (gameType === 'individual') ? (participantsData.filter(row => row.game === game && row.classGroup === classGroup)) : ['Ruby', 'Emerald', 'Sapphire', 'Topaz'] ;
+           ['winner1', 'winner2', 'winner3'].forEach((id, index) => {
+             const select = document.getElementById(id);
+             select.innerHTML = '<option value="">Select a participant</option>';
+             participants.forEach(participant => {
+               const option = document.createElement('option');
+               option.value = (gameType === 'individual') ? participant.participant : participant;
+               option.textContent = (gameType === 'individual') ? participant.participant : participant;
+               select.appendChild(option);
+             });
+         
+             // Update class and house info on selection
+             select.addEventListener('change', () => {
+               const selected = (gameType === 'individual') ? ( participants.find(p => p.participant === select.value) ) : {'house': select.value, 'class': 'Not Applicable'} ;
+               document.getElementById(`info${index + 1}`).textContent =
+                 selected ? `House: ${selected.house}, Class: ${selected.class}` : '';
+             });
+           });
+         }
+         
+         document.getElementById('game').addEventListener('change', function () {
+           const game = this.value;
+           populateClassGroups(game);
+         });
+         
+         document.getElementById('classGroup').addEventListener('change', function () {
+           const game = document.getElementById('game').value;
+           const classGroup = this.value;
+           populateWinners(game, classGroup);
+         });
+         
+         document.getElementById('winnersForm').addEventListener('submit', function (e) {
+           e.preventDefault();
+         
+           const game = document.getElementById('game').value;
+           const classGroup = document.getElementById('classGroup').value;
+           const winner1 = document.getElementById('winner1').value;
+           const winner2 = document.getElementById('winner2').value;
+           const winner3 = document.getElementById('winner3').value;
+         
+           const participants = participantsData.filter(row => row.game === game && row.classGroup === classGroup);
+         
+           const selected1 = participants.find(p => p.participant === winner1) || null;
+         
+           const selected2 = participants.find(p => p.participant === winner2) || null;
+         
+           const selected3 = participants.find(p => p.participant === winner3) || null;
+         
+           const winnerHouse1 = selected1 ? selected1.house : winner1;
+         
+           const winnerHouse2 = selected2 ? selected2.house : winner2;
+         
+           const winnerHouse3 = selected3 ? selected3.house : winner3;
+         
+           const winnerClass1 = selected1 ? selected1.class : 'Team';
+         
+           const winnerClass2 = selected2 ? selected2.class : 'Team';
+         
+           const winnerClass3 = selected3 ? selected3.class : 'Team';
+         
+           submitWinners(game, classGroup, `${winner1} (${winnerClass1})`, `${winner2} (${winnerClass2})`, `${winner3} (${winnerClass3})`, winnerHouse1, winnerHouse2, winnerHouse3);
+         });
+         
+         function transformParticipationData(input) {
+         return input.map(entry => ({
+         game: entry.game.trim(), // Remove any spaces
+         classGroup: entry.classcategory.replace('classcategory', 'classGroup'), // Replace 'classcategory' with 'classGroup'
+         participant: entry.participant, // Retain same participant value
+         class: entry.classsection, // Use 'classsection' as 'class'
+         house: entry.house // Retain 'house' value
+         }));
+         }
+         
+         window.onload = async function() {
+           const authSuccess = await window.checkAuth();
+           if(authSuccess) {
+               document.getElementById('sign-in-screen').style.display = 'none';
+           }
+           fetchParticipantsData();
+         }
+         
+         // function to login user
+         async function login() {
+         const signInScreen = document.getElementById('sign-in-screen');
+         const errorField = document.getElementById('error-message');
+         const btn = document.getElementById('sign-in-btn');
+         const username = document.getElementById('username').value.trim();
+         const password = document.getElementById('password').value;
+         
+         const errorIcon = '<ion-icon name="alert-circle-outline" class="sign-in-error-icon"></ion-icon>';
+         
+         const email = (username + '@jvp.com').toLowerCase();
+         
+         btn.innerHTML = '<i class="fas white fa-spinner fa-spin"></i> Wait...';
+         btn.disabled = true;
+         errorField.innerHTML = '';
+         
+         if(username === '' || password === '') {
+         errorField.innerHTML = errorIcon + '<span>Username and password are required.</span>';
+         btn.disabled = false;
+         btn.innerHTML = 'Sign In';
+         return ;       
+         }
+         
+         try {
+         const data = await window.signInUser(email, password);
+         window.userId = data.user.id;
+         signInScreen.style.display = 'none';
+         } catch (error) {
+         errorField.innerHTML = errorIcon + '<span>' + error.message + '</span>';
+         btn.disabled = false;
+         btn.innerHTML = 'Sign In';
+         }
+         }
+         
+         // add event listener to sign in button
+         document.getElementById('sign-in-btn').addEventListener('click', function(event) {
+         event.preventDefault();
+         login();
+         });
+      </script>
+      <script>
+         // Handle notification sending
+         document.getElementById('notificationForm').addEventListener('submit', async function (e) {
+              e.preventDefault();
+         
+              const heading = document.getElementById('notificationHeading').value.trim() || 'Announcement' ;
+              const content = document.getElementById('notificationHeadline').value.trim();
+              const type = document.getElementById('notificationType').value || 'popup';
+         
+               if(heading === '' || content === '') {
+                  document.getElementById('error-message-notification').innerText = 'Notification heading and content are required.' ;
+                  return;
+               }
+         
+          showProcessingDialog(false);
+         
+               const result = await insertData('notifications', {type, heading, content});
+               hideProcessingDialog();
+               if(result) {
+                   showDialog({
+                     title: 'Success',
+                     message: 'Notification pushed to live screen!',
+                     type: 'alert'
+                  });
+               } else {
+                   showDialog({
+                     title: 'Error',
+                     message: 'Error sending notification to live screen!',
+                     type: 'alert'
+                  });
+               }
+              
+         });
+         
+         // Generate headlines with AI
+         document.getElementById('generateHeadline').addEventListener('click', async function (e) {
+              e.preventDefault();
+              document.getElementById('error-message-notification').innerText = '';
+         
+          
+              const keywords = document.getElementById('notificationKeywords').value.trim();
+              if(keywords === '') {
+                  document.getElementById('error-message-notification').innerText = 'Please provide a few keywords for AI to generate a headline.' ;
+                  return;
+              }
+              showProcessingDialog(false);
+              const response = await generateHeadline(keywords);
+              hideProcessingDialog();
+              document.getElementById('notificationHeadline').value = response.trim();
+         });               
+      </script>
+      <script src="ai-headline.js"></script>
+      <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+   </body>
+</html>
