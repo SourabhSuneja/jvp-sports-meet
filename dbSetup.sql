@@ -13,9 +13,9 @@ CREATE TABLE winners (
     winner1 VARCHAR(255),
     winner2 VARCHAR(255),
     winner3 VARCHAR(255),
-    winnerhouse1 VARCHAR(255) NOT NULL,
-    winnerhouse2 VARCHAR(255) NOT NULL,
-    winnerhouse3 VARCHAR(255) NOT NULL,
+    winnerhouse1 VARCHAR(255),
+    winnerhouse2 VARCHAR(255),
+    winnerhouse3 VARCHAR(255),
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT unique_game_class_category UNIQUE (game, classcategory)
 );
