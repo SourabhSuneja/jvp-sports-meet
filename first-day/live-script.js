@@ -92,11 +92,7 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
 
 // Function to generate cheering text for the pop-up
 function generateWinnersMessage(winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3, game) {
-   if(getGameType(game) === 'individual') {
-      return `Cheers to ${winner1} from ${winnerHouse1} House for securing 1st place, ${winner2} from ${winnerHouse2} House for 2nd, and ${winner3} from ${winnerHouse3} House for 3rd in ${game}! <br>🏆 Well done, champions! 🏆`;
-   } else {
-      return `Cheers to ${winnerHouse1} House for securing 1st place, ${winnerHouse2} House for 2nd, and ${winnerHouse3} House for 3rd in ${game}! <br>🏆 Well done, champions! 🏆`;
-   }   
+   return `Cheers to ${winner1} for securing 1st place, ${winner2} for 2nd, and ${winner3} for 3rd in ${game}! <br>🏆 Well done, champions! 🏆`;
 }
 
 // Function to randomly pick a congratulatory word or phrase
