@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>JVP Sports Meet | Live Score</title>
+      <link rel="stylesheet" href="https://sourabhsuneja.github.io/jvp-sports-meet/css/dialog.css">
+      <link rel="stylesheet" href="./style.css">
+   </head>
+   <body>
+      <div class="dashboard-container">
+         <h1>
+            <ion-icon name="tennisball-outline"></ion-icon>
+            <span>JVP Annual Sports Meet 2024</span>
+         </h1>
+         <h2>Live Scorecard</h2>
+         <div id="credit">Powered by Sourabh Sir</div>
+         <!-- House Tiles -->
+         <h3>Across All Class Groups</h3>
+         <div class="tiles">
+            <div class="tile ruby">Ruby:<br> <span id="ruby_total">0</span><br>Points</div>
+            <div class="tile emerald">Emerald:<br> <span id="emerald_total">0</span><br>Points</div>
+            <div class="tile sapphire">Sapphire:<br> <span id="sapphire_total">0</span><br>Points</div>
+            <div class="tile topaz">Topaz:<br> <span id="topaz_total">0</span><br>Points</div>
+         </div>
+         <!-- House Tiles -->
+         <h3>Class 1 to 2</h3>
+         <div class="tiles">
+            <div class="tile ruby">Ruby:<br> <span id="ruby_1_to_2">0</span><br>Points</div>
+            <div class="tile emerald">Emerald:<br> <span id="emerald_1_to_2">0</span><br>Points</div>
+            <div class="tile sapphire">Sapphire:<br> <span id="sapphire_1_to_2">0</span><br>Points</div>
+            <div class="tile topaz">Topaz:<br> <span id="topaz_1_to_2">0</span><br>Points</div>
+         </div>
+         <!-- House Tiles -->
+         <h3>Class 3 to 5</h3>
+         <div class="tiles">
+            <div class="tile ruby">Ruby:<br> <span id="ruby_3_to_5">0</span><br>Points</div>
+            <div class="tile emerald">Emerald:<br> <span id="emerald_3_to_5">0</span><br>Points</div>
+            <div class="tile sapphire">Sapphire:<br> <span id="sapphire_3_to_5">0</span><br>Points</div>
+            <div class="tile topaz">Topaz:<br> <span id="topaz_3_to_5">0</span><br>Points</div>
+         </div>
+         <!-- House Tiles -->
+         <h3>Class 6 to 12</h3>
+         <div class="tiles">
+            <div class="tile ruby">Ruby:<br> <span id="ruby_6_to_12">0</span><br>Points</div>
+            <div class="tile emerald">Emerald:<br> <span id="emerald_6_to_12">0</span><br>Points</div>
+            <div class="tile sapphire">Sapphire:<br> <span id="sapphire_6_to_12">0</span><br>Points</div>
+            <div class="tile topaz">Topaz:<br> <span id="topaz_6_to_12">0</span><br>Points</div>
+         </div>
+         <h3>Winners Table</h3>
+         <!-- Winners Table -->
+         <div class="table-container">
+            <table id="winnersTable">
+               <thead>
+                  <tr>
+                     <th>Game</th>
+                     <th>Class Group</th>
+                     <th>Winner 1</th>
+                     <th>Winner 2</th>
+                     <th>Winner 3</th>
+                     <th>Winner House 1</th>
+                     <th>Winner House 2</th>
+                     <th>Winner House 3</th>
+                  </tr>
+               </thead>
+               <tbody id="winnersTableBody">
+                  <!-- Dynamic Rows Will Be Injected Here -->
+               </tbody>
+            </table>
+         </div>
+         <!-- Download Button -->
+         <button class="btn-download" id="downloadBtn">Download CSV</button>
+      </div>
+      <!-- Dialog Overlay Starts -->
+      <div id="dialog-overlay" class="dialog-overlay">
+         <div class="dialog-box" id="dialog-box">
+            <div class="dialog-header" id="dialog-header">Title</div>
+            <div class="dialog-message" id="dialog-message">Message goes here</div>
+            <div class="dialog-buttons" id="dialog-buttons">
+               <!-- Buttons will be added dynamically -->
+            </div>
+         </div>
+      </div>
+      <!-- Dialog Overlay Ends -->
+      <!-- Pop-up Box Starts -->
+      <div class="popup-box" id="popupBox">
+         <div class="popup-content">
+            <img id="ribbons" src="https://sourabhsuneja.github.io/jvp-sports-meet/images/confetti.gif">
+            <span class="popup-close-btn" id="popupCloseBtn">&times;</span>
+            <h3 id="popupHeading">Heading here</h3>
+            <p id="popupMsg">Message here</p>
+         </div>
+      </div>
+      <!-- Pop-up Box Ends -->
+      <!-- Scrolling Strip Starts -->
+      <div class="scrolling-strip">
+         <marquee class="scrolling-text" id="scrollingText" scrollamount="4">Get ready for an action-packed celebration! Jamna Vidyapeeth proudly presents the Annual Sports Meet 2024 – The ultimate showdown begins!</marquee>
+      </div>
+      <!-- Scrolling Strip Ends -->
+      <script type="module" src="https://sourabhsuneja.github.io/jvp-sports-meet/js/supabase-crud.js"></script>
+      <script src="https://sourabhsuneja.github.io/jvp-sports-meet/js/dialog.js"></script>
+      <script src="./script.js"></script>
+      <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+   </body>
+</html>
