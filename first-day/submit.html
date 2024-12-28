@@ -1,1 +1,865 @@
- 
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>JVP Annual Sports Meet Live Management | First Day</title>
+      <!-- font awesome icons link -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+      <link rel="stylesheet" href="https://sourabhsuneja.github.io/jvp-sports-meet/css/dialog.css">
+      <style>
+         * {
+         max-height: 9999999px;
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+         }
+         body {
+         font-family: Arial, sans-serif;
+         background: #000428;
+         color: white;
+         margin: 0;
+         padding: 20px;
+         }
+         h1 {
+         text-align: center;
+         margin-top: 2rem;
+         color: white;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         gap: 1rem;
+         }
+         h1 ion-icon {
+         font-size: 2.8rem;
+         }
+         .form-container {
+         max-width: 600px;
+         margin: 0 auto;
+         margin-top: 48px;
+         background: #ffffff;
+         padding: 20px;
+         padding-top: 30px;
+         border-radius: 10px;
+         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+         color: #333;
+         }
+         .form-container h2 {
+         text-align: center;
+         margin-bottom: 20px;
+         color: #004e92;
+         }
+         .form-group {
+         margin-bottom: 15px;
+         }
+         .form-group label {
+         display: block;
+         font-weight: bold;
+         margin-bottom: 5px;
+         }
+         .form-group select {
+         width: 100%;
+         padding: 10px;
+         border: 1px solid #ddd;
+         border-radius: 5px;
+         margin-top: 10px;
+         }
+         .info {
+         font-size: 14px;
+         margin-top: 5px;
+         color: #004e92;
+         }
+         .btn-submit {
+         display: block;
+         width: 100%;
+         padding: 12px;
+         background: #004e92;
+         color: white;
+         font-size: 16px;
+         border: none;
+         border-radius: 5px;
+         cursor: pointer;
+         transition: background 0.3s;
+         }
+         .btn-submit:hover {
+         background: #003570;
+         }
+         #credit {
+         text-align: center;
+         color: #fff;
+         font-size: 1rem;
+         margin-top: 24px;
+         }
+         /* Sign in screen */
+         #sign-in-screen {
+         position: fixed;
+         top: 0;
+         left: 0;
+         margin: 0;
+         padding: 0;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+         width: 100vw;
+         background-color: #fff;
+         color: rgb(70,70,70);
+         z-index: 9999999; 
+         overflow: scroll;
+         }
+         .sign-in-container {
+         padding: 2rem 1.5rem;
+         border-radius: 12px;
+         width: calc(100% - 16px);
+         max-width: 400px;
+         text-align: center;
+         box-sizing: border-box;
+         background: linear-gradient(145deg, #ffffff, #f0f0f0); 
+         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+         }
+         .sign-in-container h1 {
+         font-size: 1.6rem;
+         font-weight: 700;
+         margin-bottom: 1.2rem;
+         margin-top: 1.1rem;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         flex-direction: column;
+         gap: 1rem;
+         color: rgb(30,30,30);
+         }
+         .sign-in-container h1 ion-icon {
+         color: #004e92;
+         --ionicon-stroke-width: 40px;
+         margin-bottom: 1rem;
+         font-size: 3.6rem;
+         }
+         .sign-in-text {
+         font-size: 1.2rem; 
+         margin-top: 16px;
+         margin-bottom: 18px;
+         font-weight: bold;
+         }
+         .credit-text-in-form {
+         font-size: 1rem; 
+         margin-top: 38px;
+         margin-bottom: 4px;
+         color: rgb(90,90,90);
+         }
+         input[type="text"], input[type="password"] {
+         width: 100%;
+         padding: 12px 15px;
+         padding-left: 42px;
+         border: none;
+         border-radius: 8px;
+         font-size: 1rem;
+         transition: all 0.3s ease;
+         box-sizing: border-box;    
+         background: #ffffff;
+         color: #333;
+         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+         }
+         input[type="text"]:focus, input[type="password"]:focus {
+         outline: none;
+         box-shadow: 0 0 8px #0061b2;
+         }
+         .sign-in-container .form-group ion-icon {
+         position: absolute;
+         top: 50%;
+         left: 15px;
+         transform: translateY(-50%);
+         color: #004e92;
+         --ionicon-stroke-width: 45px;
+         }
+         .sign-in-container button {
+         width: 100%;
+         padding: 12px 20px;
+         border: none;
+         border-radius: 8px;
+         font-size: 1rem;
+         font-weight: 500;
+         cursor: pointer;
+         transition: background-color 0.3s ease, transform 0.2s ease;
+         box-sizing: border-box;
+         background: #004e92;
+         color: #fff;
+         }
+         .sign-in-container button:hover {
+         transform: translateY(-3px);
+         background-color: #0061b2;
+         }
+         .sign-in-container button:active {
+         transform: translateY(0);
+         }
+         .sign-in-container .error-message {
+         font-size: 0.9rem;
+         margin-top: 10px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         color: #d32f2f;
+         }
+         .sign-in-container .sign-in-error-icon {
+         margin-right: 6px;
+         font-size: 1.2rem;
+         }
+         .sign-in-container .form-group {
+         position: relative;
+         margin-bottom: 1.5rem;
+         width: 100%;
+         box-sizing: border-box;
+         }
+         #notificationForm input[type="text"], .form-group-winners input[type="text"] {
+         padding: 8px 15px;
+         padding-left: 10px;
+         box-shadow: none;
+         border: 2px solid #ccc;
+         border-radius: 7px;
+         outline: none; 
+         transition: all 0.3s ease;
+         }
+         #notificationForm .input-hint {
+         color: rgb(60,60,60);
+         padding: 8px 2px;
+         font-style: italic;
+         }
+         #notificationForm textarea {
+         padding: 10px 8px;
+         box-shadow: none;
+         border: 2px solid #ccc;
+         border-radius: 7px;
+         outline: none; 
+         transition: all 0.3s ease;
+         width: 100%;
+         font-size: 1rem;
+         font-family: Arial, sans-serif;
+         }
+         #notificationForm input[type="text"]:focus, #notificationForm textarea:focus, .form-group-winners input[type="text"]:focus {
+         border: 2px solid #004e92;
+         }
+         #notificationForm .btn-generate {
+         display: inline-block;
+         padding: 10px 10px;
+         background: #228B22;
+         color: white;
+         border: none;
+         border-radius: 6px;
+         margin: 12px 0;
+         font-size: 0.9rem;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         text-align: center;
+         }
+         #notificationForm .btn-generate:hover, #notificationForm .btn-generate:focus {
+         background: #2E9B2E;
+         }
+         #error-message-notification {
+         color: red;
+         padding: 8px 2px;
+         }
+      </style>
+   </head>
+   <body>
+      <h1>
+         <ion-icon name="tennisball-outline"></ion-icon>
+         <span>JVP Annual Sports Meet 2024</span>
+      </h1>
+      <p id="credit">Crafted by Sourabh Sir</p>
+      <!-- Winner Submission Form Container Starts -->
+      <div class="form-container">
+         <h2>Submit Winners</h2>
+         <form class="form-group-winners" id="winnersForm">
+            <div class="form-group">
+               <label for="game">Game:</label>
+               <select id="game" name="game">
+                  <option value="" selected>Select a game</option>
+                  <option value="100M Race (Boys)">100M Race (Boys)</option>
+                  <option value="100M Back Running (Boys)">100M Back Running (Boys)</option>
+                  <option value="200M Race (Boys)">200M Race (Boys)</option>
+                  <option value="100M Hurdle Race (Boys)">100M Hurdle Race (Boys)</option>
+                  <option value="200M Hurdle Race (Boys)">200M Hurdle Race (Boys)</option>
+                  <option value="Relay Race (Boys)">Relay Race (Boys)</option>
+                  <option value="Long Jump (Boys)">Long Jump (Boys)</option>
+                  <option value="High Jump (Boys)">High Jump (Boys)</option>
+                  <option value="Karate (Boys)">Karate (Boys)</option>
+                  <option value="Speed Skating (Boys)">Speed Skating (Boys)</option>
+                  <option value="Balance the Hullahoop (Boys)">Balance the Hullahoop (Boys)</option>
+                  <option value="Obstacle Race (Boys)">Obstacle Race (Boys)</option>
+                  <option value="Collecting the Balls (Boys)">Collecting the Balls (Boys)</option>
+                  <option value="Hit and Run (Boys)">Hit and Run (Boys)</option>
+                  <option value="Ball Balancing Race (Boys)">Ball Balancing Race (Boys)</option>
+                  <option value="Collecting Cones (Boys)">Collecting Cones (Boys)</option>
+                  <option value="Paper Race (Boys)">Paper Race (Boys)</option>
+                  <option value="100M Race (Girls)">100M Race (Girls)</option>
+                  <option value="100M Back Running (Girls)">100M Back Running (Girls)</option>
+                  <option value="200M Race (Girls)">200M Race (Girls)</option>
+                  <option value="100M Hurdle Race (Girls)">100M Hurdle Race (Girls)</option>
+                  <option value="200M Hurdle Race (Girls)">200M Hurdle Race (Girls)</option>
+                  <option value="Relay Race (Girls)">Relay Race (Girls)</option>
+                  <option value="Long Jump (Girls)">Long Jump (Girls)</option>
+                  <option value="High Jump (Girls)">High Jump (Girls)</option>
+                  <option value="Karate (Girls)">Karate (Girls)</option>
+                  <option value="Speed Skating (Girls)">Speed Skating (Girls)</option>
+                  <option value="Balance the Hullahoop (Girls)">Balance the Hullahoop (Girls)</option>
+                  <option value="Obstacle Race (Girls)">Obstacle Race (Girls)</option>
+                  <option value="Collecting the Balls (Girls)">Collecting the Balls (Girls)</option>
+                  <option value="Hit and Run (Girls)">Hit and Run (Girls)</option>
+                  <option value="Ball Balancing Race (Girls)">Ball Balancing Race (Girls)</option>
+                  <option value="Collecting Cones (Girls)">Collecting Cones (Girls)</option>
+                  <option value="Paper Race (Girls)">Paper Race (Girls)</option>
+                  <option value="Class 3 to 5 | Kho Kho (Boys)">Class 3 to 5 | Kho Kho (Boys)</option>
+                  <option value="Class 3 to 5 | Kabaddi (Boys)">Class 3 to 5 | Kabaddi (Boys)</option>
+                  <option value="Class 3 to 5 | Kho Kho (Girls)">Class 3 to 5 | Kho Kho (Girls)</option>
+                  <option value="Class 3 to 5 | Kabaddi (Girls)">Class 3 to 5 | Kabaddi (Girls)</option>
+                  <option value="Class 6 to 8 | Kho Kho (Boys)">Class 6 to 8 | Kho Kho (Boys)</option>
+                  <option value="Class 9 to 12 | Kho Kho (Boys)">Class 9 to 12 | Kho Kho (Boys)</option>
+                  <option value="Class 6 to 8 | Kabaddi (Boys)">Class 6 to 8 | Kabaddi (Boys)</option>
+                  <option value="Class 9 to 12 | Kabaddi (Boys)">Class 9 to 12 | Kabaddi (Boys)</option>
+                  <option value="Class 6 to 12 | Rollball (Boys + Girls)">Class 6 to 12 | Rollball (Boys + Girls)</option>
+                  <option value="Class 6 to 12 | Basketball (Boys)">Class 6 to 12 | Basketball (Boys)</option>
+                  <option value="Class 6 to 12 | Handball (Boys)">Class 6 to 12 | Handball (Boys)</option>
+                  <option value="Class 6 to 8 | Kho Kho (Girls)">Class 6 to 8 | Kho Kho (Girls)</option>
+                  <option value="Class 9 to 12 | Kho Kho (Girls)">Class 9 to 12 | Kho Kho (Girls)</option>
+                  <option value="Class 6 to 8 | Kabaddi (Girls)">Class 6 to 8 | Kabaddi (Girls)</option>
+                  <option value="Class 9 to 12 | Kabaddi (Girls)">Class 9 to 12 | Kabaddi (Girls)</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label for="classGroup">Class Group:</label>
+               <select id="classGroup" name="classGroup">
+                  <option value="" selected>Select a class group</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="1 to 2">1 to 2</option>
+                  <option value="3 to 5">3 to 5</option>
+                  <option value="6 to 8">6 to 8</option>
+                  <option value="9 to 12">9 to 12</option>
+                  <option value="6 to 12">6 to 12</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label for="winner1">Winner 1:</label>
+               <input class="winnerInputs" type="text" id="winner1" placeholder="Name of student">
+               <select class="winnerInputs" id="winnerclass1">
+                  <option value="" selected>Select class</option>
+                  <option value="1-A1">1-A1</option>
+                  <option value="1-A2">1-A2</option>
+                  <option value="1-A3">1-A3</option>
+                  <option value="2-A1">2-A1</option>
+                  <option value="2-A2">2-A2</option>
+                  <option value="2-A3">2-A3</option>
+                  <option value="3-A1">3-A1</option>
+                  <option value="3-A2">3-A2</option>
+                  <option value="3-A3">3-A3</option>
+                  <option value="3-A4">3-A4</option>
+                  <option value="4-A1">4-A1</option>
+                  <option value="4-A2">4-A2</option>
+                  <option value="4-A3">4-A3</option>
+                  <option value="4-A4">4-A4</option>
+                  <option value="5-A1">5-A1</option>
+                  <option value="5-A2">5-A2</option>
+                  <option value="5-A3">5-A3</option>
+                  <option value="5-A4">5-A4</option>
+                  <option value="6-A1">6-A1</option>
+                  <option value="6-A2">6-A2</option>
+                  <option value="6-A3">6-A3</option>
+                  <option value="6-A4">6-A4</option>
+                  <option value="7-A1">7-A1</option>
+                  <option value="7-A2">7-A2</option>
+                  <option value="7-A3">7-A3</option>
+                  <option value="8-A1">8-A1</option>
+                  <option value="8-A2">8-A2</option>
+                  <option value="8-A3">8-A3</option>
+                  <option value="9-A1">9-A1</option>
+                  <option value="9-A2">9-A2</option>
+                  <option value="9-A3">9-A3</option>
+                  <option value="10-A1">10-A1</option>
+                  <option value="10-A2">10-A2</option>
+                  <option value="11-COM">11-COM</option>
+                  <option value="11-HUM">11-HUM</option>
+                  <option value="11-SCI">11-SCI</option>
+                  <option value="12-COM">12-COM</option>
+                  <option value="12-HUM">12-HUM</option>
+                  <option value="12-SCI">12-SCI</option>
+               </select>
+               <select id="winnerhouse1">
+                  <option value="" selected>Select a house</option>
+                  <option value="Ruby">Ruby</option>
+                  <option value="Emerald">Emerald</option>
+                  <option value="Sapphire">Sapphire</option>
+                  <option value="Topaz">Topaz</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label for="winner2">Winner 2:</label>
+               <input class="winnerInputs" type="text" id="winner2" placeholder="Name of student">
+               <select class="winnerInputs" id="winnerclass2">
+                  <option value="" selected>Select class</option>
+                  <option value="1-A1">1-A1</option>
+                  <option value="1-A2">1-A2</option>
+                  <option value="1-A3">1-A3</option>
+                  <option value="2-A1">2-A1</option>
+                  <option value="2-A2">2-A2</option>
+                  <option value="2-A3">2-A3</option>
+                  <option value="3-A1">3-A1</option>
+                  <option value="3-A2">3-A2</option>
+                  <option value="3-A3">3-A3</option>
+                  <option value="3-A4">3-A4</option>
+                  <option value="4-A1">4-A1</option>
+                  <option value="4-A2">4-A2</option>
+                  <option value="4-A3">4-A3</option>
+                  <option value="4-A4">4-A4</option>
+                  <option value="5-A1">5-A1</option>
+                  <option value="5-A2">5-A2</option>
+                  <option value="5-A3">5-A3</option>
+                  <option value="5-A4">5-A4</option>
+                  <option value="6-A1">6-A1</option>
+                  <option value="6-A2">6-A2</option>
+                  <option value="6-A3">6-A3</option>
+                  <option value="6-A4">6-A4</option>
+                  <option value="7-A1">7-A1</option>
+                  <option value="7-A2">7-A2</option>
+                  <option value="7-A3">7-A3</option>
+                  <option value="8-A1">8-A1</option>
+                  <option value="8-A2">8-A2</option>
+                  <option value="8-A3">8-A3</option>
+                  <option value="9-A1">9-A1</option>
+                  <option value="9-A2">9-A2</option>
+                  <option value="9-A3">9-A3</option>
+                  <option value="10-A1">10-A1</option>
+                  <option value="10-A2">10-A2</option>
+                  <option value="11-COM">11-COM</option>
+                  <option value="11-HUM">11-HUM</option>
+                  <option value="11-SCI">11-SCI</option>
+                  <option value="12-COM">12-COM</option>
+                  <option value="12-HUM">12-HUM</option>
+                  <option value="12-SCI">12-SCI</option>
+               </select>
+               <select id="winnerhouse2">
+                  <option value="" selected>Select a house</option>
+                  <option value="Ruby">Ruby</option>
+                  <option value="Emerald">Emerald</option>
+                  <option value="Sapphire">Sapphire</option>
+                  <option value="Topaz">Topaz</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label for="winner3">Winner 3:</label>
+               <input class="winnerInputs" type="text" id="winner3" placeholder="Name of student">
+               <select class="winnerInputs" id="winnerclass3">
+                  <option value="" selected>Select class</option>
+                  <option value="1-A1">1-A1</option>
+                  <option value="1-A2">1-A2</option>
+                  <option value="1-A3">1-A3</option>
+                  <option value="2-A1">2-A1</option>
+                  <option value="2-A2">2-A2</option>
+                  <option value="2-A3">2-A3</option>
+                  <option value="3-A1">3-A1</option>
+                  <option value="3-A2">3-A2</option>
+                  <option value="3-A3">3-A3</option>
+                  <option value="3-A4">3-A4</option>
+                  <option value="4-A1">4-A1</option>
+                  <option value="4-A2">4-A2</option>
+                  <option value="4-A3">4-A3</option>
+                  <option value="4-A4">4-A4</option>
+                  <option value="5-A1">5-A1</option>
+                  <option value="5-A2">5-A2</option>
+                  <option value="5-A3">5-A3</option>
+                  <option value="5-A4">5-A4</option>
+                  <option value="6-A1">6-A1</option>
+                  <option value="6-A2">6-A2</option>
+                  <option value="6-A3">6-A3</option>
+                  <option value="6-A4">6-A4</option>
+                  <option value="7-A1">7-A1</option>
+                  <option value="7-A2">7-A2</option>
+                  <option value="7-A3">7-A3</option>
+                  <option value="8-A1">8-A1</option>
+                  <option value="8-A2">8-A2</option>
+                  <option value="8-A3">8-A3</option>
+                  <option value="9-A1">9-A1</option>
+                  <option value="9-A2">9-A2</option>
+                  <option value="9-A3">9-A3</option>
+                  <option value="10-A1">10-A1</option>
+                  <option value="10-A2">10-A2</option>
+                  <option value="11-COM">11-COM</option>
+                  <option value="11-HUM">11-HUM</option>
+                  <option value="11-SCI">11-SCI</option>
+                  <option value="12-COM">12-COM</option>
+                  <option value="12-HUM">12-HUM</option>
+                  <option value="12-SCI">12-SCI</option>
+               </select>
+               <select id="winnerhouse3">
+                  <option value="" selected>Select a house</option>
+                  <option value="Ruby">Ruby</option>
+                  <option value="Emerald">Emerald</option>
+                  <option value="Sapphire">Sapphire</option>
+                  <option value="Topaz">Topaz</option>
+               </select>
+            </div>
+            <button type="submit" class="btn-submit">Submit Winners</button>
+         </form>
+      </div>
+      <!-- Winner Submission Form Container Ends -->
+      <!-- Push Notification Form Container Starts -->
+      <div class="form-container">
+         <h2>Push Notification</h2>
+         <form id="notificationForm">
+            <div class="form-group">
+               <label for="notificationType">Notification Type:</label>
+               <select id="notificationType" name="notificationType">
+                  <option value="popup" selected>Pop-up</option>
+                  <option value="headline">Scrolling Headline</option>
+                  <option value="both">Both</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label for="notificationHeading">Notification Heading:</label>
+               <input type="text" id="notificationHeading" placeholder="E.g. Announcement">
+            </div>
+            <div class="form-group">
+               <label for="notificationKeywords">Notification Keywords:</label> 
+               <input type="text" id="notificationKeywords" placeholder="E.g. Ruby into kabaddi semi-finals">
+               <div class="input-hint">AI will use these keywords to generate a perfect notification for you.</div>
+               <button id="generateHeadline" type="button" class="btn-generate">Generate Headline</button>
+            </div>
+            <div class="form-group">
+               <label for="notificationHeadline">AI-Generated Headline:</label> 
+               <textarea id="notificationHeadline" rows="5"></textarea>
+               <div id="error-message-notification" class="error-message" style="display: block"></div>
+            </div>
+            <button type="submit" class="btn-submit">Push to Screen</button>
+         </form>
+      </div>
+      <!-- Push Notification Form Container Ends -->
+      <!-- Dialog Overlay Starts -->
+      <div id="dialog-overlay" class="dialog-overlay">
+         <div class="dialog-box" id="dialog-box">
+            <div class="dialog-header" id="dialog-header">Title</div>
+            <div class="dialog-message" id="dialog-message">Message goes here</div>
+            <div class="dialog-buttons" id="dialog-buttons">
+               <!-- Buttons will be added dynamically -->
+            </div>
+         </div>
+      </div>
+      <!-- Dialog Overlay Ends -->
+      <!-- Sign in Screen Starts -->
+      <div id="sign-in-screen" class="custom-scroll">
+         <div class="sign-in-container">
+            <h1>
+               <ion-icon name="tennisball-outline"></ion-icon>
+               <span>JVP Annual Sports Meet</span>
+            </h1>
+            <div class="sign-in-text">Sign in to continue</div>
+            <form id="signInForm">
+               <div class="form-group">
+                  <input type="text" id="username" placeholder="Enter your username" >
+                  <ion-icon name="person-outline"></ion-icon>
+               </div>
+               <div class="form-group">
+                  <input type="password" id="password" placeholder="Enter your password" >
+                  <ion-icon name="lock-closed-outline"></ion-icon>
+               </div>
+               <button id="sign-in-btn" type="submit">Sign In</button>
+               <div id="error-message" class="error-message"></div>
+            </form>
+            <div class="credit-text-in-form">Crafted by Sourabh Sir</div>
+         </div>
+      </div>
+      <!-- Sign in Screen Ends -->
+      <script type="module" src="https://sourabhsuneja.github.io/jvp-sports-meet/js/supabase-crud.js"></script>
+      <script src="https://sourabhsuneja.github.io/jvp-sports-meet/js/dialog.js"></script>
+      <script>
+         // Get the required DOM elements
+        const gameSelect = document.getElementById('game');
+        const winnersForm = document.getElementById('winnersForm');
+        const notificationForm = document.getElementById('notificationForm');
+
+
+         async function submitWinners(game, classCategory, winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3) {
+         showProcessingDialog();
+         
+         winner1 = formatTeamName(winner1);
+         winner2 = formatTeamName(winner2);
+         winner3 = formatTeamName(winner3);
+            
+         const selected = await selectData(
+         'winners',
+         fetchSingle = true,
+         columns = "*",
+         matchColumns = ['game', 'classcategory'],
+         matchValues = [game, classCategory]
+         );
+         
+         if (selected) {
+         const updated = await updateRow(
+         'winners',
+         matchColumns = ['game', 'classcategory'],
+         matchValues = [game, classCategory],
+         updateColumns = ['winner1', 'winner2', 'winner3', 'winnerhouse1', 'winnerhouse2', 'winnerhouse3'],
+         updateValues = [winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3]
+         );
+         hideProcessingDialog();
+         if (updated) {
+         showDialog({
+            title: 'Success',
+            message: 'Winners updated successfully!',
+            type: 'alert'
+         });
+         } else {
+         showDialog({
+            title: 'Error',
+            message: 'Error updating data!',
+            type: 'alert'
+         });
+         }
+         
+         } else {
+         const data = {
+         game,
+         "classcategory": classCategory,
+         winner1,
+         winner2,
+         winner3,
+         "winnerhouse1": winnerHouse1,
+         "winnerhouse2": winnerHouse2,
+         "winnerhouse3": winnerHouse3
+         }
+         const inserted = await insertData('winners', data);
+         hideProcessingDialog();
+         if (inserted) {
+         showDialog({
+            title: 'Success',
+            message: 'Winners inserted successfully!',
+            type: 'alert'
+         });
+         } else {
+         showDialog({
+            title: 'Error',
+            message: 'Error inserting data!',
+            type: 'alert'
+         });
+         }
+         }
+         winnersForm.reset();
+         }
+
+         function showError(message) {
+               showDialog({
+                title: 'Error',
+                message,
+                type: 'alert'
+               });
+         }
+
+        // Add event listener for the 'change' event
+        gameSelect.addEventListener('change', function () {
+            // Get the selected value
+            const selectedValue = gameSelect.value;
+
+            // Determine the game type
+            const gameType = getGameType(selectedValue);
+
+            // Get elements with class "winnerInputs"
+            const winnerInputs = document.querySelectorAll('.winnerInputs');
+
+            // Show or hide elements based on game type
+            if (gameType === 'individual') {
+                winnerInputs.forEach(element => element.style.display = 'block');
+            } else if (gameType === 'team') {
+                winnerInputs.forEach(element => element.style.display = 'none');
+            }
+        });
+         
+         // helper function to determine game type (individual or team)
+         function getGameType(game) {
+         const gameName = game.toLowerCase();
+         // Check if the game is team game based on keywords
+         const teamKeywords = ["kho kho", "kabaddi", "rollball", "basketball", "handball"];
+         if (teamKeywords.some(keyword => gameName.includes(keyword))) {
+         return 'team';
+         } else {
+         return 'individual';
+         }
+         }
+         
+         function formatTeamName(input) {
+         // Define a regex pattern to match "<Name> (Team)" format
+         const teamPattern = /^(\w+)\s+\(Team\)$/;
+         
+         // Test if the input string matches the pattern
+         const match = input.match(teamPattern);
+         
+         if (match) {
+         // If there's a match, construct and return the modified string
+         return `Team ${match[1]}`;
+         }
+         
+         // If no match, return the original string
+         return input;
+         }
+         
+         document.getElementById('winnersForm').addEventListener('submit', function (e) {
+           e.preventDefault();
+         
+           const game = document.getElementById('game').value;
+           const classcategory = document.getElementById('classGroup').value;
+           let winner1 = document.getElementById('winner1').value.trim();
+           let winner2 = document.getElementById('winner2').value.trim();
+           let winner3 = document.getElementById('winner3').value.trim();
+           let winnerclass1 = document.getElementById('winnerclass1').value;
+           let winnerclass2 = document.getElementById('winnerclass2').value;
+           let winnerclass3 = document.getElementById('winnerclass3').value;
+           const winnerhouse1 = document.getElementById('winnerhouse1').value;
+           const winnerhouse2 = document.getElementById('winnerhouse2').value;
+           const winnerhouse3 = document.getElementById('winnerhouse3').value;
+
+           const gameType = getGameType(game);
+
+           if(game === '' || classcategory === '') {
+                showError('Please select a game and class category for the game.');
+                return;
+           }
+
+           if(gameType === 'individual') {
+                 if(winner1 === '' || winner2 === '' || winner3 === '') {
+                    showError('Please input the names of the winners.');
+                    return;
+                 }
+                 if(winnerclass1 === '' || winnerclass2 === '' || winnerclass3 === '') {
+                    showError('Please select the classes of the winners.');
+                    return;
+                 }
+           } else {
+                 winnerclass1 = 'Team';
+                 winnerclass2 = 'Team';
+                 winnerclass3 = 'Team';
+                 winner1 = winnerhouse1;
+                 winner2 = winnerhouse2;
+                 winner3 = winnerhouse3;
+           }
+
+           if(winnerhouse1 === '' || winnerhouse2 === '' || winnerhouse3 === '') {
+                showError('Please select the winner houses.');
+                return;
+           }
+         
+           submitWinners(game, classcategory, `${winner1} (${winnerclass1})`, `${winner2} (${winnerclass2})`, `${winner3} (${winnerclass3})`, winnerhouse1, winnerhouse2, winnerhouse3);
+         });
+         
+         window.onload = async function() {
+           const authSuccess = await window.checkAuth();
+           if(authSuccess) {
+               document.getElementById('sign-in-screen').style.display = 'none';
+           }
+         }
+         
+         // function to login user
+         async function login() {
+         const signInScreen = document.getElementById('sign-in-screen');
+         const errorField = document.getElementById('error-message');
+         const btn = document.getElementById('sign-in-btn');
+         const username = document.getElementById('username').value.trim();
+         const password = document.getElementById('password').value;
+         
+         const errorIcon = '<ion-icon name="alert-circle-outline" class="sign-in-error-icon"></ion-icon>';
+         
+         const email = (username + '@jvp.com').toLowerCase();
+         
+         btn.innerHTML = '<i class="fas white fa-spinner fa-spin"></i> Wait...';
+         btn.disabled = true;
+         errorField.innerHTML = '';
+         
+         if(username === '' || password === '') {
+         errorField.innerHTML = errorIcon + '<span>Username and password are required.</span>';
+         btn.disabled = false;
+         btn.innerHTML = 'Sign In';
+         return ;       
+         }
+         
+         try {
+         const data = await window.signInUser(email, password);
+         window.userId = data.user.id;
+         signInScreen.style.display = 'none';
+         } catch (error) {
+         errorField.innerHTML = errorIcon + '<span>' + error.message + '</span>';
+         btn.disabled = false;
+         btn.innerHTML = 'Sign In';
+         }
+         }
+         
+         // add event listener to sign in button
+         document.getElementById('sign-in-btn').addEventListener('click', function(event) {
+         event.preventDefault();
+         login();
+         });
+      </script>
+      <script>
+         // Handle notification sending
+         document.getElementById('notificationForm').addEventListener('submit', async function (e) {
+              e.preventDefault();
+         
+              const heading = document.getElementById('notificationHeading').value.trim() || 'Announcement' ;
+              const content = document.getElementById('notificationHeadline').value.trim();
+              const type = document.getElementById('notificationType').value || 'popup';
+         
+               if(heading === '' || content === '') {
+                  document.getElementById('error-message-notification').innerText = 'Notification heading and content are required.' ;
+                  return;
+               }
+         
+          showProcessingDialog(false);
+         
+               const result = await insertData('notifications', {type, heading, content});
+               hideProcessingDialog();
+               if(result) {
+                   showDialog({
+                     title: 'Success',
+                     message: 'Notification pushed to live screen!',
+                     type: 'alert'
+                  });
+                  notificationForm.reset();
+               } else {
+                   showDialog({
+                     title: 'Error',
+                     message: 'Error sending notification to live screen!',
+                     type: 'alert'
+                  });
+               }
+              
+         });
+         
+         // Generate headlines with AI
+         document.getElementById('generateHeadline').addEventListener('click', async function (e) {
+              e.preventDefault();
+              document.getElementById('error-message-notification').innerText = '';
+         
+          
+              const keywords = document.getElementById('notificationKeywords').value.trim();
+              if(keywords === '') {
+                  document.getElementById('error-message-notification').innerText = 'Please provide a few keywords for AI to generate a headline.' ;
+                  return;
+              }
+              showProcessingDialog(false);
+              const response = await generateHeadline(keywords);
+              hideProcessingDialog();
+              document.getElementById('notificationHeadline').value = response.trim();
+         });               
+      </script>
+      <script src="ai-headline.js"></script>
+      <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+   </body>
+</html>
+
