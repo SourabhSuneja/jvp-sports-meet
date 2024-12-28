@@ -400,26 +400,22 @@
 
         async function submitWinners(game, winner1, winner2, winner3) {
          showProcessingDialog();
-         
-         winner1 = ca(winner1);
-         winner2 = formatTeamName(winner2);
-         winner3 = formatTeamName(winner3);
             
          const selected = await selectData(
-         'winners',
+         'winners_first_day',
          fetchSingle = true,
          columns = "*",
-         matchColumns = ['game', 'classcategory'],
-         matchValues = [game, classCategory]
+         matchColumns = ['game'],
+         matchValues = [game]
          );
          
          if (selected) {
          const updated = await updateRow(
-         'winners',
-         matchColumns = ['game', 'classcategory'],
-         matchValues = [game, classCategory],
-         updateColumns = ['winner1', 'winner2', 'winner3', 'winnerhouse1', 'winnerhouse2', 'winnerhouse3'],
-         updateValues = [winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3]
+         'winners_first_day',
+         matchColumns = ['game'],
+         matchValues = [game],
+         updateColumns = ['winner1', 'winner2', 'winner3'],
+         updateValues = [winner1, winner2, winner3]
          );
          hideProcessingDialog();
          if (updated) {
@@ -439,15 +435,11 @@
          } else {
          const data = {
          game,
-         "classcategory": classCategory,
          winner1,
          winner2,
-         winner3,
-         "winnerhouse1": winnerHouse1,
-         "winnerhouse2": winnerHouse2,
-         "winnerhouse3": winnerHouse3
+         winner3
          }
-         const inserted = await insertData('winners', data);
+         const inserted = await insertData('winners_first_day', data);
          hideProcessingDialog();
          if (inserted) {
          showDialog({
@@ -473,14 +465,22 @@
                 type: 'alert'
                });
          }
+
+         function capitalizeFirstLetter(string) {
+            return string
+            .toLowerCase() // Convert the entire string to lowercase
+            .split(' ') // Split the string into an array of words
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
+            .join(' '); // Join the array of words back into a single string
+         }
          
          document.getElementById('winnersForm').addEventListener('submit', function (e) {
            e.preventDefault();
          
            const game = document.getElementById('game').value;
-           let winner1 = document.getElementById('winner1').value.trim();
-           let winner2 = document.getElementById('winner2').value.trim();
-           let winner3 = document.getElementById('winner3').value.trim();
+           let winner1 = capitalizeFirstLetter(document.getElementById('winner1').value.trim());
+           let winner2 = capitalizeFirstLetter(document.getElementById('winner2').value.trim());
+           let winner3 = capitalizeFirstLetter(document.getElementById('winner3').value.trim());
            let winnerclass1 = document.getElementById('winnerclass1').value;
            let winnerclass2 = document.getElementById('winnerclass2').value;
            let winnerclass3 = document.getElementById('winnerclass3').value;
