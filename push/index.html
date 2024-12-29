@@ -259,6 +259,27 @@
          color: red;
          padding: 8px 2px;
          }
+         .suggestions {
+         max-height: 150px;
+         overflow-y: auto;
+         border: 1px solid #ccc;
+         background: white;
+         border-radius: 5px;
+         z-index: 1000;
+         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+         }
+         .suggestion-item {
+         padding: 10px;
+         cursor: pointer;
+         transition: background-color 0.2s;
+         }
+         .suggestion-item:hover {
+         background-color: #f1f1f1;
+         }
+         .no-suggestions {
+         padding: 10px;
+         color: #888;
+         }
       </style>
    </head>
    <body>
@@ -352,6 +373,7 @@
             <div class="form-group">
                <label for="winner1">Winner 1:</label>
                <input class="winnerInputs" type="text" id="winner1" placeholder="Name of student">
+               <div class="suggestions" id="suggestions1"></div>
                <select class="winnerInputs" id="winnerclass1">
                   <option value="" selected>Select class</option>
                   <option value="1-A1">1-A1</option>
@@ -405,6 +427,7 @@
             <div class="form-group">
                <label for="winner2">Winner 2:</label>
                <input class="winnerInputs" type="text" id="winner2" placeholder="Name of student">
+               <div class="suggestions" id="suggestions2"></div>
                <select class="winnerInputs" id="winnerclass2">
                   <option value="" selected>Select class</option>
                   <option value="1-A1">1-A1</option>
@@ -458,6 +481,7 @@
             <div class="form-group">
                <label for="winner3">Winner 3:</label>
                <input class="winnerInputs" type="text" id="winner3" placeholder="Name of student">
+               <div class="suggestions" id="suggestions3"></div>
                <select class="winnerInputs" id="winnerclass3">
                   <option value="" selected>Select class</option>
                   <option value="1-A1">1-A1</option>
@@ -582,11 +606,11 @@
       <script src="https://sourabhsuneja.github.io/jvp-sports-meet/js/dialog.js"></script>
       <script>
          // Get the required DOM elements
-        const gameSelect = document.getElementById('game');
-        const winnersForm = document.getElementById('winnersForm');
-        const notificationForm = document.getElementById('notificationForm');
-
-
+         const gameSelect = document.getElementById('game');
+         const winnersForm = document.getElementById('winnersForm');
+         const notificationForm = document.getElementById('notificationForm');
+         
+         
          async function submitWinners(game, classCategory, winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3) {
          showProcessingDialog();
          
@@ -654,7 +678,7 @@
          }
          winnersForm.reset();
          }
-
+         
          function showError(message) {
                showDialog({
                 title: 'Error',
@@ -662,25 +686,25 @@
                 type: 'alert'
                });
          }
-
-        // Add event listener for the 'change' event
-        gameSelect.addEventListener('change', function () {
+         
+         // Add event listener for the 'change' event
+         gameSelect.addEventListener('change', function () {
             // Get the selected value
             const selectedValue = gameSelect.value;
-
+         
             // Determine the game type
             const gameType = getGameType(selectedValue);
-
+         
             // Get elements with class "winnerInputs"
             const winnerInputs = document.querySelectorAll('.winnerInputs');
-
+         
             // Show or hide elements based on game type
             if (gameType === 'individual') {
                 winnerInputs.forEach(element => element.style.display = 'block');
             } else if (gameType === 'team') {
                 winnerInputs.forEach(element => element.style.display = 'none');
             }
-        });
+         });
          
          // helper function to determine game type (individual or team)
          function getGameType(game) {
@@ -724,14 +748,14 @@
            const winnerhouse1 = document.getElementById('winnerhouse1').value;
            const winnerhouse2 = document.getElementById('winnerhouse2').value;
            const winnerhouse3 = document.getElementById('winnerhouse3').value;
-
+         
            const gameType = getGameType(game);
-
+         
            if(game === '' || classcategory === '') {
                 showError('Please select a game and class category for the game.');
                 return;
            }
-
+         
            if(gameType === 'individual') {
                  if(winner1 === '' || winner2 === '' || winner3 === '') {
                     showError('Please input the names of the winners.');
@@ -749,7 +773,7 @@
                  winner2 = winnerhouse2;
                  winner3 = winnerhouse3;
            }
-
+         
            if(winnerhouse1 === '' || winnerhouse2 === '' || winnerhouse3 === '') {
                 showError('Please select the winner houses.');
                 return;
@@ -856,6 +880,142 @@
               hideProcessingDialog();
               document.getElementById('notificationHeadline').value = response.trim();
          });               
+      </script>
+      <script>
+         const studentNames = {};
+         const baseURL = "https://sourabhsuneja.github.io/quiz/students/";
+         let allStudents;
+         
+         
+         function setupInput(inputId, suggestionsId) {
+           const input = document.getElementById(inputId);
+           const suggestionsBox = document.getElementById(suggestionsId);
+           const select = input.parentElement.querySelector('select');
+           let suggestions = [];
+           let currentIndex = -1;
+         
+           input.addEventListener('input', () => {
+             const query = input.value.trim().toLowerCase();
+             suggestionsBox.innerHTML = '';
+             currentIndex = -1;
+         
+             // Filter matching suggestions
+             suggestions = allStudents.filter(({ name }) =>
+               name.toLowerCase().startsWith(query)
+             );
+         
+             if (suggestions.length) {
+               suggestions.forEach(({ name, className }, index) => {
+                 const item = document.createElement('div');
+                 item.classList.add('suggestion-item');
+                 item.textContent = `${name} (${className})`;
+                 item.dataset.index = index;
+         
+                 // Handle click
+                 item.addEventListener('click', () => {
+                   input.value = name;
+                   suggestionsBox.innerHTML = '';
+                   suggestions = [];
+                   select.value = className;
+                 });
+         
+                 suggestionsBox.appendChild(item);
+               });
+             } else {
+               suggestionsBox.innerHTML = '<div class="no-suggestions">No suggestions</div>';
+             }
+           });
+         
+           // Keyboard navigation
+           input.addEventListener('keydown', (e) => {
+             const items = suggestionsBox.querySelectorAll('.suggestion-item');
+             if (e.key === 'ArrowDown') {
+               currentIndex = (currentIndex + 1) % items.length;
+               updateActiveSuggestion(items);
+             } else if (e.key === 'ArrowUp') {
+               currentIndex = (currentIndex - 1 + items.length) % items.length;
+               updateActiveSuggestion(items);
+             } else if (e.key === 'Enter' && currentIndex > -1) {
+               e.preventDefault();
+               input.value = suggestions[currentIndex].name;
+               suggestionsBox.innerHTML = '';
+               suggestions = [];
+               select.value = className;
+             }
+           });
+         
+           function updateActiveSuggestion(items) {
+             items.forEach(item => item.classList.remove('active'));
+             if (items[currentIndex]) {
+               items[currentIndex].classList.add('active');
+               items[currentIndex].scrollIntoView({ block: 'nearest' });
+             }
+           }
+         }
+         
+         // Initialize inputs
+         setupInput('winner1', 'suggestions1');
+         setupInput('winner2', 'suggestions2');
+         setupInput('winner3', 'suggestions3');
+         
+         async function fetchNamesForClassSection(classSection) {
+         try {
+           const response = await fetch(`${baseURL}${classSection}.txt`);
+           if (!response.ok) throw new Error(`Failed to fetch ${classSection}`);
+           const text = await response.text();
+         
+           // Process the text content, ignoring blank lines
+           studentNames[classSection] = text.split('\n')
+              .map(name => name.trim())
+              .filter(name => name); // Filter out any empty lines
+         } catch (error) {
+           console.error(error);
+         }
+         }
+         
+         async function fetchAllClasses() {
+         const classes = [
+         '1-A1', '1-A2', '1-A3',
+         '2-A1', '2-A2', '2-A3',
+         '3-A1', '3-A2', '3-A3', '3-A4',
+         '4-A1', '4-A2', '4-A3', '4-A4',
+         '5-A1', '5-A2', '5-A3', '5-A4',
+         '6-A1', '6-A2', '6-A3', '6-A4',
+         '7-A1', '7-A2', '7-A3',
+         '8-A1', '8-A2', '8-A3',
+         '9-A1', '9-A2', '9-A3',
+         '10-A1', '10-A2',
+         '11-COM', '11-HUM', '11-SCI',
+         '12-COM', '12-HUM', '12-SCI'
+         ];
+         
+         await Promise.all(classes.map(fetchNamesForClassSection));
+         
+         }
+         
+         // Select all input fields with the class 'winnerInputs'
+         const winnerInputs = document.querySelectorAll('.winnerInputs');
+         
+         // Add event listener to each input field
+         winnerInputs.forEach(input => {
+         input.addEventListener('blur', (event) => {
+             // Get the immediately next sibling of the input field
+             const nextSibling = event.target.nextElementSibling;
+             
+             // Check if the next sibling exists and set its innerHTML to an empty string
+             if (nextSibling) {
+                 setTimeout(() => { nextSibling.innerHTML = '' }, 0);
+             }
+         });
+         });
+         
+         window.onload = async function () {
+         await fetchAllClasses();
+         // Flatten the student list
+         allStudents = Object.entries(studentNames)
+           .flatMap(([className, names]) => names.map(name => ({ name, className })))
+           .sort((a, b) => a.name.localeCompare(b.name));
+         }
       </script>
       <script src="ai-headline.js"></script>
       <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
