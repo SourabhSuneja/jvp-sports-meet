@@ -141,6 +141,7 @@ table {
 	width: 100%;
 	border-collapse: collapse;
 	color: #333;
+ text-transform: uppercase;
 }
 
 thead {
