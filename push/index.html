@@ -607,6 +607,7 @@
       <script>
          // Get the required DOM elements
          const gameSelect = document.getElementById('game');
+         const classSelect = document.getElementById('classGroup');
          const winnersForm = document.getElementById('winnersForm');
          const notificationForm = document.getElementById('notificationForm');
          
@@ -695,10 +696,27 @@
          .join(' '); // Join the array of words back into a single string
          }
          
+         function extractClassRange(input) {
+         // Regular expression to match patterns like "Class 1 to 2", "Class 3 to 5", etc.
+         const regex = /^Class (\d+) to (\d+)/;
+         const match = input.match(regex);
+         
+         // If the pattern matches, return the "number to number" part, otherwise return null
+         return match ? `${match[1]} to ${match[2]}` : null;
+         }
+         
          // Add event listener for the 'change' event
          gameSelect.addEventListener('change', function () {
             // Get the selected value
             const selectedValue = gameSelect.value;
+         
+            // Get the class range if available in the game name itself
+            const classRange = extractClassRange(selectedValue);
+         
+            // if classRange is available, pre-select it in the class category selection box
+            if(classRange) {
+                   classSelect.value = classRange;
+            }
          
             // Determine the game type
             const gameType = getGameType(selectedValue);
