@@ -180,8 +180,8 @@ function resetHeadline() {
 
 // helper function to format winner name so that class is always displayed in the next line
 function formatWinnerName(str) {
-        const match = str.match(/\(\d+-\w+\)$/i);
-        return match ? str.replace(match[0], `<br>${match[0]}`) : str;
+	const match = str.match(/\(\d*-?[\w\.\s-]+\)$/i);
+	return match ? str.replace(match[0], `<br>${match[0]}`) : str;
 }
 
 // helper function to capitalize first letter of each word
