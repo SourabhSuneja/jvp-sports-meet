@@ -132,9 +132,9 @@ function addNewRow(winner) {
    row.id = 'row' + winner.row_id;
    row.innerHTML = `
              <td>${winner.game}</td>
-             <td>${winner.winner1}</td>
-             <td>${winner.winner2}</td>
-             <td>${winner.winner3}</td>
+             <td>${formatWinnerName(winner.winner1)}</td>
+             <td>${formatWinnerName(winner.winner2)}</td>
+             <td>${formatWinnerName(winner.winner3)}</td>
            `;
    winnersTableBody.appendChild(row);
 }
@@ -145,9 +145,9 @@ function updateExistingRow(winner) {
 
    row.innerHTML = `
              <td>${winner.game}</td>
-             <td>${winner.winner1}</td>
-             <td>${winner.winner2}</td>
-             <td>${winner.winner3}</td>
+             <td>${formatWinnerName(winner.winner1)}</td>
+             <td>${formatWinnerName(winner.winner2)}</td>
+             <td>${formatWinnerName(winner.winner3)}</td>
            `;
 }
 
@@ -176,6 +176,12 @@ function updateScrollingText(newText = defaultHeadline, stayAlive = 43200000) {
 // function to reset the headline back to the default welcome headline
 function resetHeadline() {
    document.getElementById('scrollingText').innerHTML = defaultHeadline;
+}
+
+// helper function to format winner name so that class is always displayed in the next line
+function formatWinnerName(str) {
+        const match = str.match(/\(\d+-\w+\)$/i);
+        return match ? str.replace(match[0], `<br>${match[0]}`) : str;
 }
 
 // helper function to capitalize first letter of each word
