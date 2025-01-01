@@ -312,9 +312,9 @@ function addNewRow(winner) {
    row.innerHTML = `
              <td>${formatGameName(winner.game)}</td>
              <td>${winner.classcategory}</td>
-             <td>${winner.winner1}</td>
-             <td>${winner.winner2}</td>
-             <td>${winner.winner3}</td>
+             <td>${formatWinnerName(winner.winner1)}</td>
+             <td>${formatWinnerName(winner.winner2)}</td>
+             <td>${formatWinnerName(winner.winner3)}</td>
              <td>${winner.winnerhouse1}</td>
              <td>${winner.winnerhouse2}</td>
              <td>${winner.winnerhouse3}</td>
@@ -331,9 +331,9 @@ function updateExistingRow(winner) {
    row.innerHTML = `
              <td>${formatGameName(winner.game)}</td>
              <td>${winner.classcategory}</td>
-             <td>${winner.winner1}</td>
-             <td>${winner.winner2}</td>
-             <td>${winner.winner3}</td>
+             <td>${formatWinnerName(winner.winner1)}</td>
+             <td>${formatWinnerName(winner.winner2)}</td>
+             <td>${formatWinnerName(winner.winner3)}</td>
              <td>${winner.winnerhouse1}</td>
              <td>${winner.winnerhouse2}</td>
              <td>${winner.winnerhouse3}</td>
@@ -396,6 +396,12 @@ function formatGameName(input) {
 
    // If there's a "|" symbol, return the substring after it, trimmed
    return parts.length > 1 ? parts[1].trim() : input;
+}
+
+// helper function to format winner name so that class is always displayed in the next line
+function formatWinnerName(str) {
+	const match = str.match(/\(\d+-\w+\)$/i);
+	return match ? str.replace(match[0], `<br>${match[0]}`) : str;
 }
 
 // helper function to capitalize first letter of each word
