@@ -650,6 +650,146 @@
               document.getElementById('notificationHeadline').value = response.trim();
          });               
       </script>
+      <script>
+         const studentNames = {};
+         const baseURL = "https://sourabhsuneja.github.io/quiz/students/";
+         let allStudents;
+         let selectedClassCategory = '';
+         
+         document.getElementById("classGroup").addEventListener("change", function(event) {
+         selectedClassCategory = event.target.value; 
+         });
+         
+         function setupInput(inputId, suggestionsId) {
+           const input = document.getElementById(inputId);
+           const suggestionsBox = document.getElementById(suggestionsId);
+           const select = input.parentElement.querySelector('select');
+           let suggestions = [];
+           let currentIndex = -1;
+         
+           input.addEventListener('input', () => {
+             const query = input.value.trim().toLowerCase();
+             suggestionsBox.innerHTML = '';
+             currentIndex = -1;
+         
+             // Filter matching suggestions
+             suggestions = allStudents.filter(({ name, className }) =>
+               ( name.toLowerCase().startsWith(query) && className.startsWith(selectedClassCategory) )
+             );
+         
+             if (suggestions.length) {
+               suggestions.forEach(({ name, className }, index) => {
+                 const item = document.createElement('div');
+                 item.classList.add('suggestion-item');
+                 item.textContent = `${name} (${className})`;
+                 item.dataset.index = index;
+         
+                 // Handle click
+                 item.addEventListener('click', () => {
+                   input.value = name;
+                   suggestionsBox.innerHTML = '';
+                   suggestions = [];
+                   select.value = className;
+                 });
+         
+                 suggestionsBox.appendChild(item);
+               });
+             } else {
+               suggestionsBox.innerHTML = '<div class="no-suggestions">No suggestions</div>';
+             }
+           });
+         
+           // Keyboard navigation
+           input.addEventListener('keydown', (e) => {
+             const items = suggestionsBox.querySelectorAll('.suggestion-item');
+             if (e.key === 'ArrowDown') {
+               currentIndex = (currentIndex + 1) % items.length;
+               updateActiveSuggestion(items);
+             } else if (e.key === 'ArrowUp') {
+               currentIndex = (currentIndex - 1 + items.length) % items.length;
+               updateActiveSuggestion(items);
+             } else if (e.key === 'Enter' && currentIndex > -1) {
+               e.preventDefault();
+               input.value = suggestions[currentIndex].name;
+               suggestionsBox.innerHTML = '';
+               suggestions = [];
+               select.value = className;
+             }
+           });
+         
+           function updateActiveSuggestion(items) {
+             items.forEach(item => item.classList.remove('active'));
+             if (items[currentIndex]) {
+               items[currentIndex].classList.add('active');
+               items[currentIndex].scrollIntoView({ block: 'nearest' });
+             }
+           }
+         }
+         
+         // Initialize inputs
+         setupInput('winner1', 'suggestions1');
+         setupInput('winner2', 'suggestions2');
+         setupInput('winner3', 'suggestions3');
+         
+         async function fetchNamesForClassSection(classSection) {
+         try {
+           const response = await fetch(`${baseURL}${classSection}.txt`);
+           if (!response.ok) throw new Error(`Failed to fetch ${classSection}`);
+           const text = await response.text();
+         
+           // Process the text content, ignoring blank lines
+           studentNames[classSection] = text.split('\n')
+              .map(name => name.trim())
+              .filter(name => name); // Filter out any empty lines
+         } catch (error) {
+           console.error(error);
+         }
+         }
+         
+         async function fetchAllClasses() {
+         const classes = [
+         '1-A1', '1-A2', '1-A3',
+         '2-A1', '2-A2', '2-A3',
+         '3-A1', '3-A2', '3-A3', '3-A4',
+         '4-A1', '4-A2', '4-A3', '4-A4',
+         '5-A1', '5-A2', '5-A3', '5-A4',
+         '6-A1', '6-A2', '6-A3', '6-A4',
+         '7-A1', '7-A2', '7-A3',
+         '8-A1', '8-A2', '8-A3',
+         '9-A1', '9-A2', '9-A3',
+         '10-A1', '10-A2',
+         '11-COM', '11-HUM', '11-SCI',
+         '12-COM', '12-HUM', '12-SCI'
+         ];
+         
+         await Promise.all(classes.map(fetchNamesForClassSection));
+         
+         }
+         
+         // Select all input fields with the class 'winnerInputs'
+         const winnerInputs = document.querySelectorAll('.winnerInputs');
+         
+         // Add event listener to each input field
+         winnerInputs.forEach(input => {
+         input.addEventListener('blur', (event) => {
+             // Get the immediately next sibling of the input field
+             const nextSibling = event.target.nextElementSibling;
+             
+             // Check if the next sibling exists and set its innerHTML to an empty string
+             if (nextSibling) {
+                 setTimeout(() => { nextSibling.innerHTML = '' }, 0);
+             }
+         });
+         });
+         
+         window.onload = async function () {
+         await fetchAllClasses();
+         // Flatten the student list
+         allStudents = Object.entries(studentNames)
+           .flatMap(([className, names]) => names.map(name => ({ name, className })))
+           .sort((a, b) => a.name.localeCompare(b.name));
+         }
+      </script>
       <script src="https://sourabhsuneja.github.io/jvp-sports-meet/push/ai-headline.js"></script>
       <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
       <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
