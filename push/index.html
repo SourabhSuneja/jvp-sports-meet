@@ -916,6 +916,19 @@
          document.getElementById("classGroup").addEventListener("change", function(event) {
          selectedClassCategory = event.target.value; 
          });
+
+function getClassRange(str) {
+  // Match the pattern
+  const pattern = /(\d+)\s+to\s+(\d+)/i
+  const match = str.match(pattern);
+  if(match) {
+    const start = Number(match[1]);
+    const end = Number(match[2]);
+    return Array.from({ length: end - start + 1 }, (_, i) => (start + i).toString());
+  } else {
+    return [str];
+  }
+}
          
          function setupInput(inputId, suggestionsId) {
            const input = document.getElementById(inputId);
@@ -923,24 +936,27 @@
            const select = input.parentElement.querySelector('select');
            let suggestions = [];
            let currentIndex = -1;
-         
+
            input.addEventListener('input', () => {
              const query = input.value.trim().toLowerCase();
              suggestionsBox.innerHTML = '';
              currentIndex = -1;
-         
+
              // Filter matching suggestions
-             suggestions = allStudents.filter(({ name, className }) =>
-               name.toLowerCase().startsWith(query)
+             suggestions = allStudents.filter(({ name, className }) => {
+                  const bool1 = name.toLowerCase().startsWith(query);
+                  const bool2 = getClassRange(selectedClassCategory).some(item => className.startsWith(item));
+                  return (bool1 && bool2);
+               }
              );
-         
+
              if (suggestions.length) {
                suggestions.forEach(({ name, className }, index) => {
                  const item = document.createElement('div');
                  item.classList.add('suggestion-item');
                  item.textContent = `${name} (${className})`;
                  item.dataset.index = index;
-         
+
                  // Handle click
                  item.addEventListener('click', () => {
                    input.value = name;
@@ -948,14 +964,14 @@
                    suggestions = [];
                    select.value = className;
                  });
-         
+
                  suggestionsBox.appendChild(item);
                });
              } else {
                suggestionsBox.innerHTML = '<div class="no-suggestions">No suggestions</div>';
              }
            });
-         
+
            // Keyboard navigation
            input.addEventListener('keydown', (e) => {
              const items = suggestionsBox.querySelectorAll('.suggestion-item');
