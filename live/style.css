@@ -241,6 +241,7 @@ table td:first-child {
 	justify-content: center;
 	align-items: center;
 	backdrop-filter: blur(5px);
+	z-index: 200;
 }
 
 #popupHeading {
