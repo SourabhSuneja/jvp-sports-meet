@@ -931,7 +931,7 @@
          
              // Filter matching suggestions
              suggestions = allStudents.filter(({ name, className }) =>
-               ( name.toLowerCase().startsWith(query) && className.startsWith(selectedClassCategory) )
+               name.toLowerCase().startsWith(query)
              );
          
              if (suggestions.length) {
