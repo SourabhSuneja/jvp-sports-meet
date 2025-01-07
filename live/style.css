@@ -13,10 +13,6 @@ body {
 	padding-bottom: 100px;
 }
 
-.hidden {
- display: none;
-}
-
 .dashboard-container {
 	max-width: 1200px;
 	margin: 0 auto;
@@ -342,4 +338,8 @@ table td:first-child {
   #popupMsg {
     font-size: 1rem;
   }
+}
+
+.hidden {
+ display: none;
 }
