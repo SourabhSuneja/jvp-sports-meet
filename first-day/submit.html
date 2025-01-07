@@ -259,6 +259,27 @@
          color: red;
          padding: 8px 2px;
          }
+         .suggestions {
+         max-height: 150px;
+         overflow-y: auto;
+         border: 1px solid #ccc;
+         background: white;
+         border-radius: 5px;
+         z-index: 1000;
+         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+         }
+         .suggestion-item {
+         padding: 10px;
+         cursor: pointer;
+         transition: background-color 0.2s;
+         }
+         .suggestion-item:hover {
+         background-color: #f1f1f1;
+         }
+         .no-suggestions {
+         padding: 10px;
+         color: #888;
+         }
       </style>
    </head>
    <body>
@@ -305,7 +326,8 @@
             
             <div class="form-group">
                <label for="winner1">Winner 1:</label>
-               <input class="winnerInputs" type="text" id="winner1" placeholder="Name of student">
+               <input class="winnerInputs" type="text" id="winner1" placeholder="Name of student" autocomplete="off">
+               <div class="suggestions" id="suggestions1"></div>
                <select class="winnerInputs" id="winnerclass1">
                   <option value="" selected>Select class</option>
                   <option value="Nursery">Nursery</option>
@@ -318,7 +340,8 @@
 
             <div class="form-group">
                <label for="winner2">Winner 2:</label>
-               <input class="winnerInputs" type="text" id="winner2" placeholder="Name of student">
+               <input class="winnerInputs" type="text" id="winner2" placeholder="Name of student" autocomplete="off">
+               <div class="suggestions" id="suggestions1"></div>
                <select class="winnerInputs" id="winnerclass2">
                   <option value="" selected>Select class</option>
                   <option value="Nursery">Nursery</option>
@@ -331,7 +354,8 @@
 
             <div class="form-group">
                <label for="winner3">Winner 3:</label>
-               <input class="winnerInputs" type="text" id="winner3" placeholder="Name of student">
+               <input class="winnerInputs" type="text" id="winner3" placeholder="Name of student" autocomplete="off">
+               <div class="suggestions" id="suggestions1"></div>
                <select class="winnerInputs" id="winnerclass3">
                   <option value="" selected>Select class</option>
                   <option value="Nursery">Nursery</option>
