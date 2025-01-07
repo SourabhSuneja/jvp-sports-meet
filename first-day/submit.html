@@ -654,11 +654,6 @@
          const studentNames = {};
          const baseURL = "https://sourabhsuneja.github.io/quiz/students/";
          let allStudents;
-         let selectedClassCategory = '';
-         
-         document.getElementById("classGroup").addEventListener("change", function(event) {
-         selectedClassCategory = event.target.value; 
-         });
          
          function setupInput(inputId, suggestionsId) {
            const input = document.getElementById(inputId);
@@ -674,7 +669,7 @@
          
              // Filter matching suggestions
              suggestions = allStudents.filter(({ name, className }) =>
-               ( name.toLowerCase().startsWith(query) && className.startsWith(selectedClassCategory) )
+               name.toLowerCase().startsWith(query)
              );
          
              if (suggestions.length) {
