@@ -84,7 +84,7 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
 
    if (updateElement === 'popup' || updateElement === 'both') {
       // show pop-up with a cheers message
-      const heading = "🎉 " + getRandomCongratulatoryWord() + " 🎉";
+      const heading = "🥳 " + getRandomCongratulatoryWord() + " 🥳";
       const popupContent = generateWinnersMessage(w.winner1, w.winner2, w.winner3, w.winnerhouse1, w.winnerhouse2, w.winnerhouse3, w.game);
       showPopup(heading, popupContent, true, 60000);
    }
@@ -92,7 +92,7 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
 
 // Function to generate cheering text for the pop-up
 function generateWinnersMessage(winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3, game) {
-   return `Cheers to ${winner1} for securing 1st place, ${winner2} for 2nd, and ${winner3} for 3rd in ${game}! <br>🏆 Well done, champions! 🏆`;
+   return `Cheers to ${winner1} for securing 1st place, ${winner2} for 2nd, and ${winner3} for 3rd in ${game}! <br><br>🥇 Well done, champions! 🥇`;
 }
 
 // Function to randomly pick a congratulatory word or phrase
