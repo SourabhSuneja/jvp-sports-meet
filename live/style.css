@@ -245,11 +245,11 @@ table td:first-child {
 }
 
 #popupHeading {
-	font-size: 1.8rem;
+	font-size: 2.2rem;
 }
 
 #popupMsg {
-	font-size: 1.2rem;
+	font-size: 2rem;
 	line-height: 1.4;
 }
 
@@ -258,7 +258,7 @@ table td:first-child {
 	padding: 40px;
 	border-radius: 20px;
 	box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-	max-width: 600px;
+	max-width: 900px;
 	width: 90%;
 	position: relative;
 	color: #000;
