@@ -87,7 +87,7 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
 
    if (updateElement === 'popup' || updateElement === 'both') {
       // show pop-up with a cheers message
-      const heading = "🎉 " + getRandomCongratulatoryWord() + " 🎉";
+      const heading = "🥳 " + getRandomCongratulatoryWord() + " 🥳";
       const popupContent = generateWinnersMessage(w.winner1, w.winner2, w.winner3, w.winnerhouse1, w.winnerhouse2, w.winnerhouse3, w.game);
       showPopup(heading, popupContent, true, 60000);
    }
