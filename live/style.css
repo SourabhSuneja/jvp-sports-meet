@@ -179,7 +179,7 @@ table td:first-child {
 }
 
 .btn-download {
-	display: none;
+	display: block;
 	width: 200px;
 	margin: 20px auto;
 	padding: 10px 20px;
