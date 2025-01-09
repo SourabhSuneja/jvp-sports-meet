@@ -169,13 +169,21 @@ function calculateScores(winners) {
       }
    };
 
-   // Function to add points to a house
-   function addPoints(scoreObj, house, points) {
-      if (!scoreObj[house]) {
-         scoreObj[house] = 0;
-      }
-      scoreObj[house] += points;
-   }
+ // Function to add points to one or more houses
+function addPoints(scoreObj, house, points) {
+    // Split the house string by "/" (if present in case of ties between two houses) and trim whitespace from each house name
+    const houseArray = house.split("/").map(item => item.trim());
+
+    // Iterate over the house names and update the scores
+    houseArray.forEach(houseName => {
+        // Initialize the house score if it doesn't exist
+        if (!scoreObj[houseName]) {
+            scoreObj[houseName] = 0;
+        }
+        // Add the specified points
+        scoreObj[houseName] += points;
+    });
+}
 
    // Iterate through each winner entry
    winners.forEach(entry => {
