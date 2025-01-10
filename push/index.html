@@ -820,6 +820,18 @@
                 showError('Please select the winner houses.');
                 return;
            }
+
+           if(gameType === 'individual') {
+               if(winnerhouse1.includes('/')) {
+                  winnerclass1 = "Class " + (winnerclass1.split('-')[0])
+               }
+               if(winnerhouse2.includes('/')) {
+                  winnerclass2 = "Class " + (winnerclass2.split('-')[0])
+               }
+               if(winnerhouse3.includes('/')) {
+                  winnerclass3 = "Class " + (winnerclass3.split('-')[0])
+               }
+           }
          
            submitWinners(game, classcategory, `${capitalizeFirstLetter(winner1)} (${winnerclass1})`, `${capitalizeFirstLetter(winner2)} (${winnerclass2})`, `${capitalizeFirstLetter(winner3)} (${winnerclass3})`, winnerhouse1, winnerhouse2, winnerhouse3);
          });
