@@ -162,10 +162,10 @@ function calculateScores(winners) {
    // Initialize the scores object
    const scores = {
       'Total': {
-         'Ruby': 0,
-         'Emerald': 0,
-         'Sapphire': 0,
-         'Topaz': 0
+         'Ruby': 70,
+         'Emerald': 59,
+         'Sapphire': 48,
+         'Topaz': 54
       }
    };
 
