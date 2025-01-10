@@ -173,6 +173,7 @@ function calculateScores(winners) {
 function addPoints(scoreObj, house, points) {
     // Split the house string by "/" (if present in case of ties between two houses) and trim whitespace from each house name
     const houseArray = house.split("/").map(item => item.trim());
+    // points = points / houseArray.length;
 
     // Iterate over the house names and update the scores
     houseArray.forEach(houseName => {
