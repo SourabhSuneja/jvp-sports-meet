@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+
+        #qr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .qr-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .qr-label {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #000;
+        }
+
+        button {
+            display: inline-block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #print-btn {
+            margin-top: 30px;
+            display: block;
+        }
+
+        @media print {
+            button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Generator</h1>
+    <div id="qr-grid"></div>
+    <button id="print-btn" onclick="printPage()">Print QR Codes</button>
+
+    <script>
+        const data = [
+            { Name: 'Aanya Sharma', Class: '8-A2', House: 'Topaz' },
+            { Name: 'Bhavya Choudhary', Class: '8-A2', House: 'Emerald' },
+            { Name: 'Aadit Sangwan', Class: '7-A2', House: 'Sapphire' },
+            { Name: 'Aayush Choudhary', Class: '7-A2', House: 'Ruby' },
+        ];
+
+        function generateAllQRCodes() {
+            const qrGrid = document.getElementById('qr-grid');
+
+            data.forEach((item) => {
+                const qrCard = document.createElement('div');
+                qrCard.className = 'qr-card';
+
+                const canvas = document.createElement('canvas');
+                const label = document.createElement('div');
+                label.className = 'qr-label';
+
+                // Prepare label text
+                const labelText = `Name: ${item.Name}, Class: ${item.Class}, House: ${item.House}`;
+                label.textContent = labelText;
+
+                // Generate QR code
+                const qrData = JSON.stringify(item);
+                QRCode.toCanvas(canvas, qrData, { width: 200 }, (error) => {
+                    if (error) console.error(error);
+                });
+
+                // Append canvas and label to card
+                qrCard.appendChild(canvas);
+                qrCard.appendChild(label);
+
+                // Add card to grid
+                qrGrid.appendChild(qrCard);
+            });
+        }
+
+        function printPage() {
+            window.print();
+        }
+
+        // Generate QR codes on page load
+        window.onload = generateAllQRCodes;
+    </script>
+</body>
+</html>
