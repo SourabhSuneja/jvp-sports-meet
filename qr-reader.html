@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Reader</title>
+    <!-- Correct CDN for html5-qrcode -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+
+        #scanner-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #reader {
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        #results {
+            margin-top: 20px;
+        }
+
+        .result-card {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            display: inline-block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        @media print {
+            button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Reader</h1>
+    <div id="scanner-container">
+        <div id="reader"></div>
+        <div id="buttons">
+            <button id="start-button" onclick="startScanner()">Start Camera</button>
+            <button id="stop-button" onclick="stopScanner()" style="display: none;">Stop Camera</button>
+        </div>
+        <div id="results">
+            <h2>Scanned QR Codes</h2>
+            <div id="result-list"></div>
+        </div>
+    </div>
+
+    <script>
+        const resultList = new Set([]);
+        const html5QrCode = new Html5Qrcode("reader"); // Use the correct class
+        const resultContainer = document.getElementById("result-list");
+        let isScanning = false;
+
+        function startScanner() {
+            if (isScanning) return;
+            isScanning = true;
+
+            html5QrCode
+                .start(
+                    { facingMode: "environment" }, // Use the back camera
+                    {
+                        fps: 10, // Set the scanning rate
+                        qrbox: { width: 250, height: 250 }, // QR code box dimensions
+                    },
+                    (decodedText, decodedResult) => {
+                        processQRCode(decodedText);
+                    },
+                    (errorMessage) => {
+                        console.log(errorMessage); // Log errors for debugging
+                    }
+                )
+                .then(() => {
+                    document.getElementById("start-button").style.display = "none";
+                    document.getElementById("stop-button").style.display = "inline-block";
+                })
+                .catch((err) => {
+                    console.error("Camera initialization failed: ", err);
+                    alert("Unable to access the camera. Please check your device permissions.");
+                    isScanning = false;
+                });
+        }
+
+        function stopScanner() {
+            if (!isScanning) return;
+
+            html5QrCode.stop().then(() => {
+                isScanning = false;
+                document.getElementById("start-button").style.display = "inline-block";
+                document.getElementById("stop-button").style.display = "none";
+            });
+        }
+
+        function processQRCode(decodedText) {
+            try {
+                const data = JSON.parse(decodedText);
+
+                // if this information has already been added to the resultList, return
+                if(resultList.has(decodedText)) {
+                         return;
+                    }
+
+                // Create a new result card
+                const card = document.createElement("div");
+                card.className = "result-card";
+
+                const labelText = `Name: ${data.Name}, Class: ${data.Class}, House: ${data.House}`;
+                card.textContent = labelText;
+
+                resultContainer.appendChild(card);
+
+                // Add to results set  
+                resultList.add(decodedText);
+            } catch (err) {
+                alert("Invalid QR code format. Please scan a valid QR code.");
+                console.error(err);
+            }
+        }
+
+        function getResultArray() {
+            console.log("Data Array: ", resultList); // For debugging
+            return resultList;
+        }
+    </script>
+</body>
+</html>
