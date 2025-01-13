@@ -128,7 +128,7 @@ h2::after {
 }
 
 .tile span {
-	font-size: 1.7rem;
+	font-size: 2rem;
 	display: inline-block;
 	margin: 7px 0;
 }
@@ -338,6 +338,9 @@ table td:first-child {
 }
 
 @media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
   h1 ion-icon {
     font-size: 3rem;
   }
