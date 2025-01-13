@@ -64,15 +64,15 @@ h3 {
 	text-align: center;
 }
 
-h2::after {
+h2::before {
 	content: '';
 	display: inline-block;
 	width: 10px;
 	height: 10px;
 	background-color: red;
 	border-radius: 50%;
-	margin-left: 10px;
-	animation: blink 1.5s infinite;
+	margin-right: 2px;
+	animation: blink 1.3s infinite;
 }
 
 @keyframes blink {
