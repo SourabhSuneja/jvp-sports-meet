@@ -33,7 +33,7 @@ async function pollEntireData() {
       columns = '*',
       matchColumns = [],
       matchValues = [],
-      orderByColumn = 'row_id',
+      orderByColumn = 'classcategory',
       orderDirection = 'asc'
    );
 
