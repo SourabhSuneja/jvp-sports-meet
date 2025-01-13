@@ -283,7 +283,7 @@ function updateScoreWithAnimation(element, newContent) {
       if (oldScore === newScore) {
          clearInterval(interval);
       }
-   }, 40); // Delay between each update for the animation effect
+   }, 10); // Delay between each update for the animation effect
 }
 
 // function to update the dashboard 
