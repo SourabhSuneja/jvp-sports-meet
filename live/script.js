@@ -4,7 +4,7 @@ const popupMsg = document.getElementById('popupMsg');
 const ribbons = document.getElementById('ribbons');
 const popupCloseBtn = document.getElementById('popupCloseBtn');
 const downloadBtn = document.getElementById('downloadBtn');
-const defaultHeadline = "Get ready for an action-packed celebration! Jamna Vidyapeeth proudly presents the Annual Sports Meet 2024 – The ultimate showdown begins!";
+const defaultHeadline = "Get ready for an action-packed celebration! Jamna Vidyapeeth proudly presents the Annual Sports Meet 2024 â€“ The ultimate showdown begins!";
 // Array of congratulatory words and phrases
 const congratulatoryWords = [
   "Bravo!",
@@ -87,7 +87,7 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
 
    if (updateElement === 'popup' || updateElement === 'both') {
       // show pop-up with a cheers message
-      const heading = "🥳 " + getRandomCongratulatoryWord() + " 🥳";
+      const heading = "ðŸ¥³ " + getRandomCongratulatoryWord() + " ðŸ¥³";
       const popupContent = generateWinnersMessage(w.winner1, w.winner2, w.winner3, w.winnerhouse1, w.winnerhouse2, w.winnerhouse3, w.game);
       showPopup(heading, popupContent, true, 60000);
    }
@@ -96,9 +96,9 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
 // Function to generate cheering text for the pop-up
 function generateWinnersMessage(winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3, game) {
    if(getGameType(game) === 'individual') {
-      return `Cheers to ${winner1} from ${winnerHouse1} House for securing 1st place, ${winner2} from ${winnerHouse2} House for 2nd, and ${winner3} from ${winnerHouse3} House for 3rd in ${game}! <br><br>🥇 Well done, champions! 🥇`;
+      return `Cheers to ${winner1} from ${winnerHouse1} House for securing 1st place, ${winner2} from ${winnerHouse2} House for 2nd, and ${winner3} from ${winnerHouse3} House for 3rd in ${game}! <br><br>ðŸ¥‡ Well done, champions! ðŸ¥‡`;
    } else {
-      return `Cheers to ${winnerHouse1} House for securing 1st place, and ${winnerHouse2} House for 2nd place in ${game}! <br><br>🥇 Well done, champions! 🥇`;
+      return `Cheers to ${winnerHouse1} House for securing 1st place, and ${winnerHouse2} House for 2nd place in ${game}! <br><br>ðŸ¥‡ Well done, champions! ðŸ¥‡`;
    }   
 }
 
@@ -162,12 +162,23 @@ function calculateScores(winners) {
    // Initialize the scores object
    const scores = {
       'Total': {
+         'Ruby': 0,
+         'Emerald': 0,
+         'Sapphire': 0,
+         'Topaz': 0
+      },
+      'Previous Total': {
          'Ruby': 70,
          'Emerald': 59,
          'Sapphire': 48,
          'Topaz': 54
       }
    };
+
+   // Add previous totals to the house totals
+    for(const house in scores.Total) {
+        scores.Total[house] += scores['Previous Total'][house];
+    }
 
  // Function to add points to one or more houses
 function addPoints(scoreObj, house, points) {
