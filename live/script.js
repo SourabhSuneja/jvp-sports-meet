@@ -4,7 +4,7 @@ const popupMsg = document.getElementById('popupMsg');
 const ribbons = document.getElementById('ribbons');
 const popupCloseBtn = document.getElementById('popupCloseBtn');
 const downloadBtn = document.getElementById('downloadBtn');
-const defaultHeadline = "Get ready for an action-packed celebration! Jamna Vidyapeeth proudly presents the Annual Sports Meet 2024 â€“ The ultimate showdown begins!";
+const defaultHeadline = "Get ready for an action-packed celebration! Jamna Vidyapeeth proudly presents the Annual Sports Meet 2024-25. The ultimate showdown begins!";
 // Array of congratulatory words and phrases
 const congratulatoryWords = [
   "Bravo!",
