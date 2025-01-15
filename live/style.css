@@ -102,11 +102,13 @@ h3 {
 	color: white;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
+ position: relative;
 }
 
 .tile:hover {
 	transform: translateY(-5px);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+ cursor: pointer;
 }
 
 .tile.ruby {
@@ -130,6 +132,49 @@ h3 {
 	font-size: 2rem;
 	display: inline-block;
 	margin: 7px 0;
+}
+
+.tile .position-indicator {
+  position: absolute;
+  background: rgba(35,35,35,1);
+  color: #fff;
+  width: 60%;
+  padding: 5px 0;
+  font-size: 0.9em;
+  text-align: center;
+  border-radius: 6px;
+  z-index: 2;
+  top: calc(100% - 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  visibility: hidden;
+}
+
+.position-indicator::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+.tile.ruby:hover #ruby_position {
+  visibility: visible;
+}
+
+.tile.emerald:hover #emerald_position {
+  visibility: visible;
+}
+
+.tile.sapphire:hover #sapphire_position {
+  visibility: visible;
+}
+
+.tile.topaz:hover #topaz_position {
+  visibility: visible;
 }
 
 .table-container {
