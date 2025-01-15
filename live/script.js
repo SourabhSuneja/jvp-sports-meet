@@ -297,15 +297,60 @@ function updateScoreWithAnimation(element, newContent) {
    }, 10); // Delay between each update for the animation effect
 }
 
-// function to update the dashboard 
-function updateDashboard(winnerCounts) {
-   // Loop through each class category in the winnerCounts object
-   for (const classcategory in winnerCounts) {
-      // Get the house counts for the current category
-      const houseCounts = winnerCounts[classcategory];
 
-      // Loop through each house in the houseCounts object
-      for (const house in houseCounts) {
+// function to rank houses based on their total scores
+function rankHouses(score) {
+    // Remove the "NIL" key if it exists
+    delete score['NIL'];
+
+    // Convert the score object to an array of [house, score] pairs
+    let scoreArray = Object.entries(score);
+
+    // Sort the array in descending order of scores
+    scoreArray.sort((a, b) => b[1] - a[1]);
+
+    // Create a rank object
+    let rank = {};
+    scoreArray.forEach((item, index) => {
+        rank[item[0]] = index + 1;
+    });
+
+    return rank;
+}
+
+
+// function to update the dashboard 
+function updateDashboard(scores) {
+
+   // Get ranks for all houses
+   const ranks = rankHouses(scores.Total);
+   // Update rank labels for all houses
+   for(const [house, rank] of Object.entries(ranks)) {
+      const element = document.getElementById(`${house.toLowerCase()}_position`);
+      let ordinalVal;
+      switch(rank) {
+            case 1: ordinalVal = 'First';
+            break;
+            case 2: ordinalVal = 'Second';
+            break;
+            case 3: ordinalVal = 'Third';
+            break;
+            case 4: ordinalVal = 'Fourth';
+            break;
+            default: ordinalVal = undefined;
+      }
+      if(element && ordinalVal) {         
+         element.innerText = ordinalVal;
+      }
+   }
+   
+   // Loop through each class category in the scores object
+   for (const classcategory in scores) {
+      // Get the house counts for the current category
+      const subtotals = scores[classcategory];
+
+      // Loop through each house in the subtotals object
+      for (const house in subtotals) {
          // Format the class category and house into the ID pattern
          const formattedCategory = classcategory.toLowerCase().replace(/ /g, '_');
          const id = `${house.toLowerCase()}_${formattedCategory}`;
@@ -315,13 +360,14 @@ function updateDashboard(winnerCounts) {
 
          // If the element exists, update its content
          if (element) {
-            updateScoreWithAnimation(element, houseCounts[house]);
+            updateScoreWithAnimation(element, subtotals[house]);
          } else {
             console.warn(`Element with ID "${id}" not found.`);
          }
       }
    }
 }
+
 
 
 function addNewRow(winner) {
