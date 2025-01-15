@@ -321,14 +321,26 @@ function rankHouses(score) {
 
 // function to update the dashboard 
 function updateDashboard(scores) {
+  
+   // Loop through each class category in the scores object
+   for (const classcategory in scores) {
 
-   // Get ranks for all houses
-   const ranks = rankHouses(scores.Total);
-   // Update rank labels for all houses
-   for(const [house, rank] of Object.entries(ranks)) {
-      const element = document.getElementById(`${house.toLowerCase()}_position`);
-      let ordinalVal;
-      switch(rank) {
+      // Format the class category and house into the ID pattern
+      const formattedCategory = classcategory.toLowerCase().replace(/ /g, '_');
+
+      // Get the house counts for the current category
+      const subtotals = scores[classcategory];
+
+      // Get ranks for all houses
+      const ranks = rankHouses(subtotals);
+
+      // Update rank labels for all houses
+      for(const [house, rank] of Object.entries(ranks)) {
+         // Find the rank label element
+         const id = `${house.toLowerCase()}_${formattedCategory}_rank`;
+         const element = document.getElementById(id);
+         let ordinalVal;
+         switch(rank) {
             case 1: ordinalVal = 'First';
             break;
             case 2: ordinalVal = 'Second';
@@ -338,21 +350,15 @@ function updateDashboard(scores) {
             case 4: ordinalVal = 'Fourth';
             break;
             default: ordinalVal = undefined;
+         }
+         if(element && ordinalVal) {         
+            element.innerText = ordinalVal;
+         }
       }
-      if(element && ordinalVal) {         
-         element.innerText = ordinalVal;
-      }
-   }
-   
-   // Loop through each class category in the scores object
-   for (const classcategory in scores) {
-      // Get the house counts for the current category
-      const subtotals = scores[classcategory];
 
       // Loop through each house in the subtotals object
       for (const house in subtotals) {
-         // Format the class category and house into the ID pattern
-         const formattedCategory = classcategory.toLowerCase().replace(/ /g, '_');
+         
          const id = `${house.toLowerCase()}_${formattedCategory}`;
 
          // Find the HTML element by the ID
@@ -367,7 +373,6 @@ function updateDashboard(scores) {
       }
    }
 }
-
 
 
 function addNewRow(winner) {
