@@ -170,19 +170,19 @@ h3 {
   border-color: transparent transparent black transparent;
 }
 
-.tile.ruby:hover #ruby_position {
+.tile.ruby:hover .position-indicator {
   visibility: visible;
 }
 
-.tile.emerald:hover #emerald_position {
+.tile.emerald:hover .position-indicator {
   visibility: visible;
 }
 
-.tile.sapphire:hover #sapphire_position {
+.tile.sapphire:hover .position-indicator {
   visibility: visible;
 }
 
-.tile.topaz:hover #topaz_position {
+.tile.topaz:hover .position-indicator {
   visibility: visible;
 }
 
