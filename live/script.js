@@ -471,7 +471,7 @@ function formatGameName(input) {
 
 // helper function to format winner name so that class is always displayed in the next line
 function formatWinnerName(str) {
-	const match = str.match(/\(\d+-\w+\)$/i);
+	const match = str.match(/\((?:Class\s)?\d+(?:-\w+)?\)$/i);
 	return match ? str.replace(match[0], `<br>${match[0]}`) : str;
 }
 
