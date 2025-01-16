@@ -318,6 +318,33 @@ function rankHouses(score) {
     return rank;
 }
 
+// function to dynamically reorder house score tiles based on their current ranks
+function updateTileOrder(ranks, container) {
+    const tilesContainer = document.querySelector(`.${container}`);
+    if(!tilesContainer) return;
+    const tiles = Array.from(tilesContainer.children);
+
+    // Filter out hidden tiles (e.g., "NIL")
+    const visibleTiles = tiles.filter(tile => !tile.classList.contains("hidden"));
+
+    // Sort the visible tiles based on the ranks object
+    visibleTiles.sort((a, b) => {
+        const houseA = a.classList.contains('ruby') ? 'Ruby' :
+                       a.classList.contains('emerald') ? 'Emerald' :
+                       a.classList.contains('sapphire') ? 'Sapphire' :
+                       a.classList.contains('topaz') ? 'Topaz' : null;
+        const houseB = b.classList.contains('ruby') ? 'Ruby' :
+                       b.classList.contains('emerald') ? 'Emerald' :
+                       b.classList.contains('sapphire') ? 'Sapphire' :
+                       b.classList.contains('topaz') ? 'Topaz' : null;
+
+        return ranks[houseA] - ranks[houseB];
+    });
+
+    // Append the visible tiles back in sorted order
+    visibleTiles.forEach(tile => tilesContainer.appendChild(tile));
+}
+
 
 // function to update the dashboard 
 function updateDashboard(scores) {
@@ -333,6 +360,9 @@ function updateDashboard(scores) {
 
       // Get ranks for all houses
       const ranks = rankHouses(subtotals);
+
+      // Dynamically re-order the score tiles based on ranks
+      updateTileOrder(ranks, `tiles_${formattedCategory}`)
 
       // Update rank labels for all houses
       for(const [house, rank] of Object.entries(ranks)) {
