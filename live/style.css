@@ -111,13 +111,13 @@ h3 {
 	color: white;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
- position: relative;
+        position: relative;
 }
 
 .tile:hover {
 	transform: translateY(-5px);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
- cursor: pointer;
+        cursor: pointer;
 }
 
 .tile.ruby {
@@ -145,7 +145,7 @@ h3 {
 
 .tile .position-indicator {
   position: absolute;
-  background: rgba(35,35,35,1);
+  background: rgb(20,20,20);
   color: #fff;
   width: 60%;
   padding: 5px 0;
