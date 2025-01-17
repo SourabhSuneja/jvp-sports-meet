@@ -203,15 +203,15 @@ h3 {
 }
 
 .tile.emerald:hover .position-indicator {
-  visibility: visible;
+  opacity: 1;
 }
 
 .tile.sapphire:hover .position-indicator {
-  visibility: visible;
+  opacity: 1;
 }
 
 .tile.topaz:hover .position-indicator {
-  visibility: visible;
+  opacity: 1;
 }
 
 .table-container {
