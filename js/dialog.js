@@ -2,13 +2,12 @@ const loadingPhrases = [
    "Crowning the champions...",
    "Polishing the trophies...",
    "Celebrating the winners...",
-   "Finalizing the glory...",
-   "Sending cheers to the server...",
+   "Crafting the glory...",
+   "Putting up the cheers...",
    "Warming up the applause...",
    "Crafting the victory moment...",
    "Bringing the spotlight...",
-   "Adding sparkles to the leaderboard...",
-   "Uploading the winning smiles..."
+   "Adding sparkles to the leaderboard..."
 ];
 
 // Function to select a random phrase
