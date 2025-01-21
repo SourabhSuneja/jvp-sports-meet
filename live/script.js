@@ -589,6 +589,21 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+// Function to fetch saved results of past sessions stored as JSON files
+async function fetchSavedResult(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Network response was not ok " + response.statusText);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+    return null; // Return null in case of an error
+  }
+}
+
 window.addEventListener('load', function () {
    pollEntireData();
    const subscription = subscribeToTable('winners', handleLiveUpdate);
