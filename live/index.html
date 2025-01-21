@@ -15,6 +15,7 @@
       <!-- Log page visit -->
       <script type="module" src="https://sourabhsuneja.github.io/academic-resources/auth/page-visit-logger.js"></script>
       <meta name="description" content="Live results of JVP's Annual Sports Meet 2024-25. Stay updated in real-time!">
+      <link rel="preload" href="https://sourabhsuneja.github.io/jvp-sports-meet/images/loading.gif" as="image">
       <link rel="stylesheet" href="https://sourabhsuneja.github.io/jvp-sports-meet/css/dialog.css">
       <link rel="stylesheet" href="./style.css">
       <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -203,8 +204,11 @@
          <marquee class="scrolling-text" id="scrollingText" scrollamount="4">Get ready for an action-packed celebration! Jamna Vidyapeeth proudly presents the Annual Sports Meet 2024-25. The ultimate showdown begins!</marquee>
       </div>
       <!-- Scrolling Strip Ends -->
-      <script type="module" src="https://sourabhsuneja.github.io/jvp-sports-meet/js/supabase-crud.js"></script>
       <script src="https://sourabhsuneja.github.io/jvp-sports-meet/js/dialog.js"></script>
+      <script>
+         showProcessingDialog();
+      </script>
+      <script type="module" src="https://sourabhsuneja.github.io/jvp-sports-meet/js/supabase-crud.js"></script>
       <script src="./script.js"></script>
       <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
       <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
