@@ -45,8 +45,8 @@ async function pollEntireData() {
    // Hide loading dialog
    hideProcessingDialog();
 
-   const winnerCounts = calculateScores(winners);
-   updateDashboard(winnerCounts);
+   const houseScores = calculateScores(winners);
+   updateDashboard(houseScores);
 
 }
 
