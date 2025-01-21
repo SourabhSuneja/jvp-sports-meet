@@ -42,6 +42,9 @@ async function pollEntireData() {
       addNewRow(winner);
    });
 
+   // Hide loading dialog
+   hideProcessingDialog();
+
    const winnerCounts = calculateScores(winners);
    updateDashboard(winnerCounts);
 
