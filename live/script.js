@@ -4,6 +4,7 @@ let prevHouseTotals = {
   'Sapphire': 48,
   'Topaz': 54
 };
+let winners;
 const popupBox = document.getElementById('popupBox');
 const popupHeading = document.getElementById('popupHeading');
 const popupMsg = document.getElementById('popupMsg');
@@ -31,12 +32,14 @@ const congratulatoryWords = [
   "What a win!"
 ];
 
-let winners;
 async function pollEntireData() {
 
    const resultName = getParameterByName('result');
    if(resultName) {
-     winners = await fetchSavedResult(`${savedResultsURL}${resultName}.json`);
+     const fetchedData = await fetchSavedResult(`${savedResultsURL}${resultName}.json`);
+     winners = fetchedData['winners'];
+     prevHouseTotals = fetchedData['Previous Total'];
+     console.log('Data fetched from an already saved JSON results file');
    } else {
      winners = await selectData(
         tableName = 'winners',
