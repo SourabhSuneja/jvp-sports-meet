@@ -658,6 +658,30 @@ document.addEventListener('DOMContentLoaded', () => {
   tooltip.style.whiteSpace = 'nowrap';
   document.body.appendChild(tooltip);
 
+// Function to update the tooltip position and keep it within the viewport
+function updateTooltipPosition(event) {
+  const tooltipRect = tooltip.getBoundingClientRect();
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  let left = event.pageX + 20;
+  let top = event.pageY + 20;
+
+  // Adjust if the tooltip goes beyond the right edge of the viewport
+  if (left + tooltipRect.width > viewportWidth) {
+    left = viewportWidth - tooltipRect.width - 10; // Add some padding
+  }
+
+  // Adjust if the tooltip goes beyond the bottom edge of the viewport
+  if (top + tooltipRect.height > viewportHeight) {
+    top = viewportHeight - tooltipRect.height - 10; // Add some padding
+  }
+
+  // Update the tooltip's position
+  tooltip.style.left = `${left}px`;
+  tooltip.style.top = `${top}px`;
+}
+
   table.addEventListener('mouseover', (event) => {
     const row = event.target.closest('tr');
     if (row && row.id && row.id.startsWith('row')) {
@@ -672,8 +696,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   table.addEventListener('mousemove', (event) => {
-    tooltip.style.left = `${event.pageX+20}px`;
-    tooltip.style.top = `${event.pageY+20}px`;
+    updateTooltipPosition(event);
   });
 
   table.addEventListener('mouseout', (event) => {
