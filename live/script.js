@@ -5,6 +5,7 @@ let prevHouseTotals = {
   'Topaz': 54
 };
 let winners;
+let inLiveMode = true;
 const popupBox = document.getElementById('popupBox');
 const popupHeading = document.getElementById('popupHeading');
 const popupMsg = document.getElementById('popupMsg');
@@ -37,6 +38,7 @@ async function pollEntireData() {
    const resultName = getParameterByName('result');
    if(resultName) {
      const fetchedData = await fetchSavedResult(`${savedResultsURL}${resultName}.json`);
+     inLiveMode = false;
      winners = fetchedData['winners'];
      prevHouseTotals = fetchedData['Previous Total'];
      console.log('Data fetched from an already saved JSON results file');
@@ -616,8 +618,10 @@ async function fetchSavedResult(url) {
 
 window.addEventListener('load', function () {
    pollEntireData();
-   const subscription = subscribeToTable('winners', handleLiveUpdate);
-   const subscription2 = subscribeToTable('notifications', handleNotifications);
+   if(inLiveMode) {
+      const subscription = subscribeToTable('winners', handleLiveUpdate);
+      const subscription2 = subscribeToTable('notifications', handleNotifications);
+   }
 });
 
 
