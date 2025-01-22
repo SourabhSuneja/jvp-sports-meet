@@ -630,6 +630,57 @@ async function fetchSavedResult(url) {
   }
 }
 
+// Function to format the timestamp to be displayed in the tooltip when a winner row is hovered upon
+function formatTimestamp(timestamp) {
+  const date = new Date(timestamp);
+  const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+  return date.toLocaleString('en-US', options);
+}
+
+// Adding hover functionality to the rows to display the time the result was recorded
+document.addEventListener('DOMContentLoaded', () => {
+
+  const table = document.getElementById('winnersTable');
+
+  // Create a tooltip div
+  const tooltip = document.createElement('div');
+  tooltip.style.position = 'absolute';
+  tooltip.style.padding = '8px';
+  tooltip.style.background = '#333';
+  tooltip.style.color = '#fff';
+  tooltip.style.borderRadius = '4px';
+  tooltip.style.fontSize = '12px';
+  tooltip.style.display = 'none';
+  tooltip.style.zIndex = '1000';
+  tooltip.style.pointerEvents = 'none';
+  tooltip.style.transform = 'translateY(-10px)';
+  tooltip.style.whiteSpace = 'nowrap';
+  document.body.appendChild(tooltip);
+
+  table.addEventListener('mouseover', (event) => {
+    const row = event.target.closest('tr');
+    if (row && row.id && row.id.startsWith('row')) {
+      const rowId = parseInt(row.id.replace('row', ''), 10);
+      const winner = winners.find(w => w.row_id === rowId);
+
+      if (winner) {
+        tooltip.textContent = `Result recorded on ${formatTimestamp(winner.timestamp)}`;
+        tooltip.style.display = 'block';
+      }
+    }
+  });
+
+  table.addEventListener('mousemove', (event) => {
+    tooltip.style.left = `${event.pageX}px`;
+    tooltip.style.top = `${event.pageY}px`;
+  });
+
+  table.addEventListener('mouseout', (event) => {
+    tooltip.style.display = 'none';
+  });
+});
+
+
 window.addEventListener('load', async function () {
    const isLive = await pollEntireData();
    if(isLive) {
