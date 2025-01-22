@@ -615,7 +615,7 @@ async function fetchSavedResult(url) {
   }
 }
 
-window.addEventListener('load', function () {
+window.addEventListener('load', async function () {
    const isLive = await pollEntireData();
    if(isLive) {
       const subscription = subscribeToTable('winners', handleLiveUpdate);
