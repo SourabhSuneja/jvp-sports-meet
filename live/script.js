@@ -41,7 +41,7 @@ async function pollEntireData() {
      inLiveMode = false;
      winners = fetchedData['winners'];
      prevHouseTotals = fetchedData['Previous Total'];
-     console.log('Data fetched from an already saved JSON results file');
+     console.log('Data fetched from an already saved JSON results file.');
    } else {
      winners = await selectData(
         tableName = 'winners',
