@@ -151,7 +151,7 @@ downloadBtn.addEventListener('click', () => {
 });
 
 function processClassString(str) {
-   if (str === '6 to 8' || str === '9 to 12') {
+   if (str === '6 to 8' || str === '9 to 12' || str === '9 to 10' || str === '11 to 12') {
       return '6 to 12';
    }
    // Check if the string contains the word 'to' or is exactly '3 to 5' or '6 to 12'
