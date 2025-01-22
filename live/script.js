@@ -1,3 +1,9 @@
+let prevHouseTotals = {
+  'Ruby': 70,
+  'Emerald': 59,
+  'Sapphire': 48,
+  'Topaz': 54
+};
 const popupBox = document.getElementById('popupBox');
 const popupHeading = document.getElementById('popupHeading');
 const popupMsg = document.getElementById('popupMsg');
@@ -31,7 +37,6 @@ async function pollEntireData() {
    const resultName = getParameterByName('result');
    if(resultName) {
      winners = await fetchSavedResult(`${savedResultsURL}${resultName}.json`);
-     console.log('JSON file fetched successfully');
    } else {
      winners = await selectData(
         tableName = 'winners',
@@ -177,12 +182,7 @@ function calculateScores(winners) {
          'Sapphire': 0,
          'Topaz': 0
       },
-      'Previous Total': {
-         'Ruby': 70,
-         'Emerald': 59,
-         'Sapphire': 48,
-         'Topaz': 54
-      }
+      'Previous Total': prevHouseTotals
    };
 
    // Add previous totals to the house totals
