@@ -138,16 +138,31 @@ downloadBtn.addEventListener('click', () => {
       return cells.map(cell => `"${cell.textContent}"`).join(',');
    }).join('\n');
 
-   // Create a blob and download it
+   // Create a CSV blob and download it
    const blob = new Blob([csvContent], {
       type: 'text/csv'
    });
    const url = URL.createObjectURL(blob);
    const a = document.createElement('a');
    a.href = url;
-   a.download = 'winners_table.csv';
+   a.download = 'winners.csv';
    a.click();
    URL.revokeObjectURL(url);
+
+   // Create a JSON blob and download it
+   const jsonObj = {
+      'Previous Total': prevHouseTotals,
+      'winners': winners
+   }
+   const blobJSON = new Blob([JSON.stringify(jsonObj, null, 2)], {
+      type: 'application/json'
+   });
+   const urlJSON = URL.createObjectURL(blobJSON);
+   const aJSON = document.createElement('a');
+   aJSON.href = urlJSON;
+   aJSON.download = 'winners.json';
+   aJSON.click();
+   URL.revokeObjectURL(urlJSON);
 });
 
 function processClassString(str) {
