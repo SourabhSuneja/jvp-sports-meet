@@ -665,7 +665,7 @@ function updateTooltipPosition(event) {
   const viewportHeight = window.innerHeight;
 
   let left = event.pageX + 20;
-  let top = event.pageY + 50;
+  let top = event.pageY + 35;
 
   // Adjust if the tooltip goes beyond the right edge of the viewport
   if (left + tooltipRect.width > viewportWidth) {
