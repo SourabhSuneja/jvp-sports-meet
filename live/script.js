@@ -651,7 +651,7 @@ document.addEventListener('DOMContentLoaded', () => {
   tooltip.style.borderRadius = '4px';
   tooltip.style.fontSize = '12px';
   tooltip.style.display = 'none';
-  tooltip.style.zIndex = '1000';
+  tooltip.style.zIndex = '50';
   tooltip.style.pointerEvents = 'none';
   tooltip.style.transform = 'translateY(-10px)';
   tooltip.style.whiteSpace = 'nowrap';
@@ -671,8 +671,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   table.addEventListener('mousemove', (event) => {
-    tooltip.style.left = `${event.pageX}px`;
-    tooltip.style.top = `${event.pageY}px`;
+    tooltip.style.left = `${event.pageX+20}px`;
+    tooltip.style.top = `${event.pageY+20}px`;
   });
 
   table.addEventListener('mouseout', (event) => {
