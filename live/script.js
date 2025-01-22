@@ -644,6 +644,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Create a tooltip div
   const tooltip = document.createElement('div');
+  tooltip.id = 'resultTimestamp';
   tooltip.style.position = 'absolute';
   tooltip.style.padding = '8px';
   tooltip.style.background = '#333';
