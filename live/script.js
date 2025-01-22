@@ -5,7 +5,6 @@ let prevHouseTotals = {
   'Topaz': 54
 };
 let winners;
-let inLiveMode = true;
 const popupBox = document.getElementById('popupBox');
 const popupHeading = document.getElementById('popupHeading');
 const popupMsg = document.getElementById('popupMsg');
@@ -34,7 +33,7 @@ const congratulatoryWords = [
 ];
 
 async function pollEntireData() {
-
+   let inLiveMode = true;
    const resultName = getParameterByName('result');
    if(resultName) {
      const fetchedData = await fetchSavedResult(`${savedResultsURL}${resultName}.json`);
@@ -64,7 +63,7 @@ async function pollEntireData() {
 
    const houseScores = calculateScores(winners);
    updateDashboard(houseScores);
-
+   return inLiveMode;
 }
 
 // Close the popup when clicking the close button
@@ -617,8 +616,8 @@ async function fetchSavedResult(url) {
 }
 
 window.addEventListener('load', function () {
-   pollEntireData();
-   if(inLiveMode) {
+   const isLive = await pollEntireData();
+   if(isLive) {
       const subscription = subscribeToTable('winners', handleLiveUpdate);
       const subscription2 = subscribeToTable('notifications', handleNotifications);
    }
