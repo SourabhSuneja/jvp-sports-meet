@@ -127,42 +127,40 @@ function getRandomCongratulatoryWord() {
   return congratulatoryWords[randomIndex];
 }
 
-// Function to download table data as CSV
-downloadBtn.addEventListener('click', () => {
-   const table = document.getElementById('winnersTable');
-   const rows = Array.from(table.rows);
-
-   // Convert rows to CSV format
-   const csvContent = rows.map(row => {
-      const cells = Array.from(row.cells);
-      return cells.map(cell => `"${cell.textContent}"`).join(',');
-   }).join('\n');
-
-   // Create a CSV blob and download it
-   const blob = new Blob([csvContent], {
-      type: 'text/csv'
-   });
+// Function to download data as a file
+function downloadFile(data, fileName, mimeType) {
+   const blob = new Blob([data], { type: mimeType });
    const url = URL.createObjectURL(blob);
-   const a = document.createElement('a');
-   a.href = url;
-   a.download = 'winners.csv';
-   a.click();
-   URL.revokeObjectURL(url);
+   const anchor = document.createElement('a');
+   anchor.href = url;
+   anchor.download = fileName;
+   document.body.appendChild(anchor); // Append to the DOM for compatibility
+   anchor.click();
+   document.body.removeChild(anchor); // Clean up the DOM
+   URL.revokeObjectURL(url); // Release the object URL
+}
 
-   // Create a JSON blob and download it
-   const jsonObj = {
+// Event listener for downloading files
+downloadBtn.addEventListener('click', () => {
+   // Generate CSV content from table
+   const winnersTable = document.getElementById('winnersTable');
+   const csvContent = Array.from(winnersTable.rows)
+      .map(row => Array.from(row.cells)
+         .map(cell => `"${cell.textContent}"`)
+         .join(','))
+      .join('\n');
+
+   // Prepare JSON content
+   const jsonContent = JSON.stringify({
       'Previous Total': prevHouseTotals,
-      'winners': winners
-   }
-   const blobJSON = new Blob([JSON.stringify(jsonObj, null, 2)], {
-      type: 'application/json'
-   });
-   const urlJSON = URL.createObjectURL(blobJSON);
-   const aJSON = document.createElement('a');
-   aJSON.href = urlJSON;
-   aJSON.download = 'winners.json';
-   aJSON.click();
-   URL.revokeObjectURL(urlJSON);
+      winners: winners
+   }, null, 2);
+
+   // Download files with a slight delay between them
+   downloadFile(csvContent, 'winners.csv', 'text/csv');
+   setTimeout(() => {
+      downloadFile(jsonContent, 'winners.json', 'application/json');
+   }, 100); // 100ms delay
 });
 
 function processClassString(str) {
