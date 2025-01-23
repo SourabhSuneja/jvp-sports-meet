@@ -669,7 +669,7 @@ function updateTooltipPosition(event) {
 
   // Adjust if the tooltip goes beyond the right edge of the viewport
   if (left + tooltipRect.width > viewportWidth) {
-    left = viewportWidth - tooltipRect.width - 30; // Add some padding
+    left = viewportWidth - tooltipRect.width - 40; // Add some padding
   }
 
   // Update the tooltip's position
