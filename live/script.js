@@ -1,8 +1,8 @@
 let prevHouseTotals = {
-  'Ruby': 70,
-  'Emerald': 59,
-  'Sapphire': 48,
-  'Topaz': 54
+  'Ruby': 0,
+  'Emerald': 0,
+  'Sapphire': 0,
+  'Topaz': 0
 };
 let winners;
 const popupBox = document.getElementById('popupBox');
@@ -43,7 +43,7 @@ async function pollEntireData() {
      console.log('Data fetched from an already saved JSON results file.');
    } else {
      winners = await selectData(
-        tableName = 'winners',
+        tableName = 'sport_winners',
         fetchSingle = false,
         columns = '*',
         matchColumns = [],
