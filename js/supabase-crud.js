@@ -28,7 +28,7 @@ async function checkAuth() {
 
          // authentication successful
          return true;
-         
+
       } else {
          // User is not signed in
          return false;
@@ -165,7 +165,9 @@ async function upsertData(tableName, data, conflictColumns = []) {
          error
       } = await supabase
          .from(tableName)
-         .upsert(data, { onConflict: conflictColumns })
+         .upsert(data, {
+            onConflict: conflictColumns
+         })
          .select();
 
       if (error) throw error;
@@ -184,27 +186,37 @@ async function selectData(
    matchColumns = [],
    matchValues = [],
    orderByColumn = null,
-   orderDirection = "asc" // Default sort direction is ascending
+   orderDirection = "asc",
+   customFilters = []
 ) {
    try {
       let query = supabase.from(tableName).select(columns);
 
-      // Apply filters for matching columns and values using "and"
+      // Apply exact match filters
       if (matchColumns.length > 0 && matchValues.length > 0) {
          if (matchColumns.length !== matchValues.length) {
             throw new Error("matchColumns and matchValues arrays must have the same length.");
          }
-
-         // Create an object with column-value pairs for the "and" filter
          const matchConditions = {};
          for (let i = 0; i < matchColumns.length; i++) {
             matchConditions[matchColumns[i]] = matchValues[i];
          }
-
-         query = query.match(matchConditions); // Apply "and" filter
+         query = query.match(matchConditions);
       }
 
-      // Apply sorting if orderByColumn is provided
+      // Apply custom filters (e.g., gte, lte, etc.)
+      for (const filter of customFilters) {
+         if (filter.operator === "gte") query = query.gte(filter.column, filter.value);
+         else if (filter.operator === "lte") query = query.lte(filter.column, filter.value);
+         else if (filter.operator === "eq") query = query.eq(filter.column, filter.value);
+         else if (filter.operator === "lt") query = query.lt(filter.column, filter.value);
+         else if (filter.operator === "gt") query = query.gt(filter.column, filter.value);
+         else if (filter.operator === "cs") query = query.cs(filter.column, filter.value);  // contains
+         else if (filter.operator === "ov") query = query.overlaps(filter.column, filter.value);  // overlaps
+         // Add more operators if needed
+      }
+
+      // Apply sorting
       if (orderByColumn) {
          query = query.order(orderByColumn, {
             ascending: orderDirection.toLowerCase() === "asc"
@@ -354,6 +366,49 @@ async function subscribeToTable(tableName, callback) {
    }
 }
 
+// create a new user without signing them in
+async function createUserWithoutSession(email, password, metadata = {}) {
+   try {
+      // Create a temporary Supabase client for this operation
+      const tempSupabase = createClient(supabaseUrl, supabaseKey);
+      
+      // Store the existing session if there is one
+      const { data: { session: existingSession } } = await supabase.auth.getSession();
+      
+      // Sign up the new user
+      const { data: signUpData, error: signUpError } = await tempSupabase.auth.signUp({
+         email: email,
+         password: password,
+         options: {
+            data: metadata
+         }
+      });
+
+      if (signUpError) {
+         console.error("Error signing up new user:", signUpError.message);
+         throw signUpError;
+      }
+      
+      // Sign out from the temporary client to clean up
+      await tempSupabase.auth.signOut();
+      
+      // If there was an existing session, restore it by reusing the token
+      if (existingSession) {
+         await supabase.auth.setSession({
+            access_token: existingSession.access_token,
+            refresh_token: existingSession.refresh_token
+         });
+      }
+      
+      console.log("User created successfully without affecting current session:", signUpData);
+      return signUpData.user; // Return just the user information
+   } catch (err) {
+      console.error("Unexpected error during user creation:", err.message);
+      throw err;
+   }
+}
+
+
 // expose all methods globally by attaching them to the window object
 window.checkAuth = checkAuth;
 window.signInUser = signInUser;
@@ -367,3 +422,4 @@ window.deleteRow = deleteRow;
 window.updateRow = updateRow;
 window.invokeFunction = invokeFunction;
 window.subscribeToTable = subscribeToTable;
+window.createUserWithoutSession = createUserWithoutSession;
