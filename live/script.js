@@ -701,8 +701,8 @@ function updateTooltipPosition(event) {
 window.addEventListener('load', async function () {
    const isLive = await pollEntireData();
    if(isLive) {
-      const subscription = subscribeToTable('winners', handleLiveUpdate);
-      const subscription2 = subscribeToTable('notifications', handleNotifications);
+      const subscription = subscribeToTable('sport_winners', handleLiveUpdate);
+      const subscription2 = subscribeToTable('sport_notifications', handleNotifications);
    }
 });
 
