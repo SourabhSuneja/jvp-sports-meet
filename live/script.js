@@ -164,31 +164,38 @@ downloadBtn.addEventListener('click', () => {
 });
 
 function processClassString(str) {
-   if (str === '6 to 8' || str === '9 to 12' || str === '9 to 10' || str === '11 to 12') {
-      return '6 to 12';
-   }
-   // Check if the string contains the word 'to' or is exactly '3 to 5' or '6 to 12'
-   if (str === '3 to 5' || str === '6 to 12' || str.includes(' to ')) {
-      return str;
-   }
+  let num1, num2;
 
-   // Convert the string to a number
-   const num = Number(str);
+  // Check if the string is a range ("X to Y") or a single number ("X")
+  if (str.includes(" to ")) {
+    const parts = str.split(" to ");
+    num1 = parseInt(parts[0], 10);
+    num2 = parseInt(parts[1], 10);
+  } else {
+    // Treat a single number as a range from itself to itself
+    num1 = parseInt(str, 10);
+    num2 = num1;
+  }
 
-   // Check if the string is a valid number and within the range 3-5 or 6-12
-   if (!isNaN(num)) {
-      if (num >= 3 && num <= 5) {
-         return '3 to 5';
-      } else if (num >= 6 && num <= 12) {
-         return '6 to 12';
-      } else if (num === 1 || num === 2) {
-         return '1 to 2';
-      }
-   }
+  // Handle cases where parsing failed (e.g., "apple" or "1 to blue")
+  if (isNaN(num1) || isNaN(num2)) {
+    return "NA";
+  }
 
-   // Default return if none of the above conditions are met
-   return 'NA';
+  // Check if the *entire* range [num1, num2] fits within the first group [3, 6]
+  if (num1 >= 3 && num2 <= 6) {
+    return "3 to 6";
+  }
+
+  // Check if the *entire* range [num1, num2] fits within the second group [7, 12]
+  if (num1 >= 7 && num2 <= 12) {
+    return "7 to 12";
+  }
+
+  // If it doesn't fit in any group
+  return "NA";
 }
+
 
 function calculateScores(winners) {
    // Initialize the scores object
