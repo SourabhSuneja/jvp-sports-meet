@@ -117,14 +117,47 @@ function setHeadlineAndPopupAfterWin(w, updateElement = 'both') {
    }
 }
 
-// Function to generate cheering text for the pop-up
+/**
+ * Function to generate cheering text for the pop-up,
+ * handling missing winners gracefully.
+ */
 function generateWinnersMessage(winner1, winner2, winner3, winnerHouse1, winnerHouse2, winnerHouse3, game) {
-   if(getGameType(game) === 'individual') {
-      return `Cheers to ${winner1} from ${winnerHouse1} House for securing 1st place, ${winner2} from ${winnerHouse2} House for 2nd, and ${winner3} from ${winnerHouse3} House for 3rd in ${game}! <br><br>🏅 Well done, champions! 🏅`;
-   } else {
-      return `Cheers to ${winnerHouse1} House for securing 1st place, and ${winnerHouse2} House for 2nd place in ${game}! <br><br>🏅 Well done, champions! 🏅`;
-   }   
+   const winnerParts = [];
+
+   if (getGameType(game) === 'individual') {
+      if (isValid(winner1) && isValid(winnerHouse1)) {
+         winnerParts.push(`${winner1} from ${winnerHouse1} House for securing 1st place`);
+      }
+      if (isValid(winner2) && isValid(winnerHouse2)) {
+         winnerParts.push(`${winner2} from ${winnerHouse2} House for 2nd`);
+      }
+      if (isValid(winner3) && isValid(winnerHouse3)) {
+         winnerParts.push(`${winner3} from ${winnerHouse3} House for 3rd`);
+      }
+   } else { // Team game
+      if (isValid(winnerHouse1)) {
+         winnerParts.push(`${winnerHouse1} House for securing 1st place`);
+      }
+      if (isValid(winnerHouse2)) {
+         winnerParts.push(`${winnerHouse2} House for 2nd`);
+      }
+      // Note: Added 3rd place for team games for consistency
+      if (isValid(winnerHouse3)) { 
+         winnerParts.push(`${winnerHouse3} House for 3rd`);
+      }
+   }
+
+   // Handle case with no valid winners provided
+   if (winnerParts.length === 0) {
+      return `Cheers for the great effort in ${game}! <br><br>🏅 Well done, participants! 🏅`;
+   }
+
+   const winnerString = formatList(winnerParts);
+   const championsText = winnerParts.length > 1 ? 'champions' : 'champion';
+
+   return `Cheers to ${winnerString} in ${game}! <br><br>🏅 Well done, ${championsText}! 🏅`;
 }
+
 
 // Function to randomly pick a congratulatory word or phrase
 function getRandomCongratulatoryWord() {
@@ -205,6 +238,28 @@ function getPointsForPosition(gameType, position) {
   return pointCriteria[gameType][position - 1];
 }
 
+/**
+ * Checks if a value is valid (not falsy and not 'NIL').
+ * @param {string} value - The winner name or house name.
+ * @returns {boolean}
+ */
+const isValid = (value) => value && value !== 'NIL';
+
+/**
+ * Formats an array of strings into a natural list.
+ * e.g., ["A"] -> "A"
+ * e.g., ["A", "B"] -> "A and B"
+ * e.g., ["A", "B", "C"] -> "A, B, and C"
+ * @param {string[]} parts - An array of winner description strings.
+ * @returns {string} A grammatically correct, formatted string.
+ */
+function formatList(parts) {
+  if (parts.length === 0) return '';
+  if (parts.length === 1) return parts[0];
+  if (parts.length === 2) return parts.join(' and ');
+  // For 3 or more (though we only have 3)
+  return `${parts.slice(0, -1).join(', ')}, and ${parts[parts.length - 1]}`;
+}
 
 function calculateScores(winners) {
    // Initialize the scores object
@@ -569,6 +624,10 @@ function getGameType(game) {
    }
 }
 
+/**
+ * Function to generate the live scrolling headline, 
+ * handling missing winners gracefully.
+ */
 function generateLiveWinHeadline() {
    const table = document.getElementById("winnersTable");
    const tableBody = table.querySelector("tbody");
@@ -578,7 +637,6 @@ function generateLiveWinHeadline() {
       return; // Do nothing if the table is empty
    }
 
-   // Get the last 3 rows or fewer if there are not enough rows
    const lastRows = Array.from(rows).slice(-3).reverse();
 
    const headlines = lastRows.map(row => {
@@ -591,18 +649,35 @@ function generateLiveWinHeadline() {
       const winnerHouse2 = row.cells[6].textContent.trim();
       const winnerHouse3 = row.cells[7].textContent.trim();
 
-      // Check if it's a team game (i.e., Class 3 to 5 | Kho Kho, etc.)
+      const headlineParts = [];
+      let headlinePrefix = '';
+
       if (getGameType(game) === 'team') {
-         return `<strong>${game}</strong> Results (Classes ${classGroup}): ${winnerHouse1} clinches 1st, ${winnerHouse2} bags 2nd, ${winnerHouse3} secures 3rd position.`;
-      } else {
-         // For individual games
-         return `<strong>${game} Results (Class ${classGroup}):</strong> ${winner1} from ${winnerHouse1} house clinches 1st, ${winner2} from ${winnerHouse2} house bags 2nd, ${winner3} from ${winnerHouse3} house secures 3rd position.`;
+         headlinePrefix = `<strong>${game}</strong> Results (Classes ${classGroup}):`;
+         if (isValid(winnerHouse1)) headlineParts.push(`${winnerHouse1} clinches 1st`);
+         if (isValid(winnerHouse2)) headlineParts.push(`${winnerHouse2} bags 2nd`);
+         if (isValid(winnerHouse3)) headlineParts.push(`${winnerHouse3} secures 3rd position`);
+      } else { // Individual game
+         headlinePrefix = `<strong>${game} Results (Class ${classGroup}):</strong>`;
+         if (isValid(winner1) && isValid(winnerHouse1)) headlineParts.push(`${winner1} from ${winnerHouse1} house clinches 1st`);
+         if (isValid(winner2) && isValid(winnerHouse2)) headlineParts.push(`${winner2} from ${winnerHouse2} house bags 2nd`);
+         if (isValid(winner3) && isValid(winnerHouse3)) headlineParts.push(`${winner3} from ${winnerHouse3} house secures 3rd position`);
       }
+      
+      // If no valid winners were found for this row, return an empty string
+      if (headlineParts.length === 0) {
+         return '';
+      }
+      
+      // Combine the prefix and the formatted list of winners
+      return `${headlinePrefix} ${formatList(headlineParts)}.`;
+
    });
 
-   // Return the formatted headlines as a string
-   return headlines.join("&nbsp;  |  &nbsp;");
+   // Filter out any empty strings (from rows with no winners) before joining
+   return headlines.filter(h => h).join("&nbsp;  |  &nbsp;");
 }
+
 
 function handleNotifications(payload) {
     if (payload.eventType === 'INSERT' && payload.new) {
