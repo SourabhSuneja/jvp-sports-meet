@@ -4,6 +4,11 @@ let prevHouseTotals = {
   'Sapphire': 0,
   'Topaz': 0
 };
+let pointCriteria = {
+  'Individual': [10, 7, 5],
+  'Grouped': [10, 7, 5],
+  'Team': [20, 14, 10],
+};
 let winners;
 const popupBox = document.getElementById('popupBox');
 const popupHeading = document.getElementById('popupHeading');
@@ -196,6 +201,10 @@ function processClassString(str) {
   return "NA";
 }
 
+function getPointsForPosition(gameType, position) {
+  return pointCriteria[gameType][position - 1];
+}
+
 
 function calculateScores(winners) {
    // Initialize the scores object
@@ -246,14 +255,14 @@ function addPoints(scoreObj, house, points) {
       }
 
       // Add points for winner1, winner2, and winner3
-      addPoints(scores[category], entry.winnerhouse1, 10);
-      addPoints(scores[category], entry.winnerhouse2, 7);
-      addPoints(scores[category], entry.winnerhouse3, 5);
+      addPoints(scores[category], entry.winnerhouse1, getPointsForPosition(entry.gametype, 1));
+      addPoints(scores[category], entry.winnerhouse2, getPointsForPosition(entry.gametype, 2));
+      addPoints(scores[category], entry.winnerhouse3, getPointsForPosition(entry.gametype, 3));
 
       // Add points to the total as well
-      addPoints(scores.Total, entry.winnerhouse1, 10);
-      addPoints(scores.Total, entry.winnerhouse2, 7);
-      addPoints(scores.Total, entry.winnerhouse3, 5);
+      addPoints(scores.Total, entry.winnerhouse1, getPointsForPosition(entry.gametype, 1));
+      addPoints(scores.Total, entry.winnerhouse2, getPointsForPosition(entry.gametype, 2));
+      addPoints(scores.Total, entry.winnerhouse3, getPointsForPosition(entry.gametype, 3));
    });
    return scores;
 }
