@@ -420,6 +420,91 @@ table td:first-child {
 	}
 }
 
+/* --- Win Prediction Bar Styles --- */
+
+#prediction-bar-container {
+  position: fixed;
+  bottom: 20px; /* Sits gracefully above the bottom edge */
+  left: 50%;
+  transform: translateX(-50%);
+  
+  width: 95%;
+  max-width: 1200px; /* Good for large screens */
+  
+  display: flex;
+  flex-direction: row;
+  height: 36px; /* A thin, elegant height */
+  
+  background: #ffffff; /* Fallback for gaps, though shouldn't be visible */
+  border-radius: 18px; /* Half the height for perfect rounded ends */
+  overflow: hidden;
+  
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  -webkit-backface-visibility: hidden; /* Prevents flickering on transforms */
+  
+  /* So text can't be selected */
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+.prediction-strip {
+  /* flex-basis is the animatable version of 'width' in a flex container */
+  flex-basis: 0%; 
+  flex-grow: 0;
+  flex-shrink: 0;
+  
+  height: 100%;
+  
+  /* This is the key: animate the width change */
+  transition: flex-basis 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  
+  /* Center the text span inside */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* This ensures that if a strip gets too small, its <span> is hidden */
+  overflow: hidden; 
+}
+
+/* --- House Specific Colors --- */
+#ruby-strip    { background-color: #e74c3c; }
+#emerald-strip { background-color: #27ae60; }
+#sapphire-strip{ background-color: #2980b9; }
+#topaz-strip   { background-color: #bc9a11; }
+
+/* --- Text Styling --- */
+.prediction-strip span {
+  color: white;
+  font-family: Arial, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  
+  /* Prevents text from wrapping or overflowing */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  /* A little space from the edges if it gets cramped */
+  padding: 0 8px; 
+}
+
+
+/* --- Responsive Design --- */
+@media (max-width: 600px) {
+  #prediction-bar-container {
+    height: 30px; /* Make it a bit thinner on mobile */
+    border-radius: 15px;
+    bottom: 10px; /* Closer to the edge */
+    width: 98%;
+  }
+
+  .prediction-strip span {
+    font-size: 12px; /* Smaller font for small screens */
+  }
+}
+
 @media (max-width: 768px) {
   html {
     font-size: 15px;
