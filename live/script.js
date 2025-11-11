@@ -797,4 +797,91 @@ window.addEventListener('load', async function () {
    }
 });
 
+/**
+ * Updates the win prediction bar with new percentages.
+ * The bar will automatically sort and animate the widths.
+ *
+ * @param {object} predictions - An object with house names as keys
+ * and percentages as values.
+ * e.g., { Ruby: 19, Emerald: 27, Sapphire: 31, Topaz: 23 }
+ */
+function updatePredictionBar(predictions) {
+  // 1. Convert object to an array: [['Sapphire', 31], ['Emerald', 27], ...]
+  const sortedHouses = Object.entries(predictions)
+    .sort(([, percentA], [, percentB]) => percentB - percentA);
+
+  // 2. Get the container
+  const container = document.getElementById('prediction-bar-container');
+  if (!container) {
+    console.error('Prediction bar container not found!');
+    return;
+  }
+
+  // 3. Update each strip
+  sortedHouses.forEach(([houseName, percentage], index) => {
+    // Build the element ID from the house name
+    const elementId = `${houseName.toLowerCase()}-strip`;
+    const element = document.getElementById(elementId);
+
+    if (element) {
+      // Update the width (flex-basis)
+      element.style.flexBasis = `${percentage}%`;
+
+      // Update the visual order
+      // The house with the highest score (index 0) gets order 0
+      element.style.order = index;
+
+      // Update the text
+      const span = element.querySelector('span');
+      if (span) {
+        // Hide text if the percentage is too small to display clearly
+        if (percentage < 4) {
+          span.textContent = '';
+        } else {
+          span.textContent = `${houseName} ${percentage}%`;
+        }
+      }
+    }
+  });
+}
+
+// --- --- --- --- --- --- --- --- --- --- --- ---
+// --- EXAMPLE USAGE (You can delete this) ---
+// --- --- --- --- --- --- --- --- --- --- --- ---
+
+// Run this when the page loads to set an initial state
+document.addEventListener('DOMContentLoaded', () => {
+  const initialState = {
+    Ruby: 25,
+    Emerald: 25,
+    Sapphire: 25,
+    Topaz: 25
+  };
+  updatePredictionBar(initialState);
+
+  // --- DEMO: Update the scores after 3 seconds ---
+  setTimeout(() => {
+    const newData = {
+      Ruby: 19,
+      Emerald: 27,
+      Sapphire: 31,
+      Topaz: 23
+    };
+    console.log('Updating scores!', newData);
+    updatePredictionBar(newData);
+  }, 3000);
+
+  // --- DEMO: Update again after 6 seconds ---
+  setTimeout(() => {
+    const finalData = {
+      Topaz: 55,
+      Sapphire: 5,
+      Ruby: 25,
+      Emerald: 15
+    };
+    console.log('Updating scores!', finalData);
+    updatePredictionBar(finalData);
+  }, 6000);
+});
+
 
