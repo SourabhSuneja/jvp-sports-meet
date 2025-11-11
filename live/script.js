@@ -68,6 +68,7 @@ async function pollEntireData() {
 
    const houseScores = calculateScores(winners);
    updateDashboard(houseScores);
+   updatePredictionBar(predictWinPercentage(winners));
    return inLiveMode;
 }
 
@@ -569,6 +570,7 @@ function handleLiveUpdate(payload) {
 
    const winnerCounts = calculateScores(winners);
    updateDashboard(winnerCounts);
+   updatePredictionBar(predictWinPercentage(winners));
 
 }
 
@@ -845,10 +847,92 @@ function updatePredictionBar(predictions) {
   });
 }
 
-// --- --- --- --- --- --- --- --- --- --- --- ---
-// --- EXAMPLE USAGE (You can delete this) ---
-// --- --- --- --- --- --- --- --- --- --- --- ---
+function predictWinPercentage(winnerEntries) {
+  // --- 1. Define Scoring Rules ---
+  const scores = {
+    individual: { 1: 10, 2: 7, 3: 5 },
+    grouped: { 1: 10, 2: 7, 3: 5 },
+    team: { 1: 20, 2: 14, 3: 10 }
+  };
 
+  // --- 2. Initialize House Scores ---
+  let houseScores = {...prevHouseTotals};
+
+  // --- 3. Process Each Game Result ---
+  for (const game of winnerEntries) {
+    const gameType = game.gametype.toLowerCase();
+    let currentPoints;
+
+    if (gameType === 'individual') {
+      currentPoints = scores.individual;
+    } else if (gameType === 'grouped') {
+      currentPoints = scores.grouped;
+    } else if (gameType === 'team') {
+      currentPoints = scores.team;
+    } else {
+      console.warn(`Unknown game type: ${game.gametype}`);
+      continue; // Skip this game
+    }
+
+    // Award points for each position
+    // Checks if the winner house is valid before awarding points
+    if (game.winnerhouse1 && houseScores.hasOwnProperty(game.winnerhouse1)) {
+      houseScores[game.winnerhouse1] += currentPoints[1];
+    }
+    if (game.winnerhouse2 && houseScores.hasOwnProperty(game.winnerhouse2)) {
+      houseScores[game.winnerhouse2] += currentPoints[2];
+    }
+    if (game.winnerhouse3 && houseScores.hasOwnProperty(game.winnerhouse3)) {
+      houseScores[game.winnerhouse3] += currentPoints[3];
+    }
+  }
+
+  // --- 4. Calculate Total Points and Handle Edge Case ---
+  let totalPoints = 0;
+  for (const house in houseScores) {
+    totalPoints += houseScores[house];
+  }
+
+  // If no games have been played (totalPoints is 0), return an even 25% split.
+  if (totalPoints === 0) {
+    return { "Ruby": 25, "Emerald": 25, "Sapphire": 25, "Topaz": 25 };
+  }
+
+  // --- 5. Calculate Percentages using Largest Remainder Method ---
+  // This ensures the final percentages are whole numbers and sum perfectly to 100.
+  
+  let percentages = {};
+  let remainders = [];
+  let flooredSum = 0;
+
+  for (const house in houseScores) {
+    const precisePercentage = (houseScores[house] / totalPoints) * 100;
+    const flooredPercentage = Math.floor(precisePercentage);
+    
+    percentages[house] = flooredPercentage;
+    flooredSum += flooredPercentage;
+    
+    remainders.push({
+      house: house,
+      remainder: precisePercentage - flooredPercentage
+    });
+  }
+
+  // Sort houses by their decimal remainder, descending
+  remainders.sort((a, b) => b.remainder - a.remainder);
+
+  // Calculate the number of '1's to distribute (100 - sum of floored)
+  let difference = 100 - flooredSum;
+
+  // Distribute the remaining percentage points to houses with the largest remainders
+  for (let i = 0; i < difference; i++) {
+    percentages[remainders[i].house]++;
+  }
+
+  return percentages;
+}
+
+// Set initial win predictions
 // Run this when the page loads to set an initial state
 document.addEventListener('DOMContentLoaded', () => {
   const initialState = {
@@ -858,30 +942,6 @@ document.addEventListener('DOMContentLoaded', () => {
     Topaz: 25
   };
   updatePredictionBar(initialState);
-
-  // --- DEMO: Update the scores after 3 seconds ---
-  setTimeout(() => {
-    const newData = {
-      Ruby: 19,
-      Emerald: 27,
-      Sapphire: 31,
-      Topaz: 23
-    };
-    console.log('Updating scores!', newData);
-    updatePredictionBar(newData);
-  }, 3000);
-
-  // --- DEMO: Update again after 6 seconds ---
-  setTimeout(() => {
-    const finalData = {
-      Topaz: 55,
-      Sapphire: 5,
-      Ruby: 25,
-      Emerald: 15
-    };
-    console.log('Updating scores!', finalData);
-    updatePredictionBar(finalData);
-  }, 6000);
 });
 
 
