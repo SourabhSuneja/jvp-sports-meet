@@ -425,13 +425,13 @@ table td:first-child {
 /* This is the new main wrapper that is fixed to the bottom */
 #win-prediction-widget {
   position: fixed;
-  bottom: 75px;
+  bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
-  
-  width: 95%;
+  background: #000428;
+  width: 100%;
   max-width: 1200px;
-  
+  padding-bottom: 24px;
   display: flex;
   flex-direction: column;
   align-items: center; /* Centers the title and bar */
@@ -442,12 +442,9 @@ table td:first-child {
 .prediction-title {
   font-family: Arial, sans-serif;
   font-weight: 600;
-  font-size: 16px;
-  color: #333; /* A dark, readable color */
-  margin: 0 0 8px 0; /* Space between title and bar */
-  
-  /* Adds a subtle shadow so it stands out on any background */
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+  color: #fff; 
+  margin: 8px;
 }
 
 /* MODIFIED: The bar container NO LONGER has 'position: fixed' */
@@ -496,7 +493,7 @@ table td:first-child {
   color: white;
   font-family: Arial, sans-serif;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -513,7 +510,7 @@ table td:first-child {
   }
 
   .prediction-title {
-    font-size: 14px; /* Slightly smaller title on mobile */
+    font-size: 16px; /* Slightly smaller title on mobile */
   }
   
   #prediction-bar-container {
@@ -522,7 +519,7 @@ table td:first-child {
   }
 
   .prediction-strip span {
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 
