@@ -68,7 +68,7 @@ async function pollEntireData() {
 
    const houseScores = calculateScores(winners);
    updateDashboard(houseScores);
-   updatePredictionBar(predictWinPercentage(winners));
+   updatePredictionBar(predictWinPercentage(houseScores.Total));
    return inLiveMode;
 }
 
@@ -570,7 +570,7 @@ function handleLiveUpdate(payload) {
 
    const winnerCounts = calculateScores(winners);
    updateDashboard(winnerCounts);
-   updatePredictionBar(predictWinPercentage(winners));
+   updatePredictionBar(predictWinPercentage(winnerCounts.Total));
 
 }
 
@@ -847,46 +847,7 @@ function updatePredictionBar(predictions) {
   });
 }
 
-function predictWinPercentage(winnerEntries) {
-  // --- 1. Define Scoring Rules ---
-  const scores = {
-    individual: { 1: 10, 2: 7, 3: 5 },
-    grouped: { 1: 10, 2: 7, 3: 5 },
-    team: { 1: 20, 2: 14, 3: 10 }
-  };
-
-  // --- 2. Initialize House Scores ---
-  let houseScores = {...prevHouseTotals};
-
-  // --- 3. Process Each Game Result ---
-  for (const game of winnerEntries) {
-    const gameType = game.gametype.toLowerCase();
-    let currentPoints;
-
-    if (gameType === 'individual') {
-      currentPoints = scores.individual;
-    } else if (gameType === 'grouped') {
-      currentPoints = scores.grouped;
-    } else if (gameType === 'team') {
-      currentPoints = scores.team;
-    } else {
-      console.warn(`Unknown game type: ${game.gametype}`);
-      continue; // Skip this game
-    }
-
-    // Award points for each position
-    // Checks if the winner house is valid before awarding points
-    if (game.winnerhouse1 && houseScores.hasOwnProperty(game.winnerhouse1)) {
-      houseScores[game.winnerhouse1] += currentPoints[1];
-    }
-    if (game.winnerhouse2 && houseScores.hasOwnProperty(game.winnerhouse2)) {
-      houseScores[game.winnerhouse2] += currentPoints[2];
-    }
-    if (game.winnerhouse3 && houseScores.hasOwnProperty(game.winnerhouse3)) {
-      houseScores[game.winnerhouse3] += currentPoints[3];
-    }
-  }
-
+function predictWinPercentage(houseScores) {
   // --- 4. Calculate Total Points and Handle Edge Case ---
   let totalPoints = 0;
   for (const house in houseScores) {
