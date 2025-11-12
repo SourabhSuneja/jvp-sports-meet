@@ -10,7 +10,7 @@ let pointCriteria = {
   'Team': [20, 14, 10],
 };
 const totalEvents = {
-	Individual: 2, 
+	Individual: 1, 
 	Grouped: 1, 
 	Team: 1
 };
