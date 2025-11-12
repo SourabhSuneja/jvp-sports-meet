@@ -9,6 +9,11 @@ let pointCriteria = {
   'Grouped': [10, 7, 5],
   'Team': [20, 14, 10],
 };
+const totalEvents = {
+	Individual: 2, 
+	Grouped: 1, 
+	Team: 1
+};
 let winners;
 const popupBox = document.getElementById('popupBox');
 const popupHeading = document.getElementById('popupHeading');
@@ -847,27 +852,113 @@ function updatePredictionBar(predictions) {
   });
 }
 
-function predictWinPercentage(houseScores) {
-  // --- 4. Calculate Total Points and Handle Edge Case ---
+function predictWinPercentage(houseScores) {  
+  // --- 1. Calculate Completed Games ---
+  let completedGames = { Individual: 0, Grouped: 0, Team: 0 };
+  // Ensure 'winners' is defined, default to empty array if not
+  const gameWinners = typeof winners !== 'undefined' ? winners : [];
+  for (const game of gameWinners) {
+    if (game.gametype in completedGames) {
+      completedGames[game.gametype]++;
+    }
+  }
+
+  // --- 2. Calculate Remaining Games ---
+  let remainingGames = {
+    Individual: totalEvents.Individual - completedGames.Individual,
+    Grouped: totalEvents.Grouped - completedGames.Grouped,
+    Team: totalEvents.Team - completedGames.Team,
+  };
+
+  // --- 3. Calculate Total Remaining Potential Points ---
+  // (Max points for 1st place in each *remaining* game)
+  const maxPointsInd = pointCriteria.Individual[0]; // 10
+  const maxPointsGrp = pointCriteria.Grouped[0];   // 10
+  const maxPointsTeam = pointCriteria.Team[0];     // 20
+
+  let totalRemainingPotential = 
+    (remainingGames.Individual * maxPointsInd) +
+    (remainingGames.Grouped * maxPointsGrp) +
+    (remainingGames.Team * maxPointsTeam);
+
+  // --- 4. Calculate Total Current Points ---
   let totalPoints = 0;
-  for (const house in houseScores) {
+  const houses = Object.keys(houseScores); // ["Ruby", "Emerald", ...]
+  for (const house of houses) {
     totalPoints += houseScores[house];
   }
 
-  // If no games have been played (totalPoints is 0), return an even 25% split.
+  // --- 5. Handle Edge Case: No games played ---
+  // If no scores are in, prediction is an even split.
   if (totalPoints === 0) {
     return { "Ruby": 25, "Emerald": 25, "Sapphire": 25, "Topaz": 25 };
   }
 
-  // --- 5. Calculate Percentages using Largest Remainder Method ---
-  // This ensures the final percentages are whole numbers and sum perfectly to 100.
+  // --- 6. Identify Winnable Houses (Elimination Check) ---
+  // Find the current leader's score.
+  const maxCurrentScore = Math.max(...Object.values(houseScores));
+  
+  let winnableHouses = {}; // {Ruby: 27, Emerald: 25}
+  let eliminatedHouses = {}; // {Topaz: 12}
+  
+  for (const house of houses) {
+    // Calculate the absolute maximum score this house can achieve.
+    const maxPossibleScore = houseScores[house] + totalRemainingPotential;
+    
+    // If a house's max potential score is less than the *current*
+    // score of the leader, they are mathematically eliminated.
+    if (maxPossibleScore < maxCurrentScore) {
+      eliminatedHouses[house] = 0;
+    } else {
+      winnableHouses[house] = houseScores[house];
+    }
+  }
+
+  // --- 7. Handle 100% Win Scenario ---
+  const winnableCount = Object.keys(winnableHouses).length;
+
+  if (winnableCount === 1) {
+    const winningHouse = Object.keys(winnableHouses)[0];
+    let finalPercentages = { ...eliminatedHouses }; // {Topaz: 0, Sapphire: 0}
+    finalPercentages[winningHouse] = 100;
+    return finalPercentages; // e.g., {Ruby: 0, Emerald: 100, Sapphire: 0, Topaz: 0}
+  }
+
+  // --- 8. Calculate "Adjusted Scores" for Probability ---
+  // Distribute the remaining potential *only* among the houses still in the running.
+  const potentialPerWinnableHouse = totalRemainingPotential / winnableCount;
+  
+  let adjustedScores = {};
+  let totalAdjustedScore = 0;
+
+  for (const house of houses) {
+      if (house in winnableHouses) {
+          // This house can win. Its "score" is its current score + its share of the potential.
+          const adjusted = houseScores[house] + potentialPerWinnableHouse;
+          adjustedScores[house] = adjusted;
+          totalAdjustedScore += adjusted; // Add to the new "total" pool
+      } else {
+          // This house is eliminated. Its "score" in the probability pool is 0.
+          adjustedScores[house] = 0;
+      }
+  }
+
+  // --- 9. Calculate Percentages using Largest Remainder Method ---
+  // This part is from your original function, but now uses the
+  // 'adjustedScores' and 'totalAdjustedScore'.
   
   let percentages = {};
   let remainders = [];
   let flooredSum = 0;
 
-  for (const house in houseScores) {
-    const precisePercentage = (houseScores[house] / totalPoints) * 100;
+  // This check prevents division by zero, though it's already
+  // handled by the totalPoints === 0 check earlier.
+  if (totalAdjustedScore === 0) {
+     return { "Ruby": 25, "Emerald": 25, "Sapphire": 25, "Topaz": 25 };
+  }
+
+  for (const house in adjustedScores) {
+    const precisePercentage = (adjustedScores[house] / totalAdjustedScore) * 100;
     const flooredPercentage = Math.floor(precisePercentage);
     
     percentages[house] = flooredPercentage;
@@ -885,9 +976,11 @@ function predictWinPercentage(houseScores) {
   // Calculate the number of '1's to distribute (100 - sum of floored)
   let difference = 100 - flooredSum;
 
-  // Distribute the remaining percentage points to houses with the largest remainders
+  // Distribute the remaining percentage points
   for (let i = 0; i < difference; i++) {
-    percentages[remainders[i].house]++;
+    if (remainders[i]) { // Safeguard against rounding errors
+        percentages[remainders[i].house]++;
+    }
   }
 
   return percentages;
