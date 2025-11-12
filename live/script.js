@@ -11,7 +11,7 @@ let pointCriteria = {
 };
 const totalEvents = {
 	Individual: 1, 
-	Grouped: 1, 
+	Grouped: 2, 
 	Team: 1
 };
 let winners;
