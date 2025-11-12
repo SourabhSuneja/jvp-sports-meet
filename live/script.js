@@ -12,7 +12,7 @@ let pointCriteria = {
 const totalEvents = {
 	Individual: 1, 
 	Grouped: 2, 
-	Team: 4
+	Team: 3
 };
 let winners;
 const popupBox = document.getElementById('popupBox');
