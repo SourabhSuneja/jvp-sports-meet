@@ -58,7 +58,7 @@ async function pollEntireData() {
         columns = '*',
         matchColumns = [],
         matchValues = [],
-        orderByColumn = 'classcategory',
+        orderByColumn = 'row_id',
         orderDirection = 'asc'
      );
    }
@@ -524,7 +524,7 @@ function addNewRow(winner) {
              <td>${winner.winnerhouse2}</td>
              <td>${winner.winnerhouse3}</td>
            `;
-   winnersTableBody.appendChild(row);
+   winnersTableBody.prepend(row);
 
 }
 
